@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+// import HomeView from '../views/HomeView.vue';
+import AppMain from '@/views/AppMain';
 import AppNotice from '@/views/AppNotice';
 import AppPlan from '@/views/AppPlan';
 import AppPlace from '@/views/AppPlace';
@@ -16,7 +17,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView,
+    component: AppMain,
   },
   {
     path: '/notice',

@@ -2,21 +2,25 @@
   <div id="app">
     <the-header-vue></the-header-vue>
     <router-view />
+    <the-footer></the-footer>
   </div>
 </template>
 
 <script>
-import TheHeaderVue from "./components/TheHeader.vue";
+import TheHeaderVue from './components/TheHeader.vue';
+import TheFooter from './components/TheFooter.vue';
 export default {
-  name: "App",
+  name: 'App',
   components: {
     TheHeaderVue,
+    TheFooter,
   },
 };
 </script>
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+  font-family: 'Jua', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
