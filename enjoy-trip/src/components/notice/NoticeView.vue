@@ -10,10 +10,16 @@
         <b-button variant="outline-primary" @click="moveList">목록</b-button>
       </b-col>
       <b-col class="text-right">
-        <b-button variant="outline-info" size="sm" @click="moveModifyArticle" class="mr-2"
+        <b-button
+          variant="outline-info"
+          size="sm"
+          @click="moveModifyArticle"
+          class="mr-2"
           >글수정</b-button
         >
-        <b-button variant="outline-danger" size="sm" @click="deleteArticle">글삭제</b-button>
+        <b-button variant="outline-danger" size="sm" @click="deleteArticle"
+          >글삭제</b-button
+        >
       </b-col>
     </b-row>
     <b-row class="mb-1">
@@ -35,20 +41,21 @@
 </template>
 
 <script>
-import http from "@/api/http";
+import http from '@/api/http';
 
 export default {
-  name: "BoardDetail",
+  name: 'BoardDetail',
   data() {
     return {
       article: {},
-      no: "",
+      no: '',
     };
   },
   computed: {
     message() {
-      if (this.article.noticeContent) return this.article.noticeContent.split("\n").join("<br>");
-      return "";
+      if (this.article.noticeContent)
+        return this.article.noticeContent.split('\n').join('<br>');
+      return '';
     },
   },
   created() {
@@ -61,21 +68,21 @@ export default {
   methods: {
     moveModifyArticle() {
       this.$router.replace({
-        name: "boardmodify",
-        params: { articleno: this.article.articleno },
+        name: 'noticemodify',
+        params: { articleno: this.article.noticeNo },
       });
       //   this.$router.push({ path: `/board/modify/${this.article.articleno}` });
     },
     deleteArticle() {
-      if (confirm("정말로 삭제?")) {
+      if (confirm('정말로 삭제?')) {
         this.$router.replace({
-          name: "boarddelete",
-          params: { articleno: this.article.articleno },
+          name: 'noticedelete',
+          params: { articleno: this.article.noticeNo },
         });
       }
     },
     moveList() {
-      this.$router.push({ name: "noticelist" });
+      this.$router.push({ name: 'noticelist' });
     },
   },
   // filters: {
