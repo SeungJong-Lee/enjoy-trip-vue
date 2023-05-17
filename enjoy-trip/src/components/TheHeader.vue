@@ -2,8 +2,9 @@
   <header>
     <b-navbar toggleable="lg" type="light" variant="light" class="custom-nav">
       <b-navbar-brand href="#"
-        ><router-link :to="{ name: 'home' }" class="nav-link">NavBar</router-link></b-navbar-brand
-      >
+        ><router-link :to="{ name: 'home' }" class="nav-link"
+          ><img src="@/assets/logo.png" width="100" /></router-link
+      ></b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
