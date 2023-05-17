@@ -22,7 +22,7 @@
                 src="http://localhost:8080/enjoytrip/img/top2.png"
                 class="d-block w-100"
                 alt="top1"
-                height="650"
+                height="550"
               />
             </div>
           </div>
