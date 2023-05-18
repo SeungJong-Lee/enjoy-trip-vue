@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="font-size: 400%; margin-top: 5vh">
-      SIGN UP
+      LOG IN
     </div>
     <log-in-form></log-in-form>
   </div>

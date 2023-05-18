@@ -35,16 +35,20 @@
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-auto" v-if="!isLoggedIn">
           <b-nav-item href="#">
             <router-link to="login">로그인</router-link>
           </b-nav-item>
           <b-nav-item>
             <router-link to="signup">회원가입</router-link>
           </b-nav-item>
-          <!-- <b-nav-item href="#">마이페이지</b-nav-item>
-          <b-nav-item href="#">로그아웃</b-nav-item> -->
         </b-navbar-nav>
+
+        <b-navbar-nav class="ml-auto" v-else>
+          <b-nav-item href="#">마이페이지</b-nav-item>
+          <b-nav-item @click="logout">로그아웃</b-nav-item>
+        </b-navbar-nav>
+
       </b-collapse>
     </b-navbar>
   </header>
@@ -59,9 +63,23 @@ export default {
       message: "",
     };
   },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    }
+  },
   created() {
   },
-  methods: {},
+  methods: {
+    logout() {
+      sessionStorage.clear();
+      this.$store.commit('setLoggedIn', false);
+      if (this.$route.name !== 'home') {
+        this.$router.push({name: 'home'});
+      }
+    }
+  },
+
 };
 </script>
 <style scoped></style>

@@ -38,10 +38,12 @@ export default {
   },
   methods: {
     afterLoginSuccess(data) {
-      console.log(data)
       sessionStorage.setItem('userId', data.userId);
       sessionStorage.setItem('userRole', data.userRole);
       sessionStorage.setItem('accessToken', data.accessToken);
+
+      this.$store.commit('setLoggedIn', true);
+      this.$router.push("/");
     },
     submitLogin() {
       http.post("/authenticate", this.loginForm)
