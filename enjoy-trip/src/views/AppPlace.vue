@@ -5,24 +5,25 @@
         <PlaceSidebar></PlaceSidebar>
       </b-col>
       <b-col cols="8" class="mt-4 mb-4">
-        <PlaceList></PlaceList>
+        <!-- <PlaceList></PlaceList> -->
+        <router-view></router-view>
       </b-col>
     </b-row>
   </div>
 </template>
 
 <script>
-import PlaceList from "@/components/place/PlaceList.vue";
-import PlaceSidebar from "@/components/place/PlaceSidebar.vue";
+// import PlaceList from "@/components/place/PlaceList.vue";
+import PlaceSidebar from '@/components/place/PlaceSidebar.vue';
 export default {
-  name: "AppPlace",
+  name: 'AppPlace',
   components: {
-    PlaceList,
+    // PlaceList,
     PlaceSidebar,
   },
   data() {
     return {
-      message: "",
+      message: '',
     };
   },
   created() {},

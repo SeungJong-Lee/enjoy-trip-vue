@@ -59,12 +59,34 @@
           <img :src="imageUrl" alt="이미지" width="100%" height="700" />
         </b-col>
         <b-col cols="4">
+          <b-row>
+            <b-col cols="9">
+              {{ article.userId }}
+            </b-col>
+            <b-col cols="3">
+              <button @click="toggleFollow">
+                <font-awesome-icon
+                  :icon="isFollowing ? 'user-minus' : 'user-plus'"
+                />
+              </button>
+            </b-col>
+          </b-row>
+          <hr />
           <div>
-            {{ article.userId }}
-            <hr />
-          </div>
-          <div>
-            {{ article.placeTitle }}
+            <b-row>
+              <b-col cols="9">
+                {{ article.placeTitle }}
+              </b-col>
+              <b-col cols="3">
+                <button @click="toggleLike">
+                  <font-awesome-icon
+                    :icon="heartIcon"
+                    :class="{ active: isLiked }"
+                  />
+                </button>
+                <span> {{ likeCount }}</span>
+              </b-col>
+            </b-row>
             <hr />
           </div>
           <p class="my-4" v-for="(rep, i) in reply" :key="i">
@@ -93,6 +115,8 @@
 
 <script>
 import http from '@/api/http';
+import { ref } from 'vue';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 export default {
   components: {},
   data() {
@@ -109,6 +133,10 @@ export default {
       article: {},
       reply: [],
       inputValue: '',
+      likeCount: ref(0),
+      isLiked: ref(false),
+      heartIcon: faHeart,
+      isFollowing: false,
     };
   },
   mounted() {
@@ -200,6 +228,17 @@ export default {
         }, 300);
       }
     },
+    toggleLike() {
+      this.isLiked = !this.isLiked;
+      if (this.isLiked) {
+        this.likeCount++;
+      } else {
+        this.likeCount--;
+      }
+    },
+    toggleFollow() {
+      this.isFollowing = !this.isFollowing;
+    },
   },
   beforeDestroy() {
     this.removeScrollListener();
@@ -247,5 +286,8 @@ export default {
 
 .container {
   position: relative;
+}
+.active {
+  color: red; /* 하트가 활성화된 상태일 때의 색상 */
 }
 </style>
