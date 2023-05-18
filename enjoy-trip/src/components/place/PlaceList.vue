@@ -1,38 +1,63 @@
 <template>
   <div>
-    <!-- <ul>
-      <li v-for="item in items" :key="item.placeNo">
-        <h1>{{ item.placeTitle }}</h1>
-      </li>
-    </ul> -->
     <b-row>
-      <b-col cols="3" md="4" class="mb-3">
+      <b-col cols="3" md="4" class="mb-3 md-4">
         <div v-for="(place, index) in list1" :key="index">
-          <b-card-img :src="place.placeImgSrc" alt="Image" class="rounded-0"></b-card-img>
+          <!-- <b-card-img :src="place.placeImgSrc" alt="Image" class="rounded-0"></b-card-img> -->
+          <div>
+            <img
+              :src="place.placeImgSrc"
+              width="100%"
+              class="image-effect"
+              @click="mvView(place.placeImgSrc)"
+            />
+          </div>
           {{ place.placeTitle }}
         </div>
       </b-col>
       <b-col cols="3" md="4" class="mb-3">
         <div v-for="(place, index) in list2" :key="index">
-          <b-card-img :src="place.placeImgSrc" alt="Image" class="rounded-0"></b-card-img>
+          <!-- <b-card-img :src="place.placeImgSrc" alt="Image" class="rounded-0"></b-card-img> -->
+          <div>
+            <img
+              :src="place.placeImgSrc"
+              width="100%"
+              class="image-effect"
+              @click="mvView(place.placeImgSrc)"
+            />
+          </div>
           {{ place.placeTitle }}
         </div>
       </b-col>
       <b-col cols="3" md="4" class="mb-3">
         <div v-for="(place, index) in list3" :key="index">
-          <b-card-img :src="place.placeImgSrc" alt="Image" class="rounded-0"></b-card-img>
+          <!-- <b-card-img :src="place.placeImgSrc" alt="Image" class="rounded-0"></b-card-img> -->
+          <div>
+            <img
+              :src="place.placeImgSrc"
+              width="100%"
+              class="image-effect"
+              @click="mvView(place.placeImgSrc)"
+            />
+          </div>
           {{ place.placeTitle }}
         </div>
       </b-col>
     </b-row>
     <div ref="scrollTrigger"></div>
     <div v-if="isLoading">로딩 중...</div>
+    <!-- 모달창 시작 -->
+    <b-modal id="modal-1" title="BootstrapVue" v-model="isModalOpen">
+      <img :src="imageUrl" alt="이미지" />
+      <p class="my-4">모달 안의 내용입니다!</p>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import http from "@/api/http";
 export default {
+  components: {},
   data() {
     return {
       items: [],
@@ -42,6 +67,8 @@ export default {
       list1: [],
       list2: [],
       list3: [],
+      isModalOpen: false,
+      imageUrl: "",
     };
   },
   mounted() {
@@ -99,9 +126,28 @@ export default {
         }
       }, 200);
     },
+    mvView(imageUrl) {
+      console.log("이동");
+      this.imageUrl = imageUrl;
+      this.isModalOpen = true;
+      if (this.isModalOpen == true) console.log("true");
+      else console.log("false");
+    },
+    closeModal() {
+      this.isModalOpen = false;
+    },
   },
   beforeDestroy() {
     this.removeScrollListener();
   },
 };
 </script>
+<style>
+.image-effect {
+  transition: filter 0.3s ease; /* 효과가 적용될 때의 전환 효과를 설정합니다. */
+}
+
+.image-effect:hover {
+  filter: grayscale(100%); /* 흑백 효과를 적용합니다. */
+}
+</style>
