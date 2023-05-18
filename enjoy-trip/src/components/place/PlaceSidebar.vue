@@ -1,5 +1,5 @@
 <template>
-  <div class="border">
+  <div>
     <h3>팔로워</h3>
     <div>
       <b-row>
@@ -14,11 +14,11 @@
 
 <script>
 export default {
-  name: 'PlaceSidebar',
+  name: "PlaceSidebar",
   components: {},
   data() {
     return {
-      message: '',
+      message: "",
     };
   },
   created() {},

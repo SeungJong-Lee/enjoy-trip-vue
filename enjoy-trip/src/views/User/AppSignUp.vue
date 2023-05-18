@@ -10,12 +10,10 @@ import JoinForm from "@/components/User/SignUpForm";
 
 export default {
   name: "AppJoin",
-  components:{
+  components: {
     JoinForm,
-  }
-}
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

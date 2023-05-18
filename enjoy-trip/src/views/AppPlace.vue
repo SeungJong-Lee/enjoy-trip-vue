@@ -12,17 +12,17 @@
 </template>
 
 <script>
-import PlaceList from '@/components/place/PlaceList.vue';
-import PlaceSidebar from '@/components/place/PlaceSidebar.vue';
+import PlaceList from "@/components/place/PlaceList.vue";
+import PlaceSidebar from "@/components/place/PlaceSidebar.vue";
 export default {
-  name: 'AppPlace',
+  name: "AppPlace",
   components: {
     PlaceList,
     PlaceSidebar,
   },
   data() {
     return {
-      message: '',
+      message: "",
     };
   },
   created() {},
