@@ -37,15 +37,17 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto" v-if="!isLoggedIn">
           <b-nav-item href="#">
-            <router-link to="login">로그인</router-link>
+            <router-link :to="{name: 'login'}">로그인</router-link>
           </b-nav-item>
           <b-nav-item>
-            <router-link to="signup">회원가입</router-link>
+            <router-link :to="{name: 'signup'}">회원가입</router-link>
           </b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto" v-else>
-          <b-nav-item href="#">마이페이지</b-nav-item>
+          <b-nav-item>
+            <router-link :to="{name: 'mypage'}">마이페이지</router-link>
+          </b-nav-item>
           <b-nav-item @click="logout">로그아웃</b-nav-item>
         </b-navbar-nav>
 

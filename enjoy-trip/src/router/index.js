@@ -12,6 +12,7 @@ import NoticeModify from "@/components/notice/NoticeModify";
 import NoticeDelete from "@/components/notice/NoticeDelete";
 import AppSignUp from "@/views/user/AppSignUp";
 import AppLogin from "@/views/user/AppLogin";
+import AppMypage from "@/views/user/AppMypage";
 
 Vue.use(VueRouter);
 
@@ -73,6 +74,11 @@ const routes = [
     path: "/login",
     name: "login",
     component: AppLogin,
+  },
+  {
+    path: "/mypage",
+    name: "mypage",
+    component: AppMypage,
   }
 ];
 
