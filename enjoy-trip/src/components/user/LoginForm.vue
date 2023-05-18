@@ -52,7 +52,7 @@ export default {
 }
 
 .custom-input:focus {
-  border-bottom: 2px solid deepskyblue;
+  border-bottom: 1px solid deepskyblue;
 }
 
 .submit-button {
