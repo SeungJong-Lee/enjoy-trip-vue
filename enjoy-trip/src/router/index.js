@@ -11,6 +11,7 @@ import NoticeWrite from "@/components/notice/NoticeWrite";
 import NoticeModify from "@/components/notice/NoticeModify";
 import NoticeDelete from "@/components/notice/NoticeDelete";
 import AppSignUp from "@/views/user/AppSignUp";
+import AppLogin from "@/views/user/AppLogin";
 
 Vue.use(VueRouter);
 
@@ -68,6 +69,11 @@ const routes = [
     name: "signup",
     component: AppSignUp,
   },
+  {
+    path: "/login",
+    name: "login",
+    component: AppLogin,
+  }
 ];
 
 const router = new VueRouter({
