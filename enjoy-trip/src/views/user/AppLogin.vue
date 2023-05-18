@@ -1,5 +1,10 @@
 <template>
-  <log-in-form></log-in-form>
+  <div>
+    <div style="font-size: 400%; margin-top: 5vh">
+      SIGN UP
+    </div>
+    <log-in-form></log-in-form>
+  </div>
 </template>
 
 <script>
