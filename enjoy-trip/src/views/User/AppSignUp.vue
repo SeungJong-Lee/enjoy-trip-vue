@@ -1,7 +1,9 @@
 <template>
   <div>
-    SIGN UP
-    <join-form></join-form>
+    <div style="font-size: 5vw; margin-top: 5vh" >
+      SIGN UP
+    </div>
+    <join-form style="margin-bottom: 5vh"></join-form>
   </div>
 </template>
 

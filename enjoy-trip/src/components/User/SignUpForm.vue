@@ -125,8 +125,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-left: 25%;
-  padding-right: 25%;
+  padding-left: 25vw;
+  padding-right: 25vw;
   margin-top: 5px;
   margin-bottom: 5px;
   color: darkgrey;
