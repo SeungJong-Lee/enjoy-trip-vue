@@ -59,12 +59,12 @@
           <img :src="imageUrl" alt="이미지" width="100%" height="700" />
         </b-col>
         <b-col cols="4">
-          <b-row>
+          <b-row class="user-info">
             <b-col cols="9">
               {{ article.userId }}
             </b-col>
             <b-col cols="3">
-              <button @click="toggleFollow">
+              <button @click="toggleFollow" class="follow-button">
                 <font-awesome-icon
                   :icon="isFollowing ? 'user-minus' : 'user-plus'"
                 />
@@ -73,12 +73,12 @@
           </b-row>
           <hr />
           <div>
-            <b-row>
+            <b-row class="article-info">
               <b-col cols="9">
                 {{ article.placeTitle }}
               </b-col>
               <b-col cols="3">
-                <button @click="toggleLike">
+                <button @click="toggleLike" class="like-button">
                   <font-awesome-icon
                     :icon="heartIcon"
                     :class="{ active: isLiked }"
@@ -256,44 +256,82 @@ export default {
   filter: grayscale(100%); /* 흑백 효과를 적용합니다. */
 }
 
-.reply-input {
-  width: 250px;
-  padding: 10px;
-  border: none;
-  border-radius: 20px; /* 원하는 둥근 정도로 조정합니다. */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* 선택적으로 hover나 focus 등의 상태에 대한 스타일을 추가할 수 있습니다 */
-.reply-input:hover,
-.reply-input:focus {
-  outline: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.create-button {
-  padding: 10px 20px;
-  background-color: #8dacd4; /* 원하는 하늘색 코드로 변경합니다. */
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* 선택적으로 hover나 focus 등의 상태에 대한 스타일을 추가할 수 있습니다 */
-.create-button:hover {
-  background-color: #aeb3bb; /* 원하는 hover 상태의 하늘색 코드로 변경합니다. */
-}
-
 .container {
   position: relative;
 }
 .active {
   color: red; /* 하트가 활성화된 상태일 때의 색상 */
 }
+
+.custom-modal {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.follow-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.follow-button:hover {
+  color: red;
+}
+
+.article-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.like-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin-right: 5px;
+}
+
+.like-button.active {
+  color: red;
+}
+
 .reply-container {
-  height: 550px; /* 원하는 높이로 조정 */
+  height: 500px;
   overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.reply-input {
+  width: 250px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px; /* 원하는 둥근 정도로 조정합니다. */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.create-button {
+  padding: 10px 20px;
+  background-color: #007bff; /* 원하는 하늘색 코드로 변경합니다. */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.create-button:hover {
+  background-color: #0056b3;
 }
 </style>
