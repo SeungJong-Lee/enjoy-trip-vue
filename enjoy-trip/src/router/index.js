@@ -10,7 +10,7 @@ import NoticeView from "@/components/notice/NoticeView";
 import NoticeWrite from "@/components/notice/NoticeWrite";
 import NoticeModify from "@/components/notice/NoticeModify";
 import NoticeDelete from "@/components/notice/NoticeDelete";
-import AppSignUp from "@/views/User/AppSignUp";
+import AppSignUp from "@/views/user/AppSignUp";
 
 Vue.use(VueRouter);
 

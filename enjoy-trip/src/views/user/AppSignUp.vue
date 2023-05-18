@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import JoinForm from "@/components/User/SignUpForm";
+import JoinForm from "@/components/user/SignUpForm";
 
 export default {
   name: "AppJoin",
