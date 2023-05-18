@@ -9,7 +9,7 @@
               :src="place.placeImgSrc"
               width="100%"
               class="image-effect"
-              @click="mvView(place.placeImgSrc)"
+              @click="mvView(place.placeImgSrc, place)"
             />
           </div>
           {{ place.placeTitle }}
@@ -23,7 +23,7 @@
               :src="place.placeImgSrc"
               width="100%"
               class="image-effect"
-              @click="mvView(place.placeImgSrc)"
+              @click="mvView(place.placeImgSrc, place)"
             />
           </div>
           {{ place.placeTitle }}
@@ -37,7 +37,7 @@
               :src="place.placeImgSrc"
               width="100%"
               class="image-effect"
-              @click="mvView(place.placeImgSrc)"
+              @click="mvView(place.placeImgSrc, place)"
             />
           </div>
           {{ place.placeTitle }}
@@ -47,9 +47,31 @@
     <div ref="scrollTrigger"></div>
     <div v-if="isLoading">로딩 중...</div>
     <!-- 모달창 시작 -->
-    <b-modal id="modal-1" title="BootstrapVue" v-model="isModalOpen">
-      <img :src="imageUrl" alt="이미지" />
-      <p class="my-4">모달 안의 내용입니다!</p>
+    <b-modal
+      id="modal-1"
+      size="xl"
+      :title="article.placeTitle"
+      v-model="isModalOpen"
+      class="custom-modal"
+    >
+      <b-row>
+        <b-col cols="8">
+          <img :src="imageUrl" alt="이미지" width="100%" height="700" />
+        </b-col>
+        <b-col cols="4">
+          <div>
+            {{ article.userId }}
+            <hr />
+          </div>
+          <div>
+            {{ article.placeTitle }}
+            <hr />
+          </div>
+          <p class="my-4" v-for="(rep, i) in reply" :key="i">
+            {{ rep.replyContent }} - {{ rep.replyCreateTime }}
+          </p>
+        </b-col>
+      </b-row>
     </b-modal>
   </div>
 </template>
@@ -69,6 +91,8 @@ export default {
       list3: [],
       isModalOpen: false,
       imageUrl: "",
+      article: {},
+      reply: [],
     };
   },
   mounted() {
@@ -126,12 +150,18 @@ export default {
         }
       }, 200);
     },
-    mvView(imageUrl) {
+    mvView(imageUrl, title) {
       console.log("이동");
+      console.log(title);
+      this.article = title;
       this.imageUrl = imageUrl;
       this.isModalOpen = true;
-      if (this.isModalOpen == true) console.log("true");
-      else console.log("false");
+      http.get(`/place/api/${this.article.placeNo}`).then(({ data }) => {
+        // this.items = data.data;
+        this.reply = data.reply;
+        // window.location.reload();
+        console.log(this.reply);
+      });
     },
     closeModal() {
       this.isModalOpen = false;
