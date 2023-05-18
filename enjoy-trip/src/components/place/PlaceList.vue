@@ -70,6 +70,21 @@
           <p class="my-4" v-for="(rep, i) in reply" :key="i">
             {{ rep.replyContent }} - {{ rep.replyCreateTime }}
           </p>
+          <div>
+            <b-row>
+              <b-col cols="8">
+                <input
+                  type="text"
+                  class="reply-input"
+                  v-model="inputValue"
+                  placeholder="댓글을 입력하세요"
+                />
+              </b-col>
+              <b-col cols="4">
+                <button class="create-button" @click="replyWrite">확인</button>
+              </b-col>
+            </b-row>
+          </div>
         </b-col>
       </b-row>
     </b-modal>
@@ -77,7 +92,7 @@
 </template>
 
 <script>
-import http from "@/api/http";
+import http from '@/api/http';
 export default {
   components: {},
   data() {
@@ -90,9 +105,10 @@ export default {
       list2: [],
       list3: [],
       isModalOpen: false,
-      imageUrl: "",
+      imageUrl: '',
       article: {},
       reply: [],
+      inputValue: '',
     };
   },
   mounted() {
@@ -131,10 +147,10 @@ export default {
       }
     },
     addScrollListener() {
-      window.addEventListener("scroll", this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll);
     },
     removeScrollListener() {
-      window.removeEventListener("scroll", this.handleScroll);
+      window.removeEventListener('scroll', this.handleScroll);
     },
     handleScroll() {
       if (this.isLoading) return;
@@ -151,7 +167,7 @@ export default {
       }, 200);
     },
     mvView(imageUrl, title) {
-      console.log("이동");
+      console.log('이동');
       console.log(title);
       this.article = title;
       this.imageUrl = imageUrl;
@@ -165,6 +181,24 @@ export default {
     },
     closeModal() {
       this.isModalOpen = false;
+      this.inputValue = '';
+    },
+    replyWrite() {
+      if (this.inputValue != '') {
+        var user = sessionStorage.getItem('userId');
+        console.log(user);
+        http.post(`/place/api/reply`, {
+          replyContent: this.inputValue,
+          placeNo: this.article.placeNo,
+          parentId: 0,
+          userId: user,
+        });
+        console.log(this.inputValue);
+        setTimeout(() => {
+          this.inputValue = '';
+          this.mvView(this.article.placeImgSrc, this.article);
+        }, 300);
+      }
     },
   },
   beforeDestroy() {
@@ -179,5 +213,39 @@ export default {
 
 .image-effect:hover {
   filter: grayscale(100%); /* 흑백 효과를 적용합니다. */
+}
+
+.reply-input {
+  width: 250px;
+  padding: 10px;
+  border: none;
+  border-radius: 20px; /* 원하는 둥근 정도로 조정합니다. */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 선택적으로 hover나 focus 등의 상태에 대한 스타일을 추가할 수 있습니다 */
+.reply-input:hover,
+.reply-input:focus {
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.create-button {
+  padding: 10px 20px;
+  background-color: #8dacd4; /* 원하는 하늘색 코드로 변경합니다. */
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* 선택적으로 hover나 focus 등의 상태에 대한 스타일을 추가할 수 있습니다 */
+.create-button:hover {
+  background-color: #aeb3bb; /* 원하는 hover 상태의 하늘색 코드로 변경합니다. */
+}
+
+.container {
+  position: relative;
 }
 </style>
