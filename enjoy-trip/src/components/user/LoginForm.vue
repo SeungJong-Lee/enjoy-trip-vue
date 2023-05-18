@@ -2,18 +2,18 @@
   <div>
     <div class="container">
       아이디
-      <input class="custom-input"/>
+      <input class="custom-input" v-model="loginForm.userId"/>
     </div>
     <div class="container">
       비밀번호
-      <input class="custom-input"/>
+      <input class="custom-input" v-model="loginForm.userPw"/>
     </div>
     <div class="container" style="font-size: small">
       <router-link to="#">비밀번호를 잊으셨나요?</router-link>
     </div>
     <br/>
     <div class="container">
-      <button class="submit-button">회원가입</button>
+      <button class="submit-button" @click="submitLogin">로그인</button>
     </div>
     <br/>
     <div>
@@ -24,8 +24,31 @@
 </template>
 
 <script>
+import http from "@/api/http";
+
 export default {
-  name: "LoginForm"
+  name: "LoginForm",
+  data() {
+    return {
+      loginForm: {
+        userId: "",
+        userPw: "",
+      },
+    }
+  },
+  methods: {
+    afterLoginSuccess(data) {
+      console.log(data)
+      sessionStorage.setItem('userId', data.userId);
+      sessionStorage.setItem('userRole', data.userRole);
+      sessionStorage.setItem('accessToken', data.accessToken);
+    },
+    submitLogin() {
+      http.post("/authenticate", this.loginForm)
+          .then(({data}) => this.afterLoginSuccess(data.data))
+          .catch(() => alert("아이디 혹은 비밀번호가 일치하지 않습니다."))
+    }
+  }
 }
 </script>
 
