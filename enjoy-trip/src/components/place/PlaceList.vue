@@ -89,9 +89,11 @@
             </b-row>
             <hr />
           </div>
-          <p class="my-4" v-for="(rep, i) in reply" :key="i">
-            {{ rep.replyContent }} - {{ rep.replyCreateTime }}
-          </p>
+          <div class="reply-container">
+            <p class="my-4" v-for="(rep, i) in reply" :key="i">
+              {{ rep.replyContent }} - {{ rep.replyCreateTime }}
+            </p>
+          </div>
           <div>
             <b-row>
               <b-col cols="8">
@@ -289,5 +291,9 @@ export default {
 }
 .active {
   color: red; /* 하트가 활성화된 상태일 때의 색상 */
+}
+.reply-container {
+  height: 550px; /* 원하는 높이로 조정 */
+  overflow-y: auto;
 }
 </style>
