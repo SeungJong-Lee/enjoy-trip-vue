@@ -1,45 +1,75 @@
 <template>
-  <div >
+  <div style="display: flex; flex-direction: column">
     <div class="container">
       아이디
-      <input type="text" class="custom-input"/>
+      <input type="text" class="custom-input" v-model="formData.userId"/>
     </div>
     <div class="container">
       비밀번호
-      <input type="text" class="custom-input"/>
+      <input type="password" class="custom-input" v-model="formData.userPw"/>
     </div>
     <div class="container">
       비밀번호 확인
-      <input type="text" class="custom-input"/>
+      <input type="password" class="custom-input" v-model="userPwCheck"/>
     </div>
     <div class="container">
       이름
-      <input type="text" class="custom-input"/>
+      <input type="text" class="custom-input" v-model="formData.userName"/>
     </div>
     <div class="container">
       이메일
       <div style="display: flex">
-        <input type="text" class="custom-input"/>
-        <input type="text" class="custom-second-input" placeholder="@ssafy.com"/>
+        <input type="text" class="custom-input" v-model="formData.userEmail"/>
+        <input type="email" class="custom-second-input" placeholder="ssafy.com" v-model="formData.userDomain"/>
       </div>
     </div>
     <div class="container">
-      <button class="submit-button"> 회원가입</button>
-      <button class="back-button"> 뒤로가기</button>
+      <button class="submit-button" @click="submitSignIn">회원가입</button>
+      <router-link to="/" class="back-button">돌아가기</router-link>
     </div>
   </div>
 </template>
 
 <script>
+import http from "@/api/http";
+
 export default {
   name: "JoinForm",
-  data(){
+  data() {
     return {
-      formData : {
-        id: ""
+      userPwCheck: "",
+      formData: {
+        userId: "",
+        userPw: "",
+        userName: "",
+        userEmail: "",
+        userDomain: "",
       }
     }
   }
+  , methods: {
+    afterSignInSuccess(data) {
+      if (data.result) {
+        alert(data.msg);
+        this.$router.push("/");
+      }
+    },
+    afterSignInFailure(data) {
+      alert(data);
+    },
+    submitSignIn() {
+      if (this.checkPwEqual()) {
+        http.post(`/user/api/join`, this.formData)
+            .then(({data}) => this.afterSignInSuccess(data))
+            .catch(({response}) => this.afterSignInFailure(response.data))
+      } else {
+        alert("비밀번호가 일치하지 않습니다.")
+      }
+    },
+    checkPwEqual() {
+      return this.userPwCheck === this.formData.userPw;
+    },
+  },
 }
 </script>
 
@@ -87,8 +117,8 @@ export default {
   margin-left: 5px
 }
 
-.custom-input::placeholder {
-  color: gray;
+.custom-second-input::placeholder {
+  color: gainsboro;
 }
 
 .container {
