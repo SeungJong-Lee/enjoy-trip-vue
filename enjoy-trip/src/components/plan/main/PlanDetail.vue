@@ -20,8 +20,10 @@
           </div>
         </div>
       </div>
-      <div class="rec-button" @click="recommendClickListener(planInfo.planId)">
-        추천
+      <div class="button-container" @click="recommendClickListener(planInfo.planId)">
+        <button class="rec-button">
+          추천
+        </button>
       </div>
     </div>
     <div v-else style="height: 80%">
@@ -53,6 +55,10 @@ export default {
       return this.$store.getters.getPlanAttractions;
     }
   },
+  created() {
+    this.$store.commit("setPlanInfo", {});
+    this.$store.commit("setPlanAttracions", []);
+  }
 }
 </script>
 
@@ -60,15 +66,20 @@ export default {
 .rec-button {
   border: none;
   background-color: #a7dbe1;
-  padding: 10px;
   border-radius: 5px;
-  width: calc(100% - 30px);
+  width: 100%;
   outline: none;
   color: white;
-  margin-top: 10px;
+  padding: 10px;
+}
+
+.button-container {
+  border-radius: 5px;
+  width: calc(100% - 30px);
   position: absolute;
-  bottom: 0;
+  margin-top: 10px;
   margin-bottom: 10px;
+  bottom: 0;
 }
 
 .scroll-container {

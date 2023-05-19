@@ -1,17 +1,26 @@
 <template>
   <div>
-    <div v-for="plan in planList" :key="plan.planId" class="plan-container" @click="planClickListener(plan.planId)">
-      <div class="title-container">
-        {{ plan.planTitle }}
-      </div>
-      <div class="description-container">
-        <div class="user-info">
-          만든이: {{ plan.userId }}
+    <div style="position: relative; height: 100%">
+      <div class="scroll-container">
+        <div v-for="plan in planList" :key="plan.planId" class="plan-container" @click="planClickListener(plan.planId)">
+          <div class="title-container">
+            {{ plan.planTitle }}
+          </div>
+          <div class="description-container">
+            <div class="user-info">
+              만든이: {{ plan.userId }}
+            </div>
+            <div class="recommend-count">
+              추천수: {{ plan.recommendCount }}
+            </div>
+          </div>
         </div>
-        <div class="recommend-count">
-          추천수: {{ plan.recommendCount }}
-        </div>
       </div>
+    </div>
+    <div class="button-container">
+      <button class="toggle-button">
+        나의 계획 보기
+      </button>
     </div>
   </div>
 </template>
@@ -50,6 +59,30 @@ export default {
 </script>
 
 <style scoped>
+.scroll-container {
+  overflow-y: auto;
+  max-height: 80%;
+}
+
+.toggle-button {
+  border: none;
+  background-color: #a7dbe1;
+  border-radius: 5px;
+  width: 100%;
+  outline: none;
+  color: white;
+  padding: 10px;
+}
+
+.button-container {
+  border-radius: 5px;
+  width: calc(100% - 30px);
+  position: absolute;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  bottom: 0;
+}
+
 .plan-container {
   display: flex;
   flex-direction: column;
