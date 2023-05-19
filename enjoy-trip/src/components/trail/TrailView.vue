@@ -1,13 +1,16 @@
 <template>
-  <div class="post-details">
-    <h2>{{ trail.title }}</h2>
-    <p>{{ trail.description }}</p>
-    <div>예상 소요시간: {{ trail.estimated_time }}</div>
-    <div>시작 지점: {{ trail.start_name }}</div>
-    <div>끝 지점: {{ trail.end_name }}</div>
-    <div>총 길이: {{ trail.total_length }}</div>
-    <br />
-    <div>이동 경로: {{ trail.route }}</div>
+  <div>
+    <h1>선택한 둘레길</h1>
+    <div class="post-details">
+      <h2>{{ trail.title }}</h2>
+      <p>{{ trail.description }}</p>
+      <div>예상 소요시간: {{ trail.estimated_time }}</div>
+      <div>시작 지점: {{ trail.start_name }}</div>
+      <div>끝 지점: {{ trail.end_name }}</div>
+      <div>총 길이: {{ trail.total_length }}</div>
+      <br />
+      <div>이동 경로: {{ trail.route }}</div>
+    </div>
   </div>
 </template>
 
