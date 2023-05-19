@@ -6,7 +6,7 @@
     </div>
     <div class="custom-container">
       비밀번호
-      <input class="custom-input" v-model="loginForm.userPw"/>
+      <input type="password" class="custom-input" v-model="loginForm.userPw"/>
     </div>
     <div class="custom-container" style="font-size: small">
       <router-link to="#">비밀번호를 잊으셨나요?</router-link>

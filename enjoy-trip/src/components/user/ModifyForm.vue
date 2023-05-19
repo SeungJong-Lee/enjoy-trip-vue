@@ -38,7 +38,6 @@
 
 <script>
 import http from "@/api/http";
-// import axios from "axios";
 
 export default {
   name: "ModifyForm",
@@ -81,7 +80,6 @@ export default {
       this.$router.push({name: "home"})
     },
     submitDelete() {
-      console.log(11)
       http.delete("/user/api/delete", {
         headers: {
           "Content-Type": "application/json;charset=utf-8",
