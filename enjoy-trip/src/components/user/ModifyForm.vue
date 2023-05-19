@@ -92,7 +92,7 @@ export default {
         }
       })
           .then(({data}) => this.afterDeleteSuccess(data))
-          .catch(() => alert("화원삭제에 실패했습니다."))
+          .catch(({response}) => alert(response.data))
     }
   }
 }
