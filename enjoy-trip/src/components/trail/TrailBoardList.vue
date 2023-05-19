@@ -21,7 +21,7 @@
             <td>{{ board.user_id }}</td>
             <td>{{ board.trail_board_create_time }}</td>
             <td>
-              {{ board.trail_party_member_id }} /
+              {{ board.trail_board_member_count }} /
               {{ board.trail_board_max_member }}
             </td>
           </tr>
