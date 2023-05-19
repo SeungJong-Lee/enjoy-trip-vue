@@ -1,16 +1,22 @@
 <template>
   <div>
-    <div>글쓰기</div>
-    <div>{{ trail.title }}</div>
+    <b-row>
+      <b-col cols="4">
+        <TrailView class="view"></TrailView>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
+import TrailView from './TrailView.vue';
 import { mapState } from 'vuex';
 const trailStore = 'trailStore';
 export default {
   name: 'TrailBoardWrite',
-  components: {},
+  components: {
+    TrailView,
+  },
   data() {
     return {
       message: '',
@@ -24,4 +30,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.view {
+  margin-top: 25%;
+  margin-bottom: 25%;
+  margin-left: 10%;
+}
+</style>
