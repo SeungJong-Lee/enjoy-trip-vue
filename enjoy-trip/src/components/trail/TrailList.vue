@@ -93,6 +93,7 @@ export default {
     ...mapActions(trailStore, ['setTrail']),
     openModal(item) {
       this.post = {
+        trail_id: item.trail_id,
         title: item.title,
         description: item.description,
         estimated_time: item.estimated_time,

@@ -8,6 +8,19 @@
       rows="8"
       class="textarea-field"
     ></textarea>
+    <div class="date-picker">
+      <label for="start-date">시작일:</label>
+      <input
+        type="date"
+        id="start-date"
+        v-model="startDate"
+        class="date-input"
+      />
+    </div>
+    <div class="date-picker">
+      <label for="end-date">종료일:</label>
+      <input type="date" id="end-date" v-model="endDate" class="date-input" />
+    </div>
     <vue-slider
       v-model="numPeople"
       :min="1"
@@ -15,13 +28,18 @@
       class="slider"
     ></vue-slider>
     <div class="slider-text">몇 명에서 가고 싶은가요? {{ numPeople }}명</div>
-    <button class="submit-button">작성</button>
+    <button class="submit-button" @click="write">작성</button>
   </div>
 </template>
 
 <script>
+import http from '@/api/http';
+import { mapState, mapMutations } from 'vuex';
 import VueSlider from 'vue-slider-component';
 import 'vue-slider-component/theme/default.css';
+
+const trailStore = 'trailStore';
+
 export default {
   name: 'TrailBoardWriteItem',
   components: {
@@ -32,11 +50,56 @@ export default {
       message: '',
       title: '',
       content: '',
+      startDate: null,
+      endDate: null,
+      initPeople: 1,
       numPeople: 1,
     };
   },
-  created() {},
-  methods: {},
+  computed: {
+    ...mapState(trailStore, ['trail']),
+  },
+  created() {
+    console.log(this.trail.trail_id);
+  },
+  methods: {
+    ...mapMutations('trailStore', ['CLEAR_BOARD_LIST']),
+    write() {
+      console.log(this.trail.title);
+      //   console.log(this.title);
+      //   console.log(this.content);
+      //   console.log(this.startDate);
+      //   console.log(this.endDate);
+      //   console.log(this.initPeople);
+      //   console.log(this.numPeople);
+      if (this.title == '') {
+        alert('제목을 입력하세요');
+      } else if (this.content == '') {
+        alert('본문을 입력하세요');
+      } else if (this.startDate == null) {
+        alert('시작일을 선택하세요');
+      } else if (this.endDate == null) {
+        alert('종료일을 선택하세요');
+      } else {
+        let loginUser = sessionStorage.getItem('userId');
+        setTimeout(() => {
+          http.post(`/trail/write`, {
+            // trail_board_trail_id: 4042,
+            trail_board_trail_id: this.trail.trail_id,
+            user_id: loginUser,
+            trail_board_title: this.title,
+            trail_board_content: this.content,
+            trail_board_start_time: this.startDate,
+            trail_board_end_time: this.endDate,
+            trail_board_member_count: this.initPeople,
+            trail_board_max_member: this.numPeople,
+          });
+          this.CLEAR_BOARD_LIST();
+          this.$router.push('/trail');
+        }, 500);
+      }
+    },
+  },
 };
 </script>
 
@@ -76,6 +139,7 @@ h1 {
 .submit-button:hover {
   background-color: #b1c8d6;
 }
+
 .slider {
   margin-bottom: 20px;
 }
@@ -104,11 +168,30 @@ h1 {
 .slider .vue-slider-dot:focus {
   background-color: #376bdb;
 }
+
 .slider-text {
   text-align: center;
   margin-top: 10px;
   margin-bottom: 10px;
   font-size: 20px;
   color: #555;
+}
+
+.date-picker {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.date-picker label {
+  margin-right: 10px;
+}
+
+.date-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 </style>

@@ -33,10 +33,10 @@
 
 <script>
 // import { trailBoardList } from '@/api/trail';
-// import { mapState } from 'vuex';
-import http from '@/api/http';
+import { mapState, mapActions } from 'vuex';
+// import http from '@/api/http';
 
-// const trailStore = 'trailStore';
+const trailStore = 'trailStore';
 
 export default {
   name: 'TrailBoardList',
@@ -46,25 +46,31 @@ export default {
       message: '',
       key: '',
       word: '',
-      boards: [],
+      // boards: [],
     };
   },
   computed: {
-    // ...mapState(trailStore, ['boards']),
+    ...mapState(trailStore, ['boards']),
   },
   created() {
     // trailBoardList({
     //   key: this.key,
     //   word: this.word,
     // });
-    http
-      .get(`/trail/board?key=${this.key}&word=${this.word}`)
-      .then(({ data }) => {
-        this.boards = data;
-        console.log(this.boards);
-      });
+    this.getTrailBoardList({
+      key: this.key,
+      word: this.word,
+    });
+    // http
+    //   .get(`/trail/board?key=${this.key}&word=${this.word}`)
+    //   .then(({ data }) => {
+    //     this.boards = data;
+    //     console.log(this.boards);
+    //   });
   },
-  methods: {},
+  methods: {
+    ...mapActions(trailStore, ['getTrailBoardList']),
+  },
 };
 </script>
 

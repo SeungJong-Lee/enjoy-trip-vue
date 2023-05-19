@@ -38,12 +38,12 @@ export default {
 <style scoped>
 .view {
   margin-top: 16%;
-  margin-bottom: 25%;
+  margin-bottom: 5%;
   margin-left: 10%;
 }
 .write {
   margin-top: 10%;
-  margin-bottom: 25%;
+  margin-bottom: 5%;
   margin-left: 20%;
 }
 </style>
