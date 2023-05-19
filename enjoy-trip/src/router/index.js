@@ -15,92 +15,101 @@ import AppLogin from '@/views/user/AppLogin';
 import AppMypage from '@/views/user/AppMypage';
 import PlaceList from '@/components/place/PlaceList';
 import PlaceWrite from '@/components/place/PlaceWrite';
+import PlanMain from "@/views/plan/PlanMain";
 
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: AppMain,
-  },
-  {
-    path: '/notice',
-    name: 'notice',
-    redirect: '/notice/noticelist',
-    component: AppNotice,
-    children: [
-      {
-        path: 'noticelist',
-        name: 'noticelist',
-        component: NoticeList,
-      },
-      {
-        path: 'noticeview/:articleno',
-        name: 'noticeview',
-        component: NoticeView,
-      },
-      {
-        path: 'noticewrite',
-        name: 'noticewrite',
-        component: NoticeWrite,
-      },
-      {
-        path: 'noticemodify/:articleno',
-        name: 'noticemodify',
-        component: NoticeModify,
-      },
-      {
-        path: 'noticedelete/:articleno',
-        name: 'noticedelete',
-        component: NoticeDelete,
-      },
-    ],
-  },
-  {
-    path: '/plan',
-    name: 'plan',
-    component: AppPlan,
-  },
-  {
-    path: '/place',
-    name: 'place',
-    redirect: '/place/placelist',
-    component: AppPlace,
-    children: [
-      {
-        path: 'placelist',
-        name: 'placelist',
-        component: PlaceList,
-      },
-      {
-        path: 'placewrite',
-        name: 'placewrite',
-        component: PlaceWrite,
-      },
-    ],
-  },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: AppSignUp,
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: AppLogin,
-  },
-  {
-    path: '/mypage',
-    name: 'mypage',
-    component: AppMypage,
-  },
+    {
+        path: '/',
+        name: 'home',
+        component: AppMain,
+    },
+    {
+        path: '/notice',
+        name: 'notice',
+        redirect: '/notice/noticelist',
+        component: AppNotice,
+        children: [
+            {
+                path: 'noticelist',
+                name: 'noticelist',
+                component: NoticeList,
+            },
+            {
+                path: 'noticeview/:articleno',
+                name: 'noticeview',
+                component: NoticeView,
+            },
+            {
+                path: 'noticewrite',
+                name: 'noticewrite',
+                component: NoticeWrite,
+            },
+            {
+                path: 'noticemodify/:articleno',
+                name: 'noticemodify',
+                component: NoticeModify,
+            },
+            {
+                path: 'noticedelete/:articleno',
+                name: 'noticedelete',
+                component: NoticeDelete,
+            },
+        ],
+    },
+    {
+        path: '/plan',
+        name: 'plan',
+        redirect: 'plan/main',
+        component: AppPlan,
+        children: [
+            {
+                path: 'main',
+                name: 'planmain',
+                component: PlanMain,
+            }
+        ]
+    },
+    {
+        path: '/place',
+        name: 'place',
+        redirect: '/place/placelist',
+        component: AppPlace,
+        children: [
+            {
+                path: 'placelist',
+                name: 'placelist',
+                component: PlaceList,
+            },
+            {
+                path: 'placewrite',
+                name: 'placewrite',
+                component: PlaceWrite,
+            },
+        ],
+    },
+    {
+        path: '/signup',
+        name: 'signup',
+        component: AppSignUp,
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: AppLogin,
+    },
+    {
+        path: '/mypage',
+        name: 'mypage',
+        component: AppMypage,
+    },
 ];
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes,
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes,
 });
 
 export default router;
