@@ -14,6 +14,10 @@ const trailStore = {
       state.trails = [];
       state.trail = null;
     },
+    CLEAR_BOARD_LIST(state) {
+      state.boards = [];
+      state.board = null;
+    },
     SET_TRAIL_LIST(state, trails) {
       state.trails = trails;
     },
