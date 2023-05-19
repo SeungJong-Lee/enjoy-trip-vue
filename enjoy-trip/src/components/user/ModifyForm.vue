@@ -14,17 +14,23 @@
     </div>
     <div class="custom-container">
       이메일
-      <div style="display: flex; width: 100%; height: 100%" >
+      <div class="row-container">
         <input type="text" class="custom-input" v-model="modifyForm.userEmail"/>
         <input type="email" class="custom-second-input" placeholder="ssafy.com" v-model="modifyForm.userDomain"/>
       </div>
     </div>
     <div class="alert-container">
-      현재 비밀번호
+      <br/>
+      현재 비밀번호*
       <input type="password" class="custom-input" v-model="modifyForm.userCurPw"/>
     </div>
+
     <div class="custom-container">
-      <button class="submit-button" @click="submitModify">변경</button>
+      <div class="row-container">
+        <button class="submit-button" @click="submitModify">변경</button>
+        <button class="submit-button" style="margin-left: 5px; background-color: lightcoral" @click="submitDelete">삭제
+        </button>
+      </div>
       <router-link :to="{name: 'home'}" class="back-button">취소</router-link>
     </div>
   </div>
@@ -32,6 +38,7 @@
 
 <script>
 import http from "@/api/http";
+// import axios from "axios";
 
 export default {
   name: "ModifyForm",
@@ -66,17 +73,39 @@ export default {
         alert("비밀번호가 일치하지 않습니다.");
       }
     },
-
-    // 새 비밀번호가 일치하는지 확인하는 기능
     checkPwEqual() {
       return this.newPwCheck === this.modifyForm.userPw;
     },
+    afterDeleteSuccess(data) {
+      alert(data.msg);
+      this.$router.push({name: "home"})
+    },
+    submitDelete() {
+      console.log(11)
+      http.delete("/user/api/delete", {
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          "authorization": `Bearer ${sessionStorage.getItem("accessToken")}`
+        },
+        data: {
+          userPw: this.modifyForm.userCurPw,
+        }
+      })
+          .then(({data}) => this.afterDeleteSuccess(data))
+          .catch(() => alert("화원삭제에 실패했습니다."))
+    }
   }
 }
 </script>
 
 
 <style scoped>
+.row-container {
+  display: flex;
+  width: 100%;
+  height: 100%
+}
+
 .submit-button {
   border: none;
   background-color: #a7dbe1;
