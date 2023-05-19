@@ -7,7 +7,7 @@ function trailList(params, success, fail) {
 
 function trailBoardList(params, success, fail) {
   http
-    .get(`/trail/board?${params.key}&${params.word}`)
+    .get(`/trail/board?key=${params.key}&word=${params.word}`)
     .then(success)
     .catch(fail);
 }

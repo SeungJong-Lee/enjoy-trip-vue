@@ -27,6 +27,7 @@
     <div class="modal" v-if="showModal">
       <div class="modal-background" @click="closeModal"></div>
       <div class="modal-content">
+        <div class="button-wrapper"></div>
         <!-- 모달 내용 -->
         <div class="box">
           <h2>{{ post.title }}</h2>
@@ -38,18 +39,29 @@
           <br />
           <div>이동 경로 : {{ post.route }}</div>
         </div>
+        <b-row>
+          <b-col cols="6">
+            <button
+              class="modal-close is-large"
+              aria-label="close"
+              @click="closeModal"
+            >
+              닫기
+            </button>
+          </b-col>
+          <b-col cols="6">
+            <button class="create-plan-button" @click="createPlan">
+              계획 생성
+            </button>
+          </b-col>
+        </b-row>
       </div>
-      <button
-        class="modal-close is-large"
-        aria-label="close"
-        @click="closeModal"
-      ></button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 const trailStore = 'trailStore';
 export default {
@@ -78,6 +90,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(trailStore, ['setTrail']),
     openModal(item) {
       this.post = {
         title: item.title,
@@ -92,6 +105,10 @@ export default {
     },
     closeModal() {
       this.showModal = false;
+    },
+    createPlan() {
+      this.setTrail(this.post);
+      this.$router.push('/trailwrite');
     },
   },
 };
@@ -165,10 +182,53 @@ export default {
   background-color: transparent;
   border: none;
   cursor: pointer;
+  font-size: 24px;
+  color: #ec4a4a;
+  transition: color 0.3s ease;
 }
 
-.modal-close i {
-  color: #333;
-  font-size: 20px;
+.modal-close:hover {
+  color: #555;
+}
+
+.modal-close:focus {
+  outline: none;
+}
+
+.modal-close:active {
+  transform: scale(0.9);
+}
+
+/* 텍스트를 강조하기 위해 추가한 스타일 */
+.modal-close {
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(45, 158, 228, 0.3);
+}
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.create-plan-button {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #367ad3;
+  transition: color 0.3s ease;
+}
+
+.create-plan-button:hover {
+  color: #555;
+}
+
+.create-plan-button:focus {
+  outline: none; /* 포커스 스타일 제거 */
+}
+
+.create-plan-button:active {
+  transform: scale(0.9);
 }
 </style>

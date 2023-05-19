@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="board-title">
+      <h2>같이 둘레길 가요!</h2>
+    </div>
     <div class="table-wrapper" style="text-align: center">
       <table class="custom-table">
         <thead>
@@ -94,5 +97,15 @@ export default {
 .custom-table tbody tr:hover {
   background-color: #f5f5f5;
   cursor: pointer;
+}
+.board-title {
+  margin-top: 37px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.board-title h2 {
+  font-size: 24px;
+  font-weight: bold;
 }
 </style>

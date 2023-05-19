@@ -50,6 +50,9 @@ const trailStore = {
         }
       );
     },
+    setTrail: ({ commit }, params) => {
+      commit('SET_DETAIL_TRAIL', params);
+    },
   },
 };
 

@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="5">
+      <b-col cols="5" class="left-area">
         <trail-search class="search"></trail-search>
         <trail-list class="traillist"></trail-list>
       </b-col>
-      <b-col cols="7">
+      <b-col cols="6">
         <trail-board-list></trail-board-list>
       </b-col>
     </b-row>
@@ -40,5 +40,8 @@ export default {
 
 .traillist {
   margin-left: 15px;
+}
+.left-area {
+  margin-left: 70px;
 }
 </style>
