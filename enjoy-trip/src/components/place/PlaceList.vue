@@ -65,9 +65,7 @@
             </b-col>
             <b-col cols="3">
               <button @click="toggleFollow" class="follow-button">
-                <font-awesome-icon
-                  :icon="isFollowing ? 'user-minus' : 'user-plus'"
-                />
+                <font-awesome-icon :icon="isFollowing ? 'user-minus' : 'user-plus'" />
               </button>
             </b-col>
           </b-row>
@@ -79,10 +77,7 @@
               </b-col>
               <b-col cols="3">
                 <button @click="toggleLike" class="like-button">
-                  <font-awesome-icon
-                    :icon="heartIcon"
-                    :class="{ active: isLiked }"
-                  />
+                  <font-awesome-icon :icon="heartIcon" :class="{ active: isLiked }" />
                 </button>
                 <span> {{ likeCount }}</span>
               </b-col>
@@ -91,7 +86,8 @@
           </div>
           <div class="reply-container">
             <p class="my-4" v-for="(rep, i) in reply" :key="i">
-              {{ rep.replyContent }} - {{ rep.replyCreateTime }}
+              {{ rep.replyContent }}<br />
+              {{ rep.userId }} - {{ rep.replyCreateTime }}
             </p>
           </div>
           <div>
@@ -116,9 +112,9 @@
 </template>
 
 <script>
-import http from '@/api/http';
-import { ref } from 'vue';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import http from "@/api/http";
+import { ref } from "vue";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 export default {
   components: {},
   data() {
@@ -131,10 +127,10 @@ export default {
       list2: [],
       list3: [],
       isModalOpen: false,
-      imageUrl: '',
+      imageUrl: "",
       article: {},
       reply: [],
-      inputValue: '',
+      inputValue: "",
       likeCount: ref(0),
       isLiked: ref(false),
       heartIcon: faHeart,
@@ -177,10 +173,10 @@ export default {
       }
     },
     addScrollListener() {
-      window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener("scroll", this.handleScroll);
     },
     removeScrollListener() {
-      window.removeEventListener('scroll', this.handleScroll);
+      window.removeEventListener("scroll", this.handleScroll);
     },
     handleScroll() {
       if (this.isLoading) return;
@@ -197,7 +193,7 @@ export default {
       }, 200);
     },
     mvView(imageUrl, title) {
-      console.log('이동');
+      console.log("이동");
       console.log(title);
       this.article = title;
       this.imageUrl = imageUrl;
@@ -211,11 +207,11 @@ export default {
     },
     closeModal() {
       this.isModalOpen = false;
-      this.inputValue = '';
+      this.inputValue = "";
     },
     replyWrite() {
-      if (this.inputValue != '') {
-        var user = sessionStorage.getItem('userId');
+      if (this.inputValue != "") {
+        var user = sessionStorage.getItem("userId");
         console.log(user);
         http.post(`/place/api/reply`, {
           replyContent: this.inputValue,
@@ -225,7 +221,7 @@ export default {
         });
         console.log(this.inputValue);
         setTimeout(() => {
-          this.inputValue = '';
+          this.inputValue = "";
           this.mvView(this.article.placeImgSrc, this.article);
         }, 300);
       }
