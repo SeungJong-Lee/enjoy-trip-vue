@@ -1,29 +1,29 @@
 <template>
   <div style="display: flex; flex-direction: column">
-    <div class="container">
+    <div class="custom-container">
       아이디
       <input type="text" class="custom-input" v-model="formData.userId"/>
     </div>
-    <div class="container">
+    <div class="custom-container">
       비밀번호
       <input type="password" class="custom-input" v-model="formData.userPw"/>
     </div>
-    <div class="container">
+    <div class="custom-container">
       비밀번호 확인
       <input type="password" class="custom-input" v-model="userPwCheck"/>
     </div>
-    <div class="container">
+    <div class="custom-container">
       이름
       <input type="text" class="custom-input" v-model="formData.userName"/>
     </div>
-    <div class="container">
+    <div class="custom-container">
       이메일
-      <div style="display: flex">
+      <div style="display: flex; width: 100%; height: 100%" >
         <input type="text" class="custom-input" v-model="formData.userEmail"/>
         <input type="email" class="custom-second-input" placeholder="ssafy.com" v-model="formData.userDomain"/>
       </div>
     </div>
-    <div class="container">
+    <div class="custom-container">
       <button class="submit-button" @click="submitSignIn">회원가입</button>
       <router-link to="/" class="back-button">돌아가기</router-link>
     </div>
@@ -121,12 +121,12 @@ export default {
   color: gainsboro;
 }
 
-.container {
+.custom-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-left: 25vw;
-  padding-right: 25vw;
+  padding-left: 33vw;
+  padding-right: 33vw;
   margin-top: 5px;
   margin-bottom: 5px;
   color: darkgrey;

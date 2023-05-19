@@ -30,7 +30,7 @@
         </div>
       </div>
     </b-container>
-    <div class="container">
+    <div class="custom-container">
       <div class="row">
         <!-- <hr class="my-4" /> -->
         <div class="mt-3 col-12">
