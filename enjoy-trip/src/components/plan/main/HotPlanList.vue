@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="plan in planList" :key="plan.planId" class="plan-container">
+    <div v-for="plan in planList" :key="plan.planId" class="plan-container" @click="planClickListener(plan.planId)">
       <div class="title-container">
         {{ plan.planTitle }}
       </div>
@@ -27,16 +27,25 @@ export default {
       planList: [],
     }
   },
+  created() {
+    this.getHotPlanList();
+  },
   methods: {
     getHotPlanList() {
       httpJwt.get(`plan/view?pgno=${this.pgno}&order=recommend_count`)
           .then(({data}) => this.planList = data.data)
           .catch(({response}) => alert(response.data))
+    },
+    planClickListener(planId) {
+      httpJwt.get(`plan/view/${planId}`)
+          .then(({data}) => this.setSelectedPlanState(data.data))
+          .catch(({response}) => alert(response.data));
+    },
+    setSelectedPlanState(data) {
+      this.$store.commit("setPlanInfo", data.planInfo)
+      this.$store.commit("setPlanAttracions", data.attractionList);
     }
-  },
-  created() {
-    this.getHotPlanList();
-  },
+  }
 }
 </script>
 

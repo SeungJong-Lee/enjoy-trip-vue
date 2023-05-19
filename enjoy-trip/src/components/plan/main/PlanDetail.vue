@@ -1,13 +1,136 @@
 <template>
+  <div>
+    <div v-if="planAttractions.length !== 0">
+      <div style="position: relative; height: 100%">
+        <div class="scroll-container">
+          <div class="place-container" v-for="place in planAttractions" :key="place.contentId">
+            <div class="image-container">
+              <img :src="place.firstImage"
+                   onerror="this.src='https://github.com/qkdk/enjoy-trip/assets/86948395/c643b90b-fb65-4678-8dd7-7321cb0fdfaf'"
+                   class="fixed-image"/>
+            </div>
+            <div class="description-container">
+              <div class="title-container">
+                {{ place.title }}
+              </div>
+              <div class="addr-container">
+                {{ place.addr1 }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="rec-button">
+        추천
+      </div>
+    </div>
+    <div v-else style="height: 80%">
+      <div class="centered-text">
+        계획을 선택해주세요
+      </div>
+    </div>
 
+  </div>
 </template>
 
 <script>
 export default {
-  name: "PlanDetail"
+  name: "PlanDetail",
+  methods: {},
+  computed: {
+    planInfo() {
+      return this.$store.getters.getPlanInfo;
+    },
+    planAttractions() {
+      return this.$store.getters.getPlanAttractions;
+    }
+  },
 }
 </script>
 
 <style scoped>
+.rec-button {
+  border: none;
+  background-color: #a7dbe1;
+  padding: 10px;
+  border-radius: 5px;
+  width: calc(100% - 30px);
+  outline: none;
+  color: white;
+  margin-top: 10px;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
+}
 
+.scroll-container {
+  overflow-y: auto;
+  max-height: 80%;
+}
+
+.centered-text {
+  margin-top: 100%;
+  margin-bottom: auto;
+}
+
+
+.place-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 10vh;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.fixed-image {
+  width: 100%;
+  height: 100%;
+}
+
+.image-container {
+  height: 100%;
+  aspect-ratio: 1/1;
+}
+
+.place-container:hover {
+  transform: scale(1.05);
+}
+
+
+.description-container {
+  padding-left: 1vw;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title-container {
+  flex: 1;
+  font-weight: bold;
+  font-size: larger;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.addr-container {
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>
