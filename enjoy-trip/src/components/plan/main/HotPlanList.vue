@@ -37,7 +37,7 @@ export default {
           .catch(({response}) => alert(response.data))
     },
     planClickListener(planId) {
-      httpJwt.get(`plan/view/${planId}`)
+      httpJwt.get(`plan/${planId}`)
           .then(({data}) => this.setSelectedPlanState(data.data))
           .catch(({response}) => alert(response.data));
     },

@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="rec-button">
+      <div class="rec-button" @click="recommendClickListener(planInfo.planId)">
         추천
       </div>
     </div>
@@ -34,9 +34,17 @@
 </template>
 
 <script>
+import httpJwt from "@/api/httpJwt";
+
 export default {
   name: "PlanDetail",
-  methods: {},
+  methods: {
+    recommendClickListener(planId) {
+      httpJwt.put(`plan/${planId}`)
+          .then(() => alert("추천되었습니다"))
+          .catch(({response}) => alert(response.data))
+    }
+  },
   computed: {
     planInfo() {
       return this.$store.getters.getPlanInfo;
