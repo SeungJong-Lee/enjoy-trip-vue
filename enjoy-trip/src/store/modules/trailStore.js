@@ -31,10 +31,6 @@ const trailStore = {
         }
       );
     },
-    detailTrail: ({ commit }, trail_id) => {
-      //   나중에 trail_id를 사용하여 API호출
-      commit("SET_DETAIL_TRAIL", trail_id);
-    },
   },
 };
 

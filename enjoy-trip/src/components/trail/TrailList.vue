@@ -5,11 +5,6 @@
         <b-alert show><h3>글목록</h3></b-alert>
       </b-col>
     </b-row>
-    <b-row class="mb-1">
-      <b-col class="text-right">
-        <b-button variant="outline-primary" @click="moveWrite()">글쓰기</b-button>
-      </b-col>
-    </b-row>
     <b-row>
       <b-col>
         <b-table striped hover :items="trails" :fields="fields" @row-clicked="viewArticle">
@@ -40,9 +35,11 @@ export default {
   computed: {
     ...mapState(trailStore, ["trails"]),
   },
-  created() {},
+  created() {
+    this.$store.commit("trailStore/CLEAR_TRAIL_LIST");
+  },
+
   methods: {
-    moveWrite() {},
     viewArticle() {},
   },
 };
