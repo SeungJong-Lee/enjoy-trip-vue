@@ -53,6 +53,9 @@ export default {
       }
     }
   },
+  created() {
+    this.getUserDetail();
+  },
   methods: {
     afterModifySuccess(data) {
       alert(data.msg);
@@ -90,6 +93,15 @@ export default {
         }
       })
           .then(({data}) => this.afterDeleteSuccess(data))
+          .catch(({response}) => alert(response.data))
+    },
+    getUserDetail() {
+      http.get(`/user/api/${sessionStorage.getItem("userId")}`)
+          .then(({data}) => {
+            this.modifyForm.userEmail = data.data.userEmail;
+            this.modifyForm.userDomain = data.data.userDomain;
+            this.modifyForm.userName = data.data.userName;
+          })
           .catch(({response}) => alert(response.data))
     }
   }
