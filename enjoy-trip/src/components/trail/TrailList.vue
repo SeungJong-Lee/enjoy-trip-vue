@@ -1,65 +1,93 @@
 <template>
-  <b-container class="bv-example-row mt-3">
-    <b-row>
-      <b-col>
-        <b-alert show><h3>글목록</h3></b-alert>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <b-table striped hover :items="trails" :fields="fields" @row-clicked="openModal()">
-        </b-table>
-      </b-col>
-    </b-row>
-    <div class="modal" :class="{ 'is-active': showModal }">
+  <div>
+    <div class="table-wrapper" style="text-align: center">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>둘레길</th>
+            <th>루트</th>
+            <th>예상시간</th>
+            <th>총 길이</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(trail, index) in trails"
+            :key="index"
+            @click="openModal(trail)"
+          >
+            <td>{{ trail.title }}</td>
+            <td>{{ trail.route }}</td>
+            <td>{{ trail.estimated_time }}</td>
+            <td>{{ trail.total_length }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal" v-if="showModal">
       <div class="modal-background" @click="closeModal"></div>
       <div class="modal-content">
         <!-- 모달 내용 -->
         <div class="box">
           <h2>{{ post.title }}</h2>
-          <p>{{ post.content }}</p>
+          <p>{{ post.description }}</p>
+          <div>예상 소요시간 : {{ post.estimated_time }}</div>
+          <div>시작 지점 : {{ post.start_name }}</div>
+          <div>끝 지점 : {{ post.end_name }}</div>
+          <div>총 길이 : {{ post.total_length }}</div>
+          <br />
+          <div>이동 경로 : {{ post.route }}</div>
         </div>
       </div>
-      <button class="modal-close is-large" aria-label="close" @click="closeModal"></button>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        @click="closeModal"
+      ></button>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
-const trailStore = "trailStore";
+const trailStore = 'trailStore';
 export default {
-  name: "TrailList",
+  name: 'TrailList',
   components: {},
   data() {
     return {
-      message: "",
+      message: '',
       showModal: false,
-      fields: [
-        { key: "title", label: "둘레길", tdClass: "tdClass" },
-        { key: "route", label: "루트", tdClass: "tdSubject" },
-        { key: "estimated_time", label: "예상시간", tdClass: "tdClass" },
-        { key: "total_length", label: "총 길이", tdClass: "tdClass" },
-      ],
       post: {
-        title: "게시글 제목",
-        content: "게시글 내용",
+        title: '',
+        description: '',
+        estimated_time: '',
+        start_name: '',
+        end_name: '',
+        route: '',
+        total_length: '',
       },
     };
   },
   computed: {
-    ...mapState(trailStore, ["trails"]),
+    ...mapState(trailStore, ['trails']),
   },
   created() {
-    this.$store.commit("trailStore/CLEAR_TRAIL_LIST");
+    this.$store.commit('trailStore/CLEAR_TRAIL_LIST');
   },
 
   methods: {
-    viewArticle(article) {
-      console.log(article);
-    },
-    openModal() {
+    openModal(item) {
+      this.post = {
+        title: item.title,
+        description: item.description,
+        estimated_time: item.estimated_time,
+        start_name: item.start_name,
+        end_name: item.end_name,
+        route: item.route,
+        total_length: item.total_length,
+      };
       this.showModal = true;
     },
     closeModal() {
@@ -70,49 +98,77 @@ export default {
 </script>
 
 <style scoped>
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  top: 50%; /* 모달 창을 화면의 중앙으로 위치시킵니다. */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%; /* 모달 창의 너비를 설정합니다. 필요에 따라 조절하세요. */
-  max-height: 80vh; /* 모달 창의 최대 높이를 설정합니다. 필요에 따라 조절하세요. */
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
+.table-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.modal.is-active {
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.custom-table th {
+  background-color: #f7f7f7;
+  font-weight: bold;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .modal-background {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  right: 0;
+  bottom: 0;
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: white;
+  max-width: 600px;
+  width: 90%;
+  border-radius: 8px;
   padding: 20px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.modal-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
 }
 
 .box {
   margin-bottom: 20px;
+}
+
+.modal-close {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-close i {
+  color: #333;
+  font-size: 20px;
 }
 </style>

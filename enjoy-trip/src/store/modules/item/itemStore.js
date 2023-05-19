@@ -1,18 +1,18 @@
-import { sidoList, gugunList } from "@/api/item/item.js";
+import { sidoList, gugunList } from '@/api/item/item.js';
 
 const itemStore = {
   namespaced: true,
   state: {
-    sidos: [{ value: null, text: "선택하세요" }],
-    guguns: [{ value: null, text: "선택하세요" }],
+    sidos: [{ value: null, text: '시/도를 선택해주세요' }],
+    guguns: [{ value: null, text: '구/군을 선택해주세요' }],
   },
   getters: {},
   mutations: {
     CLEAR_SIDO_LIST(state) {
-      state.sidos = [{ value: null, text: "선택하세요" }];
+      state.sidos = [{ value: null, text: '시/도를 선택해주세요' }];
     },
     CLEAR_GUGUN_LIST(state) {
-      state.guguns = [{ value: null, text: "선택하세요" }];
+      state.guguns = [{ value: null, text: '구/군을 선택해주세요' }];
     },
     SET_SIDO_LIST(state, sidos) {
       sidos.forEach((sido) => {
@@ -29,7 +29,7 @@ const itemStore = {
     getSido: ({ commit }) => {
       sidoList(
         ({ data }) => {
-          commit("SET_SIDO_LIST", data);
+          commit('SET_SIDO_LIST', data);
         },
         (error) => {
           console.log(error);
@@ -41,7 +41,7 @@ const itemStore = {
       gugunList(
         params,
         ({ data }) => {
-          commit("SET_GUGUN_LIST", data);
+          commit('SET_GUGUN_LIST', data);
         },
         (error) => {
           console.log(error);
