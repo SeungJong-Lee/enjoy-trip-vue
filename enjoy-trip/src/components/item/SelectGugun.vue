@@ -13,7 +13,7 @@ import { mapState, mapActions, mapMutations } from "vuex";
   
     modules: {
       키: 값
-      itemStore: itemStore
+      trailStore: trailStore
     }
   */
 const itemStore = "itemStore";

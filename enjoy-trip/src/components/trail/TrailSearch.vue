@@ -11,6 +11,7 @@ import SelectSido from "@/components/item/SelectSido.vue";
 import SelectGugun from "@/components/item/SelectGugun.vue";
 
 const itemStore = "itemStore";
+const trailStore = "trailStore";
 
 export default {
   name: "TrailSearch",
@@ -26,14 +27,20 @@ export default {
   },
   created() {},
   methods: {
+    ...mapActions(trailStore, ["getTrailList"]),
     ...mapActions(itemStore, ["getGugun"]),
     ...mapMutations(itemStore, ["CLEAR_GUGUN_LIST"]),
     selectSido(sidoCode) {
       this.sidoCode = sidoCode;
     },
     selectGugun(gugunCode) {
-      console.log("구군바꼈으니 아파트 찾으러 가자!!!" + gugunCode);
-      //   if (gugunCode) this.getHouseList(gugunCode);
+      console.log(`시도=${this.sidoCode}:::구군=${gugunCode}`);
+      console.log(gugunCode);
+      if (gugunCode)
+        this.getTrailList({
+          sido: this.sidoCode,
+          gugun: gugunCode,
+        });
     },
   },
 };
