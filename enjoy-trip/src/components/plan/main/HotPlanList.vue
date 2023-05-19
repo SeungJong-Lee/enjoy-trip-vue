@@ -47,7 +47,7 @@ export default {
   align-items: flex-start;
   margin-top: 5px;
   margin-bottom: 5px;
-  height: 25vh;
+  height: 10vh;
   border-radius: 5px;
   padding: 10px;
   background-color: white;
@@ -66,6 +66,7 @@ export default {
   color: darkgray;
   width: 100%;
   justify-content: space-between;
+  align-items: center;
 }
 
 .title-container {
@@ -76,10 +77,14 @@ export default {
 .user-info {
   font-size: large;
   color: gray;
+  margin-top: auto;
+  margin-bottom: 0;
 }
 
 .recommend-count {
-  font-size: larger;
+  font-size: large;
   color: gray;
+  margin-top: auto;
+  margin-bottom: 0;
 }
 </style>
