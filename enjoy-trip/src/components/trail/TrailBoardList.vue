@@ -15,9 +15,8 @@
           </tr>
         </thead>
         <tbody>
-          <!-- <tr v-for="(board, index) in boards" :key="index" > -->
           <tr
-            v-for="(board, index) in boards"
+            v-for="(board, index) in slicedBoards"
             :key="index"
             @click="handleRowClick(board)"
           >
@@ -33,13 +32,45 @@
         </tbody>
       </table>
     </div>
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+          <a
+            class="page-link"
+            href="#"
+            aria-label="Previous"
+            @click="goToPage(currentPage - 1)"
+          >
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li
+          class="page-item"
+          v-for="pageNumber in totalPages"
+          :key="pageNumber"
+          :class="{ active: currentPage === pageNumber }"
+        >
+          <a class="page-link" href="#" @click="goToPage(pageNumber)">{{
+            pageNumber
+          }}</a>
+        </li>
+        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+          <a
+            class="page-link"
+            href="#"
+            aria-label="Next"
+            @click="goToPage(currentPage + 1)"
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
 <script>
-// import { trailBoardList } from '@/api/trail';
 import { mapState, mapActions } from 'vuex';
-// import http from '@/api/http';
 
 const trailStore = 'trailStore';
 
@@ -48,34 +79,36 @@ export default {
   components: {},
   data() {
     return {
-      message: '',
       key: '',
       word: '',
-      // boards: [],
+      pageSize: 10, // 한 페이지에 표시할 항목 수
+      currentPage: 1, // 현재 페이지 번호
     };
   },
   computed: {
     ...mapState(trailStore, ['boards']),
+    totalPages() {
+      return Math.ceil(this.boards.length / this.pageSize); // 전체 페이지 수 계산
+    },
+    slicedBoards() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.boards.slice(startIndex, endIndex);
+    },
   },
   created() {
-    // trailBoardList({
-    //   key: this.key,
-    //   word: this.word,
-    // });
     this.getTrailBoardList({
       key: this.key,
       word: this.word,
     });
-    // http
-    //   .get(`/trail/board?key=${this.key}&word=${this.word}`)
-    //   .then(({ data }) => {
-    //     this.boards = data;
-    //     console.log(this.boards);
-    //   });
   },
   methods: {
     ...mapActions(trailStore, ['getTrailBoardList']),
-    ...mapActions(trailStore, ['setBoard']),
+    goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+      }
+    },
     handleRowClick(board) {
       console.log('Clicked row:', board);
       this.setBoard(board);
@@ -115,6 +148,7 @@ export default {
   background-color: #f5f5f5;
   cursor: pointer;
 }
+
 .board-title {
   margin-top: 37px;
   margin-bottom: 20px;

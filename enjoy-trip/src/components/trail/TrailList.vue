@@ -12,7 +12,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(trail, index) in trails"
+            v-for="(trail, index) in slicedBoards"
             :key="index"
             @click="openModal(trail)"
           >
@@ -24,6 +24,40 @@
         </tbody>
       </table>
     </div>
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+          <a
+            class="page-link"
+            href="#"
+            aria-label="Previous"
+            @click="goToPage(currentPage - 1)"
+          >
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li
+          class="page-item"
+          v-for="pageNumber in totalPages"
+          :key="pageNumber"
+          :class="{ active: currentPage === pageNumber }"
+        >
+          <a class="page-link" href="#" @click="goToPage(pageNumber)">{{
+            pageNumber
+          }}</a>
+        </li>
+        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+          <a
+            class="page-link"
+            href="#"
+            aria-label="Next"
+            @click="goToPage(currentPage + 1)"
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
     <div class="modal" v-if="showModal">
       <div class="modal-background" @click="closeModal"></div>
       <div class="modal-content">
@@ -80,10 +114,20 @@ export default {
         route: '',
         total_length: '',
       },
+      pageSize: 5, // 한 페이지에 표시할 항목 수
+      currentPage: 1, // 현재 페이지 번호
     };
   },
   computed: {
     ...mapState(trailStore, ['trails']),
+    totalPages() {
+      return Math.ceil(this.trails.length / this.pageSize); // 전체 페이지 수 계산
+    },
+    slicedBoards() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.trails.slice(startIndex, endIndex);
+    },
   },
   created() {
     this.$store.commit('trailStore/CLEAR_TRAIL_LIST');
@@ -110,6 +154,11 @@ export default {
     createPlan() {
       this.setTrail(this.post);
       this.$router.push('/trailwrite');
+    },
+    goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+      }
     },
   },
 };
