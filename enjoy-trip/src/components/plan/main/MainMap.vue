@@ -51,12 +51,30 @@ export default {
         this.mapContainer = document.getElementById("map"); // 지도를 표시할 div
         this.positions = [];
         this.createPositions(newValue)
+        this.makeLine(newValue)
         this.showMark(this.positions);
       }
     },
 
+    makeLine(newValue) {
+      if (newValue.length !== 0) {
+        var linePath = [];
+        newValue.forEach((place) => linePath.push(new window.kakao.maps.LatLng(place.latitude, place.longitude)))
+
+        var polyline = new window.kakao.maps.Polyline({
+          path: linePath, // 선을 구성하는 좌표배열 입니다
+          strokeWeight: 4, // 선의 두께 입니다
+          strokeColor: '#0f4773', // 선의 색깔입니다
+          strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: 'solid' // 선의 스타일입니다
+        });
+        polyline.setMap(this.map);
+      }
+
+    },
+
     createPositions(newValue) {
-      newValue.forEach((attraction) => this.positions.push(this.makeMark(attraction)))
+      newValue.forEach((attraction, index) => this.positions.push(this.makeMark(attraction, index)))
     },
 
     initScript() {
@@ -77,13 +95,15 @@ export default {
       this.mapContainer = document.getElementById("map");
     },
 
-    makeMark(element) {
+    makeMark(element, index) {
       var imageSrc =
               "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png", // 마커이미지의 주소입니다
           imageSize = new window.kakao.maps.Size(24, 24), // 마커이미지의 크기입니다
           imageOption = {}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-      if (element.contentTypeId == 12) {
+      if (index === 0) {
+        imageSrc = 'https://github.com/qkdk/enjoy-trip/assets/86948395/aac0a8a9-ee1f-4ca9-a5a9-e2e4feedbcbc';
+      } else if (element.contentTypeId == 12) {
         imageSrc = `${baseUrl}/img/marker/marker_photo.png`;
       } else if (element.contentTypeId == 14) {
         imageSrc = `${baseUrl}/img/marker/marker_his.png`;
@@ -129,6 +149,7 @@ export default {
     showMark(positions) {
       for (var i = 0; i < positions.length; i++) {
         // 마커를 생성합니다
+        // 시작지점 표시
         var marker = new window.kakao.maps.Marker({
           map: this.map, // 마커를 표시할 지도
           position: positions[i].markerPosition, // 마커의 위치
