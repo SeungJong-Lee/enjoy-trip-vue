@@ -104,6 +104,7 @@ export default {
   },
   methods: {
     ...mapActions(trailStore, ['getTrailBoardList']),
+    ...mapActions(trailStore, ['setBoard']),
     goToPage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
