@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="planAttractions.length !== 0">
-      <div style="position: relative; height: 100%">
+      <div style="position: relative; height: 80vh">
         <div class="scroll-container">
           <div class="place-container" v-for="place in planAttractions" :key="place.contentId" @click="planPlaceClickListener(place)">
             <div class="image-container">
@@ -91,7 +91,7 @@ export default {
 
 .scroll-container {
   overflow-y: auto;
-  max-height: 80%;
+  max-height: calc(80vh - 50px);
 }
 
 .centered-text {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="position: relative; height: 100%">
+    <div style="position: relative; height: 80vh">
       <div class="scroll-container">
         <div v-for="plan in planList" :key="plan.planId" class="plan-container" @click="planClickListener(plan.planId)">
           <div class="title-container">
@@ -61,7 +61,7 @@ export default {
 <style scoped>
 .scroll-container {
   overflow-y: auto;
-  max-height: 80%;
+  max-height: calc(80vh - 50px);
 }
 
 .toggle-button {
