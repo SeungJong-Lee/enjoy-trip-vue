@@ -58,12 +58,14 @@ export default {
   },
   computed: {
     ...mapState(trailStore, ['trail']),
+    ...mapState(trailStore, ['isWritePage']),
   },
   created() {
     console.log(this.trail.trail_id);
   },
   methods: {
     ...mapMutations('trailStore', ['CLEAR_BOARD_LIST']),
+    ...mapMutations('trailStore', ['CHANGE_WRITE_PAGE']),
     write() {
       console.log(this.trail.title);
       //   console.log(this.title);
@@ -95,7 +97,8 @@ export default {
             trail_board_max_member: this.numPeople,
           });
           this.CLEAR_BOARD_LIST();
-          this.$router.push('/trail');
+          this.CHANGE_WRITE_PAGE();
+          // this.$router.push('/trail');
         }, 500);
       }
     },

@@ -7,6 +7,7 @@ const trailStore = {
     trail: null,
     boards: [],
     board: null,
+    isWritePage: true,
   },
   getters: {},
   mutations: {
@@ -17,6 +18,7 @@ const trailStore = {
     CLEAR_BOARD_LIST(state) {
       state.boards = [];
       state.board = null;
+      console.log('초기화');
     },
     SET_TRAIL_LIST(state, trails) {
       state.trails = trails;
@@ -29,6 +31,10 @@ const trailStore = {
     },
     SET_DETAIL_BOARD(state, board) {
       state.board = board;
+    },
+    CHANGE_WRITE_PAGE(state) {
+      state.isWritePage = !state.isWritePage;
+      console.log(state.isWritePage);
     },
   },
   actions: {
@@ -57,6 +63,9 @@ const trailStore = {
     setTrail: ({ commit }, params) => {
       commit('SET_DETAIL_TRAIL', params);
     },
+    // changeWritePage: ({ commit }) => {
+    //   commit('CHANGE_WRITE_PAGE');
+    // },
   },
 };
 

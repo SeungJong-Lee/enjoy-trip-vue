@@ -5,7 +5,11 @@
         <TrailView class="view"></TrailView>
       </b-col>
       <b-col cols="6">
-        <TrailBoardWriteItem class="write"></TrailBoardWriteItem>
+        <TrailBoardWriteItem
+          class="write"
+          v-if="isWritePage"
+        ></TrailBoardWriteItem>
+        <TrailBoardView class="write" v-else></TrailBoardView>
       </b-col>
     </b-row>
   </div>
@@ -14,6 +18,7 @@
 <script>
 import TrailView from './TrailView.vue';
 import TrailBoardWriteItem from './TrailBoardWriteItem.vue';
+import TrailBoardView from './TrailBoardView.vue';
 import { mapState } from 'vuex';
 const trailStore = 'trailStore';
 export default {
@@ -21,6 +26,7 @@ export default {
   components: {
     TrailView,
     TrailBoardWriteItem,
+    TrailBoardView,
   },
   data() {
     return {
@@ -29,6 +35,7 @@ export default {
   },
   computed: {
     ...mapState(trailStore, ['trail']),
+    ...mapState(trailStore, ['isWritePage']),
   },
   created() {},
   methods: {},
