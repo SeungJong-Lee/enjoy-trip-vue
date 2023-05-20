@@ -31,20 +31,30 @@ export default {
     },
     planAttractions() {
       return this.$store.getters.getPlanAttractions;
+    },
+    planAttraction() {
+      return this.$store.getters.getPlanAttraction;
     }
   },
   watch: {
     planAttractions(newValue) {
+      this.placeAndPlanClickEventListener(newValue)
+    },
+    planAttraction(newValue) {
+      this.placeAndPlanClickEventListener([newValue]);
+    }
+  },
+  methods: {
+    placeAndPlanClickEventListener(newValue) {
       if (newValue.length !== 0) {
-        this.initMap(newValue[0].latitude,newValue[0].longitude, 8)
+        this.initMap(newValue[0].latitude, newValue[0].longitude, 8)
         this.mapContainer = document.getElementById("map"); // 지도를 표시할 div
         this.positions = [];
         this.createPositions(newValue)
         this.showMark(this.positions);
       }
-    }
-  },
-  methods: {
+    },
+
     createPositions(newValue) {
       newValue.forEach((attraction) => this.positions.push(this.makeMark(attraction)))
     },

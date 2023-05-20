@@ -3,7 +3,7 @@
     <div v-if="planAttractions.length !== 0">
       <div style="position: relative; height: 100%">
         <div class="scroll-container">
-          <div class="place-container" v-for="place in planAttractions" :key="place.contentId">
+          <div class="place-container" v-for="place in planAttractions" :key="place.contentId" @click="planPlaceClickListener(place)">
             <div class="image-container">
               <img :src="place.firstImage"
                    onerror="this.src='https://github.com/qkdk/enjoy-trip/assets/86948395/c643b90b-fb65-4678-8dd7-7321cb0fdfaf'"
@@ -45,6 +45,9 @@ export default {
       httpJwt.put(`plan/${planId}`)
           .then(() => alert("추천되었습니다"))
           .catch(({response}) => alert(response.data))
+    },
+    planPlaceClickListener(place){
+      this.$store.commit("setPlanAttraction", place);
     }
   },
   computed: {
@@ -53,11 +56,15 @@ export default {
     },
     planAttractions() {
       return this.$store.getters.getPlanAttractions;
+    },
+    planAttraction(){
+      return this.$store.getters.getPlanAttraction;
     }
   },
   created() {
     this.$store.commit("setPlanInfo", {});
     this.$store.commit("setPlanAttracions", []);
+    this.$store.commit("setPlanAttraction", {});
   }
 }
 </script>
