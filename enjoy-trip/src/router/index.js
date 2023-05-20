@@ -19,6 +19,7 @@ import PlanMain from '@/views/plan/PlanMain';
 import AppTrail from '@/views/AppTrail';
 import TrailBoardWrite from '@/components/trail/TrailBoardWrite';
 import TrailBoardView from '@/components/trail/TrailBoardView';
+import PlanView from "@/views/plan/PlanView";
 
 Vue.use(VueRouter);
 
@@ -72,6 +73,11 @@ const routes = [
         name: 'planmain',
         component: PlanMain,
       },
+      {
+        path: 'view',
+        name: 'planview',
+        component: PlanView,
+      }
     ],
   },
   {

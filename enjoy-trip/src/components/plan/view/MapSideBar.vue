@@ -57,29 +57,29 @@ export default {
 </script>
 
 <style scoped>
-.title-container {
-  display: flex;
-  font-size: xxx-large;
-  justify-content: start;
-  align-items: center;
-}
+/*.title-container {*/
+/*  display: flex;*/
+/*  font-size: xxx-large;*/
+/*  justify-content: start;*/
+/*  align-items: center;*/
+/*}*/
 
-.button-container {
-  border-radius: 5px;
-  width: calc(100% - 30px);
-  position: absolute;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  bottom: 0;
-}
+/*.button-container {*/
+/*  border-radius: 5px;*/
+/*  width: calc(100% - 30px);*/
+/*  position: absolute;*/
+/*  margin-top: 10px;*/
+/*  margin-bottom: 10px;*/
+/*  bottom: 0;*/
+/*}*/
 
-.toggle-button {
-  border: none;
-  background-color: #a7dbe1;
-  border-radius: 5px;
-  width: 100%;
-  outline: none;
-  color: white;
-  padding: 10px;
-}
+/*.toggle-button {*/
+/*  border: none;*/
+/*  background-color: #a7dbe1;*/
+/*  border-radius: 5px;*/
+/*  width: 100%;*/
+/*  outline: none;*/
+/*  color: white;*/
+/*  padding: 10px;*/
+/*}*/
 </style>
