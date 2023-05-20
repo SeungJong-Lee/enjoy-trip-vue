@@ -36,14 +36,8 @@ export default {
   watch: {
     planAttractions(newValue) {
       if (newValue.length !== 0) {
+        this.initMap(newValue[0].latitude,newValue[0].longitude, 8)
         this.mapContainer = document.getElementById("map"); // 지도를 표시할 div
-        this.mapOption = {
-          center: new window.kakao.maps.LatLng(
-              newValue[0].latitude,
-              newValue[0].longitude
-          ),
-          level: 9
-        };
         this.positions = [];
         this.createPositions(newValue)
         this.showMark(this.positions);
@@ -53,9 +47,7 @@ export default {
   methods: {
     createPositions(newValue) {
       newValue.forEach((attraction) => this.positions.push(this.makeMark(attraction)))
-      console.log(this.positions)
     },
-
 
     initScript() {
       const script = document.createElement("script");
@@ -65,21 +57,16 @@ export default {
       document.head.appendChild(script);
     },
 
-    initMap() {
+    initMap(lat = 33.450701, lng = 126.570667, level = 5) {
       const container = document.getElementById("map");
       const options = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
+        center: new window.kakao.maps.LatLng(lat, lng),
+        level: level,
       };
       this.map = new window.kakao.maps.Map(container, options);
       this.mapContainer = document.getElementById("map");
     },
 
-    setMarkers(map) {
-      for (var i = 0; i < this.markers.length; i++) {
-        this.markers[i].setMap(map);
-      }
-    },
     makeMark(element) {
       var imageSrc =
               "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png", // 마커이미지의 주소입니다
