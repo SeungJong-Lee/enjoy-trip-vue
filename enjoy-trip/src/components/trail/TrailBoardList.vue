@@ -15,7 +15,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(board, index) in boards" :key="index">
+          <!-- <tr v-for="(board, index) in boards" :key="index" > -->
+          <tr
+            v-for="(board, index) in boards"
+            :key="index"
+            @click="handleRowClick(board)"
+          >
             <td>{{ board.trail_board_no }}</td>
             <td>{{ board.trail_board_title }}</td>
             <td>{{ board.user_id }}</td>
@@ -70,6 +75,12 @@ export default {
   },
   methods: {
     ...mapActions(trailStore, ['getTrailBoardList']),
+    ...mapActions(trailStore, ['setBoard']),
+    handleRowClick(board) {
+      console.log('Clicked row:', board);
+      this.setBoard(board);
+      this.$router.push('/trailboardview');
+    },
   },
 };
 </script>

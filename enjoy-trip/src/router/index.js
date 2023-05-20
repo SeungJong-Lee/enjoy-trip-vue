@@ -18,6 +18,7 @@ import PlaceWrite from '@/components/place/PlaceWrite';
 import PlanMain from '@/views/plan/PlanMain';
 import AppTrail from '@/views/AppTrail';
 import TrailBoardWrite from '@/components/trail/TrailBoardWrite';
+import TrailBoardView from '@/components/trail/TrailBoardView';
 
 Vue.use(VueRouter);
 
@@ -115,6 +116,11 @@ const routes = [
     path: '/trailwrite',
     name: 'trailwrite',
     component: TrailBoardWrite,
+  },
+  {
+    path: '/trailboardview',
+    name: 'trailboard',
+    component: TrailBoardView,
   },
 ];
 

@@ -1,4 +1,4 @@
-import { trailList, trailBoardList } from '@/api/trail';
+import { trailList, trailBoardList, getTrailBoardLatest } from '@/api/trail';
 
 const trailStore = {
   namespaced: true,
@@ -36,6 +36,10 @@ const trailStore = {
       state.isWritePage = !state.isWritePage;
       console.log(state.isWritePage);
     },
+    SET_ISWRITE_TRUE(state) {
+      state.isWritePage = true;
+      console.log(state.isWritePage);
+    },
   },
   actions: {
     getTrailList: ({ commit }, params) => {
@@ -63,9 +67,20 @@ const trailStore = {
     setTrail: ({ commit }, params) => {
       commit('SET_DETAIL_TRAIL', params);
     },
-    // changeWritePage: ({ commit }) => {
-    //   commit('CHANGE_WRITE_PAGE');
-    // },
+    setBoard: ({ commit }, params) => {
+      commit('SET_DETAIL_BOARD', params);
+    },
+    setBoardLatest: ({ commit }) => {
+      getTrailBoardLatest(
+        ({ data }) => {
+          console.log(data);
+          commit('SET_DETAIL_BOARD', data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
   },
 };
 

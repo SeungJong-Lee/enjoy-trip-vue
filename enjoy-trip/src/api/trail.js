@@ -12,4 +12,8 @@ function trailBoardList(params, success, fail) {
     .catch(fail);
 }
 
-export { trailList, trailBoardList };
+function getTrailBoardLatest(success, fail) {
+  http.get(`/trail/board/view`).then(success).catch(fail);
+}
+
+export { trailList, trailBoardList, getTrailBoardLatest };

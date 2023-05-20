@@ -34,7 +34,7 @@
 
 <script>
 import http from '@/api/http';
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import VueSlider from 'vue-slider-component';
 import 'vue-slider-component/theme/default.css';
 
@@ -66,14 +66,10 @@ export default {
   methods: {
     ...mapMutations('trailStore', ['CLEAR_BOARD_LIST']),
     ...mapMutations('trailStore', ['CHANGE_WRITE_PAGE']),
+    ...mapActions(trailStore, ['setBoardLatest']),
+    ...mapActions(trailStore, ['setBoard']),
     write() {
       console.log(this.trail.title);
-      //   console.log(this.title);
-      //   console.log(this.content);
-      //   console.log(this.startDate);
-      //   console.log(this.endDate);
-      //   console.log(this.initPeople);
-      //   console.log(this.numPeople);
       if (this.title == '') {
         alert('제목을 입력하세요');
       } else if (this.content == '') {
@@ -84,9 +80,8 @@ export default {
         alert('종료일을 선택하세요');
       } else {
         let loginUser = sessionStorage.getItem('userId');
-        setTimeout(() => {
-          http.post(`/trail/write`, {
-            // trail_board_trail_id: 4042,
+        setTimeout(async () => {
+          await http.post(`/trail/write`, {
             trail_board_trail_id: this.trail.trail_id,
             user_id: loginUser,
             trail_board_title: this.title,
@@ -95,10 +90,11 @@ export default {
             trail_board_end_time: this.endDate,
             trail_board_member_count: this.initPeople,
             trail_board_max_member: this.numPeople,
+            trail_party_member_id: loginUser,
           });
           this.CLEAR_BOARD_LIST();
+          await this.setBoardLatest();
           this.CHANGE_WRITE_PAGE();
-          // this.$router.push('/trail');
         }, 500);
       }
     },

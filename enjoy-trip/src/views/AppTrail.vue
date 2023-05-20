@@ -16,6 +16,9 @@
 import TrailSearch from '@/components/trail/TrailSearch.vue';
 import TrailList from '@/components/trail/TrailList.vue';
 import TrailBoardList from '@/components/trail/TrailBoardList.vue';
+
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'AppTrail',
   components: {
@@ -28,8 +31,13 @@ export default {
       message: '',
     };
   },
-  created() {},
-  methods: {},
+  computed: {},
+  created() {
+    this.SET_ISWRITE_TRUE();
+  },
+  methods: {
+    ...mapMutations('trailStore', ['SET_ISWRITE_TRUE']),
+  },
 };
 </script>
 
