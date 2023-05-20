@@ -17,11 +17,11 @@
         </div>
       </div>
     </div>
-    <div class="button-container">
-      <button class="toggle-button">
-        나의 계획 보기
-      </button>
-    </div>
+<!--    <div class="button-container">-->
+<!--      <button class="toggle-button">-->
+<!--        나의 계획 보기-->
+<!--      </button>-->
+<!--    </div>-->
   </div>
 </template>
 
@@ -62,25 +62,6 @@ export default {
 .scroll-container {
   overflow-y: auto;
   max-height: calc(80vh - 50px);
-}
-
-.toggle-button {
-  border: none;
-  background-color: #a7dbe1;
-  border-radius: 5px;
-  width: 100%;
-  outline: none;
-  color: white;
-  padding: 10px;
-}
-
-.button-container {
-  border-radius: 5px;
-  width: calc(100% - 30px);
-  position: absolute;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  bottom: 0;
 }
 
 .plan-container {
