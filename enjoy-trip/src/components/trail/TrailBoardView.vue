@@ -80,12 +80,28 @@ export default {
   },
   methods: {
     ...mapActions(trailStore, ['setJoinMember']),
-    joinTrip() {
-      http.post(`/trail/board/joinparty`, {
-        trail_board_no: this.board.trail_board_no,
-        user_id: this.loninUser,
-      });
+    async joinTrip() {
+      try {
+        await http.post(`/trail/board/joinparty`, {
+          trail_board_no: this.board.trail_board_no,
+          user_id: this.loninUser,
+        });
+
+        await this.setJoinMember({
+          no: this.board.trail_board_no,
+        });
+
+        setTimeout(() => {
+          this.joinmembers = [];
+          for (let i = 0; i < this.members.length; i++) {
+            this.joinmembers.push(this.members[i].trail_party_member_id);
+          }
+        }, 100);
+      } catch (error) {
+        console.log(error);
+      }
     },
+
     editPost() {
       // 수정 버튼 동작
     },
