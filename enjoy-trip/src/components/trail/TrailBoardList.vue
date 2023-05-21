@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 const trailStore = 'trailStore';
 
@@ -103,11 +103,13 @@ export default {
       key: this.key,
       word: this.word,
     });
+    this.CLEAR_TRAIL_BOARD();
   },
   methods: {
     ...mapActions(trailStore, ['getTrailBoardList']),
     ...mapActions(trailStore, ['setBoard']),
     ...mapActions(trailStore, ['setJoinMember']),
+    ...mapMutations(trailStore, ['CLEAR_TRAIL_BOARD']),
     goToPage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page;

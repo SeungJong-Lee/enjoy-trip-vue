@@ -19,8 +19,9 @@ import PlanMain from '@/views/plan/PlanMain';
 import AppTrail from '@/views/AppTrail';
 import TrailBoardWrite from '@/components/trail/TrailBoardWrite';
 import TrailBoardView from '@/components/trail/TrailBoardView';
-import PlanView from "@/views/plan/PlanView";
-import PlanWrite from "@/views/plan/PlanWrite";
+import PlanView from '@/views/plan/PlanView';
+import PlanWrite from '@/views/plan/PlanWrite';
+import TrailBoardWriteItem from '@/components/trail/TrailBoardWriteItem';
 
 Vue.use(VueRouter);
 
@@ -83,7 +84,7 @@ const routes = [
         path: 'wirte',
         name: 'planwrite',
         component: PlanWrite,
-      }
+      },
     ],
   },
   {
@@ -133,6 +134,11 @@ const routes = [
     path: '/trailboardview',
     name: 'trailboard',
     component: TrailBoardView,
+  },
+  {
+    path: '/trailboardwriteitem',
+    name: 'trailboardwriteitem',
+    component: TrailBoardWriteItem,
   },
 ];
 

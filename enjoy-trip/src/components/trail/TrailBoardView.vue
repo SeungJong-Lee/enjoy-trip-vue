@@ -112,7 +112,7 @@ export default {
     },
 
     editPost() {
-      // 수정 버튼 동작
+      this.$router.push('/trailboardwriteitem');
     },
     deletePost() {
       http

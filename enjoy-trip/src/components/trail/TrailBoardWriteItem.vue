@@ -1,5 +1,5 @@
 <template>
-  <div class="post-editor">
+  <div class="post-editor" v-if="board == null">
     <h1>같이 둘레길 갈 사람을 구해보세요</h1>
     <input type="text" v-model="title" placeholder="제목" class="input-field" />
     <textarea
@@ -30,6 +30,50 @@
     <div class="slider-text">몇 명에서 가고 싶은가요? {{ numPeople }}명</div>
     <button class="submit-button" @click="write">작성</button>
   </div>
+
+  <div class="post-modify" v-else>
+    <h1>같이 둘레길 갈 사람을 구해보세요</h1>
+    <input
+      type="text"
+      v-model="board.trail_board_title"
+      placeholder="제목"
+      class="input-field"
+    />
+    <textarea
+      v-model="board.trail_board_content"
+      placeholder="내용"
+      rows="8"
+      class="textarea-field"
+    ></textarea>
+    <div class="date-picker">
+      <label for="start-date">시작일:</label>
+      <input
+        type="date"
+        id="start-date"
+        v-model="board.trail_board_start_time"
+        class="date-input"
+      />
+    </div>
+    <div class="date-picker">
+      <label for="end-date">종료일:</label>
+      <input
+        type="date"
+        id="end-date"
+        v-model="board.trail_board_end_time"
+        class="date-input"
+      />
+    </div>
+    <vue-slider
+      v-model="board.trail_board_member_count"
+      :min="1"
+      :max="10"
+      class="slider"
+    ></vue-slider>
+    <div class="slider-text">
+      몇 명에서 가고 싶은가요? {{ board.trail_board_member_count }}명
+    </div>
+    <button class="submit-button" @click="modify">수정</button>
+  </div>
 </template>
 
 <script>
@@ -59,9 +103,10 @@ export default {
   computed: {
     ...mapState(trailStore, ['trail']),
     ...mapState(trailStore, ['isWritePage']),
+    ...mapState(trailStore, ['board']),
   },
   created() {
-    console.log(this.trail.trail_id);
+    // console.log(this.trail.trail_id);
   },
   methods: {
     ...mapMutations('trailStore', ['CLEAR_BOARD_LIST']),
@@ -97,6 +142,9 @@ export default {
           this.CHANGE_WRITE_PAGE();
         }, 500);
       }
+    },
+    modify() {
+      console.log(this.board);
     },
   },
 };
@@ -192,5 +240,11 @@ h1 {
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+.post-modify {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 </style>

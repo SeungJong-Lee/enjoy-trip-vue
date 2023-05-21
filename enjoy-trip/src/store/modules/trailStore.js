@@ -26,6 +26,9 @@ const trailStore = {
       state.board = null;
       console.log('초기화');
     },
+    CLEAR_TRAIL_BOARD(state) {
+      state.board = null;
+    },
     SET_TRAIL_LIST(state, trails) {
       state.trails = trails;
     },
