@@ -1,6 +1,28 @@
 <template>
   <div>
     <b-row>
+      <b-col cols="3">
+        <div style="margin-left: 2%; margin-bottom: 3%">
+          <button class="write-button" @click="writePost">
+            <font-awesome-icon icon="pen" />
+            글쓰기
+          </button>
+        </div>
+      </b-col>
+      <b-col cols="9">
+        <div class="search-bar">
+          <div class="select-wrapper">
+            <select v-model="key">
+              <option value="place_title">제목</option>
+              <option value="user_id">작성자</option>
+            </select>
+          </div>
+          <input type="text" v-model="word" placeholder="검색어를 입력하세요" />
+          <button @click="search" style="margin-left: 3%">검색</button>
+        </div>
+      </b-col>
+    </b-row>
+    <b-row>
       <b-col cols="3" md="4" class="mb-3 md-4">
         <div v-for="(place, index) in list1" :key="index" class="image-wrapper">
           <div class="rounded-image">
@@ -149,6 +171,9 @@ export default {
       isLiked: ref(false),
       heartIcon: faHeart,
       isFollowing: false,
+      isWrite: false,
+      key: '',
+      word: '',
     };
   },
   mounted() {},
@@ -157,6 +182,23 @@ export default {
     this.addScrollListener();
   },
   methods: {
+    writePost() {
+      // 글쓰기 버튼이 클릭되었을 때 수행할 동작
+      this.isWrite = true;
+      this.$router.push('/place/placewrite');
+    },
+    mvList() {
+      this.isWrite = false;
+      this.$router.push('/place');
+    },
+    search() {
+      this.items = [];
+      this.list1 = [];
+      this.list2 = [];
+      this.list3 = [];
+      this.page = 1;
+      this.fetchData();
+    },
     fetchData() {
       if (this.items.length % 9 == 0) {
         this.isLoading = true;
@@ -165,12 +207,14 @@ export default {
         // 예: API 호출, 데이터베이스 쿼리 등
 
         // 새로운 데이터를 items 배열에 추가
-        http.get(`/place/api?pgno=${this.page}&key=&word=`).then(({ data }) => {
-          // this.items = data.data;
-          this.items.push(...data.data);
-          // window.location.reload();
-          console.log(this.items);
-        });
+        http
+          .get(`/place/api?pgno=${this.page}&key=${this.key}&word=${this.word}`)
+          .then(({ data }) => {
+            // this.items = data.data;
+            this.items.push(...data.data);
+            // window.location.reload();
+            console.log(this.items);
+          });
         //   this.items = [...this.items, ...newItems];
         this.isLoading = false;
         setTimeout(() => {
@@ -182,7 +226,7 @@ export default {
           console.log(this.list1);
           console.log(this.list2);
           console.log(this.list3);
-        }, 300);
+        }, 500);
         // if(this.page == )
         console.log(this.page);
       }
@@ -259,6 +303,21 @@ export default {
 };
 </script>
 <style>
+.write-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #5686b9;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.write-button:hover {
+  background-color: #368de9;
+}
 .image-effect {
   transition: transform 0.3s ease; /* transform 속성에 대한 0.3초의 transition 설정 */
 }
@@ -350,36 +409,74 @@ export default {
   border-radius: 3%;
   overflow: hidden;
 }
-
-/* .image-wrapper {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 5%;
-}
-
-.image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.search-bar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  margin-right: 3%;
 }
 
-.image-overlay:hover {
-  opacity: 1;
+.select-wrapper {
+  position: relative;
+  margin-right: 10px;
 }
 
-.image-title {
+.select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 4px 0 4px;
+  border-color: #888888 transparent transparent transparent;
+  pointer-events: none;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  padding: 6px 20px 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 120px;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #333;
+}
+
+input {
+  margin-right: 10px;
+  font-size: 14px;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: #789ec7;
   color: #fff;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  padding: 10px;
-} */
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:active {
+  background-color: #004099;
+}
 </style>

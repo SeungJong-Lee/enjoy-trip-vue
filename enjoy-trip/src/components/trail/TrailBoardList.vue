@@ -4,10 +4,12 @@
       <h2>같이 둘레길 가요!</h2>
     </div>
     <div class="search-bar">
-      <select v-model="key">
-        <option value="trail_board_title">제목</option>
-        <option value="user_id">작성자</option>
-      </select>
+      <div class="select-wrapper">
+        <select v-model="key">
+          <option value="trail_board_title">제목</option>
+          <option value="user_id">작성자</option>
+        </select>
+      </div>
       <input type="text" v-model="word" placeholder="검색어를 입력하세요" />
       <button @click="search">검색</button>
     </div>
@@ -194,9 +196,66 @@ export default {
   margin-right: 3%;
 }
 
-.search-bar input,
-.search-bar select,
-.search-bar button {
+.select-wrapper {
+  position: relative;
   margin-right: 10px;
+}
+
+.select-arrow {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 4px 0 4px;
+  border-color: #888888 transparent transparent transparent;
+  pointer-events: none;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  padding: 6px 20px 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 120px;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #333;
+}
+
+input {
+  margin-right: 10px;
+  font-size: 14px;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  background-color: #789ec7;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:active {
+  background-color: #004099;
 }
 </style>

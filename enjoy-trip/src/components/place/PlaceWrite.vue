@@ -25,7 +25,10 @@
         class="preview-image"
       />
     </div>
-    <button class="btn btn-primary" @click="submitPost">게시</button>
+    <button class="btn btn-info" @click="submitPost" style="margin-right: 10%">
+      게시
+    </button>
+    <button class="btn btn-secondary" @click="mvList">목록</button>
   </div>
 </template>
 
@@ -45,6 +48,10 @@ export default {
   },
   created() {},
   methods: {
+    mvList() {
+      // this.isWrite = false;
+      this.$router.push('/place');
+    },
     handleFileUpload() {
       this.files = Array.from(event.target.files);
       console.log(this.files);
