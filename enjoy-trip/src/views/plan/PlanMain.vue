@@ -11,7 +11,7 @@
           <router-link :to="{name: 'planview'}" class="route-text">여행 가기</router-link>
         </div>
         <div class="centered-text">
-          <router-link :to="{name: 'planview'}" class="route-text">여행 구경하기</router-link>
+          <router-link :to="{name: 'planwrite'}" class="route-text">여행 구경하기</router-link>
         </div>
       </div>
     </div>
