@@ -2,45 +2,54 @@
   <div>
     <b-row>
       <b-col cols="3" md="4" class="mb-3 md-4">
-        <div v-for="(place, index) in list1" :key="index">
-          <!-- <b-card-img :src="place.placeImgSrc" alt="Image" class="rounded-0"></b-card-img> -->
-          <div>
+        <div v-for="(place, index) in list1" :key="index" class="image-wrapper">
+          <div class="rounded-image">
             <img
               :src="place.placeImgSrc"
               width="100%"
+              height="250px"
               class="image-effect"
+              style="object-fit: cover"
               @click="mvView(place.placeImgSrc, place)"
             />
           </div>
-          {{ place.placeTitle }}
+          <div class="image-overlay">
+            <span class="image-title">{{ place.placeTitle }}</span>
+          </div>
         </div>
       </b-col>
       <b-col cols="3" md="4" class="mb-3">
-        <div v-for="(place, index) in list2" :key="index">
-          <!-- <b-card-img :src="place.placeImgSrc" alt="Image" class="rounded-0"></b-card-img> -->
-          <div>
+        <div v-for="(place, index) in list2" :key="index" class="image-wrapper">
+          <div class="rounded-image">
             <img
               :src="place.placeImgSrc"
               width="100%"
+              height="250px"
               class="image-effect"
+              style="object-fit: cover"
               @click="mvView(place.placeImgSrc, place)"
             />
           </div>
-          {{ place.placeTitle }}
+          <div class="image-overlay">
+            <span class="image-title">{{ place.placeTitle }}</span>
+          </div>
         </div>
       </b-col>
       <b-col cols="3" md="4" class="mb-3">
-        <div v-for="(place, index) in list3" :key="index">
-          <!-- <b-card-img :src="place.placeImgSrc" alt="Image" class="rounded-0"></b-card-img> -->
-          <div>
+        <div v-for="(place, index) in list3" :key="index" class="image-wrapper">
+          <div class="rounded-image">
             <img
               :src="place.placeImgSrc"
               width="100%"
+              height="250px"
               class="image-effect"
+              style="object-fit: cover"
               @click="mvView(place.placeImgSrc, place)"
             />
           </div>
-          {{ place.placeTitle }}
+          <div class="image-overlay">
+            <span class="image-title">{{ place.placeTitle }}</span>
+          </div>
         </div>
       </b-col>
     </b-row>
@@ -65,7 +74,9 @@
             </b-col>
             <b-col cols="3">
               <button @click="toggleFollow" class="follow-button">
-                <font-awesome-icon :icon="isFollowing ? 'user-minus' : 'user-plus'" />
+                <font-awesome-icon
+                  :icon="isFollowing ? 'user-minus' : 'user-plus'"
+                />
               </button>
             </b-col>
           </b-row>
@@ -77,7 +88,10 @@
               </b-col>
               <b-col cols="3">
                 <button @click="toggleLike" class="like-button">
-                  <font-awesome-icon :icon="heartIcon" :class="{ active: isLiked }" />
+                  <font-awesome-icon
+                    :icon="heartIcon"
+                    :class="{ active: isLiked }"
+                  />
                 </button>
                 <span> {{ likeCount }}</span>
               </b-col>
@@ -112,9 +126,9 @@
 </template>
 
 <script>
-import http from "@/api/http";
-import { ref } from "vue";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import http from '@/api/http';
+import { ref } from 'vue';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 export default {
   components: {},
   data() {
@@ -127,10 +141,10 @@ export default {
       list2: [],
       list3: [],
       isModalOpen: false,
-      imageUrl: "",
+      imageUrl: '',
       article: {},
       reply: [],
-      inputValue: "",
+      inputValue: '',
       likeCount: ref(0),
       isLiked: ref(false),
       heartIcon: faHeart,
@@ -173,10 +187,10 @@ export default {
       }
     },
     addScrollListener() {
-      window.addEventListener("scroll", this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll);
     },
     removeScrollListener() {
-      window.removeEventListener("scroll", this.handleScroll);
+      window.removeEventListener('scroll', this.handleScroll);
     },
     handleScroll() {
       if (this.isLoading) return;
@@ -193,7 +207,7 @@ export default {
       }, 200);
     },
     mvView(imageUrl, title) {
-      console.log("이동");
+      console.log('이동');
       console.log(title);
       this.article = title;
       this.imageUrl = imageUrl;
@@ -207,11 +221,11 @@ export default {
     },
     closeModal() {
       this.isModalOpen = false;
-      this.inputValue = "";
+      this.inputValue = '';
     },
     replyWrite() {
-      if (this.inputValue != "") {
-        var user = sessionStorage.getItem("userId");
+      if (this.inputValue != '') {
+        var user = sessionStorage.getItem('userId');
         console.log(user);
         http.post(`/place/api/reply`, {
           replyContent: this.inputValue,
@@ -221,7 +235,7 @@ export default {
         });
         console.log(this.inputValue);
         setTimeout(() => {
-          this.inputValue = "";
+          this.inputValue = '';
           this.mvView(this.article.placeImgSrc, this.article);
         }, 300);
       }
@@ -245,11 +259,12 @@ export default {
 </script>
 <style>
 .image-effect {
-  transition: filter 0.3s ease; /* 효과가 적용될 때의 전환 효과를 설정합니다. */
+  transition: transform 0.3s ease; /* transform 속성에 대한 0.3초의 transition 설정 */
 }
 
 .image-effect:hover {
-  filter: grayscale(100%); /* 흑백 효과를 적용합니다. */
+  transform: scale(1.1);
+  filter: none; /* 흑백 효과 제거 */
 }
 
 .container {
@@ -330,4 +345,40 @@ export default {
 .create-button:hover {
   background-color: #0056b3;
 }
+.rounded-image {
+  border-radius: 3%;
+  overflow: hidden;
+}
+
+/* .image-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 5%;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-overlay:hover {
+  opacity: 1;
+}
+
+.image-title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+} */
 </style>
