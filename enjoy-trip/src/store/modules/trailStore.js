@@ -84,6 +84,18 @@ const trailStore = {
         ({ data }) => {
           console.log(data);
           commit('SET_DETAIL_BOARD', data);
+          const params = {
+            no: data.trail_board_no,
+          };
+          getJoinMember(
+            params,
+            ({ data }) => {
+              commit('SET_JOIN_MEMBER', data);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
         },
         (error) => {
           console.log(error);

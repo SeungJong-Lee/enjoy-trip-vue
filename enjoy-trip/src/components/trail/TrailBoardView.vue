@@ -12,7 +12,7 @@
           여행종료일: {{ board.trail_board_end_time | formatDate }}
         </p>
         <p class="post-info">
-          모집인원: {{ board.trail_board_member_count }} /
+          모집인원: {{ members.length }} /
           {{ board.trail_board_max_member }}
         </p>
         <p class="post-info">
@@ -31,7 +31,11 @@
     </div>
     <div class="button-group">
       <button
-        v-if="!joinmembers.includes(loninUser)"
+        v-if="
+          !joinmembers.includes(loninUser) &&
+          joinCount < board.trail_board_max_member &&
+          joinCount > 0
+        "
         class="btn btn-custom btn-join"
         @click="joinTrip"
       >
@@ -58,6 +62,7 @@ export default {
       message: '',
       loninUser: sessionStorage.getItem('userId'),
       joinmembers: [],
+      joinCount: 0,
     };
   },
   filters: {
@@ -77,6 +82,7 @@ export default {
     for (let i = 0; i < this.members.length; i++) {
       this.joinmembers.push(this.members[i].trail_party_member_id);
     }
+    this.joinCount = this.members.length;
   },
   methods: {
     ...mapActions(trailStore, ['setJoinMember']),
@@ -93,6 +99,7 @@ export default {
 
         setTimeout(() => {
           this.joinmembers = [];
+          this.joinCount++;
           for (let i = 0; i < this.members.length; i++) {
             this.joinmembers.push(this.members[i].trail_party_member_id);
           }
