@@ -151,7 +151,8 @@ export default {
       isFollowing: false,
     };
   },
-  mounted() {
+  mounted() {},
+  created() {
     this.fetchData();
     this.addScrollListener();
   },

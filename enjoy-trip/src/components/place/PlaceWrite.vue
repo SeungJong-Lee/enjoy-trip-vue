@@ -18,23 +18,28 @@
       </div>
     </div>
     <div class="preview">
-      <img v-if="imageUrl" :src="imageUrl" alt="Preview" class="preview-image" />
+      <img
+        v-if="imageUrl"
+        :src="imageUrl"
+        alt="Preview"
+        class="preview-image"
+      />
     </div>
     <button class="btn btn-primary" @click="submitPost">게시</button>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 export default {
-  name: "PlaceWrite",
+  name: 'PlaceWrite',
   components: {},
   data() {
     return {
-      message: "",
-      title: "",
+      message: '',
+      title: '',
       files: [],
-      fileLabelText: "파일을 선택해주세요",
+      fileLabelText: '파일을 선택해주세요',
       imageUrl: null,
     };
   },
@@ -51,26 +56,32 @@ export default {
       } else {
         this.image = null;
         this.imageUrl = null;
-        this.imageLabelText = "이미지를 선택해주세요";
+        this.imageLabelText = '이미지를 선택해주세요';
       }
     },
     submitPost() {
       const formData = new FormData();
-      formData.append("placeTitle", this.title);
-      formData.append("placeContent", "123");
-      var loginUser = sessionStorage.getItem("userId");
-      formData.append("userId", loginUser);
+      formData.append('placeTitle', this.title);
+      formData.append('placeContent', '123');
+      var loginUser = sessionStorage.getItem('userId');
+      formData.append('userId', loginUser);
       for (let i = 0; i < this.files.length; i++) {
-        formData.append("upfile", this.files[i]);
+        formData.append('upfile', this.files[i]);
       }
-      setTimeout(() => {
-        axios.post(`http://localhost:8080/enjoytrip/place/api/write`, formData, {
+      axios
+        .post(`http://localhost:8080/enjoytrip/place/api/write`, formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
+        })
+        .then(() => {
+          setTimeout(() => {
+            this.$router.push('/place');
+          }, 300);
+        })
+        .catch((error) => {
+          console.log(error);
         });
-        this.$router.push("/place");
-      }, 500);
     },
   },
 };
@@ -96,7 +107,7 @@ label {
 }
 
 .custom-file-label::after {
-  content: "파일 선택";
+  content: '파일 선택';
 }
 
 .btn-primary {

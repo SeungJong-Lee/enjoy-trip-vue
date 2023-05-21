@@ -41,11 +41,13 @@
       >
         여행 참여하기
       </button>
-
-      <button class="btn btn-custom btn-edit" @click="editPost">수정</button>
-      <button class="btn btn-custom btn-delete" @click="deletePost">
-        삭제
-      </button>
+      <span v-if="loninUser == board.user_id">
+        <button class="btn btn-custom btn-edit" @click="editPost">수정</button>
+        <button class="btn btn-custom btn-delete" @click="deletePost">
+          삭제
+        </button>
+      </span>
+      <button class="btn btn-custom btn-mvlist" @click="mvList">목록</button>
     </div>
   </div>
 </template>
@@ -113,7 +115,17 @@ export default {
       // 수정 버튼 동작
     },
     deletePost() {
-      // 삭제 버튼 동작
+      http
+        .delete(`/trail/board/delete/${this.board.trail_board_no}`)
+        .then(() => {
+          this.$router.push('/trail');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    mvList() {
+      this.$router.push('/trail');
     },
   },
 };
@@ -184,15 +196,16 @@ export default {
 .btn-custom {
   background-color: transparent;
   border: 2px solid #a7d8f5;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-left: 1%;
 }
 
-.btn-join {
+/* .btn-join {
   color: #f9ca32;
 }
 
@@ -204,6 +217,10 @@ export default {
   color: #e53935;
 }
 
+.btn-mvlist {
+  color: plum;
+} */
+
 .btn-custom:hover {
   background-color: #a7d8f5;
 }
@@ -211,12 +228,7 @@ export default {
 .btn-custom:hover .btn-join {
   color: #fff;
 }
-
-.btn-custom:hover .btn-edit {
-  color: #fff;
-}
-
-.btn-custom:hover .btn-delete {
-  color: #fff;
+.button-group {
+  text-align: right;
 }
 </style>
