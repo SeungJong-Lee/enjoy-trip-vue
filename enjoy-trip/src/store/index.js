@@ -16,7 +16,8 @@ export default new Vuex.Store({
     planInfo:{},
     planAttractions:[],
     planAttraction:{},
-    selectedAttractions: new Set(),
+    selectedAttractions: [],
+    selectedAttractionsSet: new Set(),
   },
   getters: {
     isLoggedIn(state) {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     getSelectedAttractions(state) {
       return state.selectedAttractions;
     },
+    getSelectedAttractionsSet(state){
+      return state.selectedAttractionsSet;
+    }
   },
   mutations: {
     setLoggedIn(state, value) {
@@ -49,12 +53,16 @@ export default new Vuex.Store({
       state.planAttraction = value;
     },
     setSelectedAttractions(state, value){
-      if (state.selectedAttractions.has(value)) {
-        state.selectedAttractions.delete(value);
+      state.selectedAttractions = [...value];
+    },
+    setSelectedAttractionsSet(state, value) {
+      if (state.selectedAttractionsSet.has(value)) {
+        state.selectedAttractionsSet.delete(value);
       } else {
-        state.selectedAttractions.add(value);
+        state.selectedAttractionsSet.add(value);
       }
-    }
+      state.selectedAttractions = [...state.selectedAttractionsSet];
+    },
   },
   actions: {},
 });

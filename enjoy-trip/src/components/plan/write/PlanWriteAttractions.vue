@@ -38,16 +38,9 @@ export default {
       attractions: [],
     };
   },
-  computed:{
-    selectedAttractions() {
-      return this.$store.getters.getSelectedAttractions;
-    },
-  },
   methods: {
     addAttraction(attraction) {
-      console.log(attraction)
-      // 만약에 또 클릭 되었다면
-      this.$store.commit("setSelectedAttractions", attraction);
+      this.$store.commit("setSelectedAttractionsSet", attraction);
     },
     ...mapActions(itemStore, ["getGugun"]),
     ...mapMutations(itemStore, ["CLEAR_GUGUN_LIST"]),

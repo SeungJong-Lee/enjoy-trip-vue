@@ -31,6 +31,9 @@ export default {
     },
     planAttraction() {
       return this.$store.getters.getPlanAttraction;
+    },
+    selectedAttractions(){
+      return this.$store.getters.getSelectedAttractions;
     }
   },
   watch: {
@@ -39,12 +42,18 @@ export default {
     },
     planAttraction(newValue) {
       this.placeAndPlanClickEventListener([newValue]);
+    },
+    selectedAttractions: {
+      handler(newValue) {
+        this.placeAndPlanClickEventListener(newValue);
+      },
+      deep: true,
     }
   },
   methods: {
     placeAndPlanClickEventListener(newValue) {
       if (newValue.length !== 0) {
-        this.initMap(newValue[0].latitude, newValue[0].longitude, 8)
+        this.initMap(newValue[0].latitude, newValue[0].longitude, this.map.getLevel())
         this.mapContainer = document.getElementById("map"); // 지도를 표시할 div
         this.positions = [];
         this.createPositions(newValue)
@@ -82,7 +91,7 @@ export default {
       document.head.appendChild(script);
     },
 
-    initMap(lat = 33.450701, lng = 126.570667, level = 5) {
+    initMap(lat = 33.450701, lng = 126.570667, level = 8) {
       const container = document.getElementById("map");
       const options = {
         center: new window.kakao.maps.LatLng(lat, lng),
