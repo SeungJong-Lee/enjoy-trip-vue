@@ -9,6 +9,7 @@
           <option value="trail_board_title">제목</option>
           <option value="user_id">작성자</option>
         </select>
+        <div class="select-arrow"></div>
       </div>
       <input type="text" v-model="word" placeholder="검색어를 입력하세요" />
       <button @click="search">검색</button>

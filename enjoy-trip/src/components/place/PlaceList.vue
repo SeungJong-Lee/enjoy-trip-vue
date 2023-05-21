@@ -16,6 +16,7 @@
               <option value="place_title">제목</option>
               <option value="user_id">작성자</option>
             </select>
+            <div class="select-arrow"></div>
           </div>
           <input type="text" v-model="word" placeholder="검색어를 입력하세요" />
           <button @click="search" style="margin-left: 3%">검색</button>
