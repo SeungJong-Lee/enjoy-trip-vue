@@ -70,7 +70,7 @@
       class="slider"
     ></vue-slider>
     <div class="slider-text">
-      몇 명에서 가고 싶은가요? {{ board.trail_board_member_count }}명
+      몇 명에서 가고 싶은가요? {{ members.length }}명
     </div>
     <button class="submit-button" @click="modify">수정</button>
   </div>
@@ -104,6 +104,7 @@ export default {
     ...mapState(trailStore, ['trail']),
     ...mapState(trailStore, ['isWritePage']),
     ...mapState(trailStore, ['board']),
+    ...mapState(trailStore, ['members']),
   },
   created() {
     // console.log(this.trail.trail_id);

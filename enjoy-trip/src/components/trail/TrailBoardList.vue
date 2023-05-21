@@ -3,6 +3,14 @@
     <div class="board-title">
       <h2>같이 둘레길 가요!</h2>
     </div>
+    <div class="search-bar">
+      <select v-model="key">
+        <option value="trail_board_title">제목</option>
+        <option value="user_id">작성자</option>
+      </select>
+      <input type="text" v-model="word" placeholder="검색어를 입력하세요" />
+      <button @click="search">검색</button>
+    </div>
     <div class="table-wrapper" style="text-align: center">
       <table class="custom-table">
         <thead>
@@ -127,6 +135,12 @@ export default {
         this.$router.push('/trailboardview');
       }, 100);
     },
+    search() {
+      this.getTrailBoardList({
+        key: this.key,
+        word: this.word,
+      });
+    },
   },
 };
 </script>
@@ -171,5 +185,18 @@ export default {
 .board-title h2 {
   font-size: 24px;
   font-weight: bold;
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  margin-right: 3%;
+}
+
+.search-bar input,
+.search-bar select,
+.search-bar button {
+  margin-right: 10px;
 }
 </style>
