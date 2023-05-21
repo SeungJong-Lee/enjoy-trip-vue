@@ -82,7 +82,6 @@ export default {
   transform: scale(1.05);
 }
 
-
 .description-container {
   display: flex;
   flex: 1;

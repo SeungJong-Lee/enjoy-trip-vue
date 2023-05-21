@@ -26,9 +26,6 @@ export default {
     }
   },
   computed: {
-    planInfo() {
-      return this.$store.getters.getPlanInfo;
-    },
     planAttractions() {
       return this.$store.getters.getPlanAttractions;
     },
