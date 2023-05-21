@@ -16,4 +16,8 @@ function getTrailBoardLatest(success, fail) {
   http.get(`/trail/board/view`).then(success).catch(fail);
 }
 
-export { trailList, trailBoardList, getTrailBoardLatest };
+function getJoinMember(params, success, fail) {
+  http.get(`/trail/joinmember/${params.no}`).then(success).catch(fail);
+}
+
+export { trailList, trailBoardList, getTrailBoardLatest, getJoinMember };

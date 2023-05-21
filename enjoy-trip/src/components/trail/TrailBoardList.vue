@@ -83,10 +83,12 @@ export default {
       word: '',
       pageSize: 10, // 한 페이지에 표시할 항목 수
       currentPage: 1, // 현재 페이지 번호
+      loginUser: sessionStorage.getItem('userId'),
     };
   },
   computed: {
     ...mapState(trailStore, ['boards']),
+    ...mapState(trailStore, ['members']),
     totalPages() {
       return Math.ceil(this.boards.length / this.pageSize); // 전체 페이지 수 계산
     },
@@ -105,13 +107,19 @@ export default {
   methods: {
     ...mapActions(trailStore, ['getTrailBoardList']),
     ...mapActions(trailStore, ['setBoard']),
+    ...mapActions(trailStore, ['setJoinMember']),
     goToPage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
       }
     },
-    handleRowClick(board) {
-      console.log('Clicked row:', board);
+    async handleRowClick(board) {
+      console.log(board.trail_board_no + '출력하자');
+      // console.log('Clicked row:', board);
+      await this.setJoinMember({
+        no: board.trail_board_no,
+      });
+      console.log(this.members);
       this.setBoard(board);
       this.$router.push('/trailboardview');
     },

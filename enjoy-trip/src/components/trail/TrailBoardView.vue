@@ -1,15 +1,56 @@
 <template>
   <div class="post-details" v-if="board != null">
     <h2 class="post-title">{{ board.trail_board_title }}</h2>
-    <p class="post-info">
-      작성자: {{ board.user_id }}, 작성일: {{ board.trail_board_create_time }}
-    </p>
-    <div class="post-content">{{ board.trail_board_content }}</div>
+    <div class="post-content-wrapper">
+      <div class="post-content">
+        <p class="post-info">작성자: {{ board.user_id }}</p>
+        <p class="post-info">글번호: {{ board.trail_board_no }}</p>
+        <p class="post-info">
+          여행시작일: {{ board.trail_board_start_time | formatDate }}
+        </p>
+        <p class="post-info">
+          여행종료일: {{ board.trail_board_end_time | formatDate }}
+        </p>
+        <p class="post-info">
+          모집인원: {{ board.trail_board_member_count }} /
+          {{ board.trail_board_max_member }}
+        </p>
+        <p class="post-info">
+          작성일: {{ board.trail_board_create_time | formatDate }}
+        </p>
+      </div>
+      <div v-if="members != null">
+        <span>함께하는사람 : </span>
+        <span v-for="(member, index) in members" :key="index">
+          {{ member.trail_party_member_id }}
+        </span>
+      </div>
+    </div>
+    <div class="post-content-wrapper">
+      <div class="post-content">{{ board.trail_board_content }}</div>
+    </div>
+    <div class="button-group">
+      <button
+        v-if="!joinmembers.includes(loninUser)"
+        class="btn btn-custom btn-join"
+        @click="joinTrip"
+      >
+        여행 참여하기{{ joinmembers }}
+      </button>
+      <button v-else class="btn btn-custom btn-join" @click="joinTrip">
+        {{ joinmembers }}
+      </button>
+
+      <button class="btn btn-custom btn-edit" @click="editPost">수정</button>
+      <button class="btn btn-custom btn-delete" @click="deletePost">
+        삭제
+      </button>
+    </div>
   </div>
 </template>
-
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+import http from '@/api/http';
 
 const trailStore = 'trailStore';
 export default {
@@ -18,14 +59,144 @@ export default {
   data() {
     return {
       message: '',
+      loninUser: sessionStorage.getItem('userId'),
+      joinmembers: [],
     };
+  },
+  filters: {
+    formatDate(value) {
+      const date = new Date(value);
+      return date.toLocaleDateString();
+    },
   },
   computed: {
     ...mapState(trailStore, ['board']),
+    ...mapState(trailStore, ['members']),
   },
-  created() {},
-  methods: {},
+  created() {
+    // this.setJoinMember({
+    //   no: this.board.trail_board_no,
+    // });
+    for (let i = 0; i < this.members.length; i++) {
+      this.joinmembers.push(this.members[i].trail_party_member_id);
+    }
+  },
+  methods: {
+    ...mapActions(trailStore, ['setJoinMember']),
+    joinTrip() {
+      http.post(`/trail/board/joinparty`, {
+        trail_board_no: this.board.trail_board_no,
+        user_id: this.loninUser,
+      });
+    },
+    editPost() {
+      // 수정 버튼 동작
+    },
+    deletePost() {
+      // 삭제 버튼 동작
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.post-details {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f2f7fb;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 5%;
+  margin-bottom: 20%;
+}
+
+.post-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(45, 158, 228, 0.3);
+}
+
+.post-info {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.post-content-wrapper {
+  max-height: 300px; /* 스크롤 최대 높이 */
+  overflow-y: auto; /* 세로 스크롤 적용 */
+}
+
+.post-content {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.post-content p {
+  margin-bottom: 10px;
+}
+
+.post-content a {
+  color: #367ad3;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.post-content a:hover {
+  color: #2b5ea4;
+}
+
+.post-content img {
+  max-width: 100%;
+  margin-bottom: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-custom {
+  background-color: transparent;
+  border: 2px solid #a7d8f5;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-join {
+  color: #f9ca32;
+}
+
+.btn-edit {
+  color: #3ac569;
+}
+
+.btn-delete {
+  color: #e53935;
+}
+
+.btn-custom:hover {
+  background-color: #a7d8f5;
+}
+
+.btn-custom:hover .btn-join {
+  color: #fff;
+}
+
+.btn-custom:hover .btn-edit {
+  color: #fff;
+}
+
+.btn-custom:hover .btn-delete {
+  color: #fff;
+}
+</style>

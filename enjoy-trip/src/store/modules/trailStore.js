@@ -1,4 +1,9 @@
-import { trailList, trailBoardList, getTrailBoardLatest } from '@/api/trail';
+import {
+  trailList,
+  trailBoardList,
+  getTrailBoardLatest,
+  getJoinMember,
+} from '@/api/trail';
 
 const trailStore = {
   namespaced: true,
@@ -8,6 +13,7 @@ const trailStore = {
     boards: [],
     board: null,
     isWritePage: true,
+    members: [],
   },
   getters: {},
   mutations: {
@@ -39,6 +45,9 @@ const trailStore = {
     SET_ISWRITE_TRUE(state) {
       state.isWritePage = true;
       console.log(state.isWritePage);
+    },
+    SET_JOIN_MEMBER(state, member) {
+      state.members = member;
     },
   },
   actions: {
@@ -75,6 +84,21 @@ const trailStore = {
         ({ data }) => {
           console.log(data);
           commit('SET_DETAIL_BOARD', data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    setJoinMember: ({ commit }, params) => {
+      console.log('새로운 멤버 찾아오자' + params.no);
+      getJoinMember(
+        params,
+        ({ data }) => {
+          setTimeout(() => {
+            console.log(data + 'asdasdasdasda');
+            commit('SET_JOIN_MEMBER', data);
+          }, 1000); // 1초(1000ms) 후에 실행
         },
         (error) => {
           console.log(error);

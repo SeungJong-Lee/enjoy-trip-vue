@@ -4,7 +4,7 @@
       <b-col cols="4">
         <TrailView class="view"></TrailView>
       </b-col>
-      <b-col cols="6">
+      <b-col cols="6" class="mm">
         <TrailBoardWriteItem
           class="write"
           v-if="isWritePage"
@@ -44,13 +44,15 @@ export default {
 
 <style scoped>
 .view {
-  margin-top: 16%;
+  margin-top: 10%;
   margin-bottom: 5%;
   margin-left: 10%;
 }
 .write {
   margin-top: 10%;
   margin-bottom: 5%;
-  margin-left: 20%;
+}
+.mm {
+  margin-left: 7%;
 }
 </style>
