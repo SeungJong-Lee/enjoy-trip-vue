@@ -121,7 +121,9 @@ export default {
       });
       console.log(this.members);
       this.setBoard(board);
-      this.$router.push('/trailboardview');
+      setTimeout(() => {
+        this.$router.push('/trailboardview');
+      }, 100);
     },
   },
 };

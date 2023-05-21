@@ -91,14 +91,10 @@ const trailStore = {
       );
     },
     setJoinMember: ({ commit }, params) => {
-      console.log('새로운 멤버 찾아오자' + params.no);
       getJoinMember(
         params,
         ({ data }) => {
-          setTimeout(() => {
-            console.log(data + 'asdasdasdasda');
-            commit('SET_JOIN_MEMBER', data);
-          }, 1000); // 1초(1000ms) 후에 실행
+          commit('SET_JOIN_MEMBER', data);
         },
         (error) => {
           console.log(error);

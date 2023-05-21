@@ -35,10 +35,7 @@
         class="btn btn-custom btn-join"
         @click="joinTrip"
       >
-        여행 참여하기{{ joinmembers }}
-      </button>
-      <button v-else class="btn btn-custom btn-join" @click="joinTrip">
-        {{ joinmembers }}
+        여행 참여하기
       </button>
 
       <button class="btn btn-custom btn-edit" @click="editPost">수정</button>
