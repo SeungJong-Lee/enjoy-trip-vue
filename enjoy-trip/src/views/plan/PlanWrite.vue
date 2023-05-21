@@ -20,7 +20,7 @@
 <script>
 import PlanWriteDetail from "@/components/plan/write/PlanWriteDetail";
 import PlanWriteAttractions from "@/components/plan/write/PlanWriteAttractions";
-import MainMap from "@/components/plan/view/MainMap";
+import MainMap from "@/components/plan/MainMap";
 
 export default {
   name: "PlanWrite",
