@@ -1,31 +1,30 @@
 <template>
   <div style="height: 80vh; border-left: 1px solid gainsboro">
-    <div style="padding: 1vh; margin-bottom: 2vh">
+    <div style="padding: 1vh; margin-bottom: 1vh">
       <select-sido @select-sido="selectSido" style="margin-bottom: 1vh"></select-sido>
       <select-gugun :sidoCode="sidoCode" @select-gugun="selectGugun" style="margin-bottom: 1vh"></select-gugun>
       <select-content-type @select-content-type="selectContentType"></select-content-type>
     </div>
-    <div class="scroll-container">
-      리스트
+    <div class="scroll-container" >
+      <plan-attraction-list :attractions="attractions" @place-click="(attraction) => addAttraction(attraction)">
+      </plan-attraction-list>
     </div>
   </div>
 </template>
 
 <script>
-// 지역, 종류 검색 기능 구현
-// 검색이 완료되면 표시
-// +버튼 누르면 계획에 추가
-// vuex에 저장
 import {mapActions, mapMutations} from "vuex";
 import SelectSido from "@/components/item/SelectSido.vue";
 import SelectGugun from "@/components/item/SelectGugun.vue";
 import httpJwt from "@/api/httpJwt";
 import SelectContentType from "@/components/item/SelectContentType";
+import PlanAttractionList from "@/components/plan/PlanAttractionList";
 
 const itemStore = "itemStore";
 export default {
   name: "PlanWriteAttractions",
   components: {
+    PlanAttractionList,
     SelectContentType,
     SelectSido,
     SelectGugun,
@@ -36,9 +35,20 @@ export default {
       sidoCode: 0,
       gugunCode: 0,
       contentTypeId: 0,
+      attractions: [],
     };
   },
+  computed:{
+    selectedAttractions() {
+      return this.$store.getters.getSelectedAttractions;
+    },
+  },
   methods: {
+    addAttraction(attraction) {
+      console.log(attraction)
+      // 만약에 또 클릭 되었다면
+      this.$store.commit("setSelectedAttractions", attraction);
+    },
     ...mapActions(itemStore, ["getGugun"]),
     ...mapMutations(itemStore, ["CLEAR_GUGUN_LIST"]),
     selectSido(sidoCode) {
@@ -55,8 +65,8 @@ export default {
     },
     getAttractions() {
       httpJwt(`attraction/${this.sidoCode}/${this.gugunCode}/${this.contentTypeId}`)
-          .then(({data}) => console.log(data))
-    }
+          .then(({data}) => this.attractions = data);
+    },
   },
 }
 </script>
@@ -84,6 +94,8 @@ export default {
 .scroll-container {
   overflow-y: auto;
   max-height: 100%;
+  padding-left: 1vw;
+  padding-right: 1vw
 }
 
 .centered-text {

@@ -16,6 +16,7 @@ export default new Vuex.Store({
     planInfo:{},
     planAttractions:[],
     planAttraction:{},
+    selectedAttractions: new Set(),
   },
   getters: {
     isLoggedIn(state) {
@@ -29,7 +30,10 @@ export default new Vuex.Store({
     },
     getPlanAttraction(state){
       return state.planAttraction;
-    }
+    },
+    getSelectedAttractions(state) {
+      return state.selectedAttractions;
+    },
   },
   mutations: {
     setLoggedIn(state, value) {
@@ -43,6 +47,13 @@ export default new Vuex.Store({
     },
     setPlanAttraction(state, value){
       state.planAttraction = value;
+    },
+    setSelectedAttractions(state, value){
+      if (state.selectedAttractions.has(value)) {
+        state.selectedAttractions.delete(value);
+      } else {
+        state.selectedAttractions.add(value);
+      }
     }
   },
   actions: {},
