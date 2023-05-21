@@ -2,14 +2,14 @@
   <div>
     <div>
       <b-row>
-        <b-col cols=3>
+        <b-col cols=3 style="padding-right: 0px; padding-left: 0px;">
           <plan-write-detail>
           </plan-write-detail>
         </b-col>
-        <b-col cols=6>
+        <b-col cols=6 style="padding-right: 0px; padding-left: 0px;">
           <main-map style="height: 80vh"></main-map>
         </b-col>
-        <b-col cols=3>
+        <b-col cols=3 style="padding-right: 0px; padding-left: 0px">
           <plan-write-attractions></plan-write-attractions>
         </b-col>
       </b-row>
