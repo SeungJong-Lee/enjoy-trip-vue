@@ -1,6 +1,6 @@
 <template>
   <div style="height: 80vh; border-left: 1px solid gainsboro">
-    <div style="padding: 1vh; margin-bottom: 1vh">
+    <div style="padding: 1vh; height: 20vh">
       <select-sido @select-sido="selectSido" style="margin-bottom: 1vh"></select-sido>
       <select-gugun :sidoCode="sidoCode" @select-gugun="selectGugun" style="margin-bottom: 1vh"></select-gugun>
       <select-content-type @select-content-type="selectContentType"></select-content-type>
@@ -93,7 +93,7 @@ export default {
 
 .scroll-container {
   overflow-y: auto;
-  max-height: 100%;
+  max-height: 60vh;
   padding-left: 1vw;
   padding-right: 1vw
 }

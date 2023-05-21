@@ -65,7 +65,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: 100%;
+  /*height: 100%;*/
   width: 100%;
   justify-content: space-between;
   align-items: flex-start;
@@ -76,7 +76,7 @@ export default {
   font-weight: bold;
   font-size: larger;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -85,7 +85,7 @@ export default {
 .addr-container {
   flex: 1;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

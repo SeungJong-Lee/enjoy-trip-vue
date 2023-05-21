@@ -1,6 +1,6 @@
 <template>
   <div style="background-color: #42b983">
-    <div id="map" style="width: 100%; aspect-ratio: 1/1"></div>
+    <div id="map" style="height: 100%; width: 100%"></div>
   </div>
 </template>
 
