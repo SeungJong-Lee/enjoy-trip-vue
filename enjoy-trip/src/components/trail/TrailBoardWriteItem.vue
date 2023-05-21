@@ -145,6 +145,22 @@ export default {
     },
     modify() {
       console.log(this.board);
+      if (this.board.trail_board_title == '') {
+        alert('제목을 입력하세요');
+      } else if (this.board.trail_board_content == '') {
+        alert('본문을 입력하세요');
+      } else if (this.board.trail_board_start_time == null) {
+        alert('시작일을 선택하세요');
+      } else if (this.board.trail_board_end_time == null) {
+        alert('종료일을 선택하세요');
+      } else {
+        setTimeout(async () => {
+          await http.put(`/trail/board/modify`, this.board);
+          console.log(this.board);
+          await this.setBoard(this.board);
+          this.$router.push('/trailboardview');
+        }, 500);
+      }
     },
   },
 };

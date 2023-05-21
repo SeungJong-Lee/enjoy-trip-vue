@@ -40,6 +40,7 @@ const trailStore = {
     },
     SET_DETAIL_BOARD(state, board) {
       state.board = board;
+      // console.log(board);
     },
     CHANGE_WRITE_PAGE(state) {
       state.isWritePage = !state.isWritePage;
