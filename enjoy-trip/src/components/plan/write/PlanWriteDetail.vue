@@ -103,7 +103,7 @@ export default {
 .scroll-container {
   overflow-y: auto;
   max-height: 50vh;
-  padding-left: 2vw;
+  padding-left: 1vw;
   padding-right: 1vw;
 }
 
