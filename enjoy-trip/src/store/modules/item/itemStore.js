@@ -3,16 +3,16 @@ import { sidoList, gugunList } from '@/api/item/item.js';
 const itemStore = {
   namespaced: true,
   state: {
-    sidos: [{ value: null, text: '시/도를 선택해주세요' }],
-    guguns: [{ value: null, text: '구/군을 선택해주세요' }],
+    sidos: [{ value: 0, text: '시/도를 선택해주세요' }],
+    guguns: [{ value: 0, text: '구/군을 선택해주세요' }],
   },
   getters: {},
   mutations: {
     CLEAR_SIDO_LIST(state) {
-      state.sidos = [{ value: null, text: '시/도를 선택해주세요' }];
+      state.sidos = [{ value: 0, text: '시/도를 선택해주세요' }];
     },
     CLEAR_GUGUN_LIST(state) {
-      state.guguns = [{ value: null, text: '구/군을 선택해주세요' }];
+      state.guguns = [{ value: 0, text: '구/군을 선택해주세요' }];
     },
     SET_SIDO_LIST(state, sidos) {
       sidos.forEach((sido) => {
