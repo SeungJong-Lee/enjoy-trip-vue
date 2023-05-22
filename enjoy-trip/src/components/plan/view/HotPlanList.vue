@@ -17,11 +17,6 @@
         </div>
       </div>
     </div>
-<!--    <div class="button-container">-->
-<!--      <button class="toggle-button">-->
-<!--        나의 계획 보기-->
-<!--      </button>-->
-<!--    </div>-->
   </div>
 </template>
 

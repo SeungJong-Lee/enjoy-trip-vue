@@ -1,22 +1,22 @@
 <template>
   <div>
-    <b-container fluid>
-      <b-row>
-        <b-col cols="6">
-          <main-map style="height: 80vh"></main-map>
+    <div>
+      <b-row style="margin: 0">
+        <b-col cols="6" style="padding: 0">
+          <main-map style="height: 90vh"></main-map>
         </b-col>
-        <b-col cols="3">
+        <b-col cols="3" style="padding: 0">
           <plan-detail></plan-detail>
         </b-col>
-        <b-col cols="3">
-          <HotPlanList style="height: 80vh"></HotPlanList>
+        <b-col cols="3" style="padding: 0">
+          <HotPlanList></HotPlanList>
           <div>
             <map-side-bar>
             </map-side-bar>
           </div>
         </b-col>
       </b-row>
-    </b-container>
+    </div>
   </div>
 </template>
 

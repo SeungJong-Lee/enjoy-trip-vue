@@ -1,5 +1,5 @@
 <template>
-  <b-col class="sm-3">
+  <b-col class="sm-3" style="padding: 0">
     <b-form-select v-model="sidoCode" :options="sidos" @change="changeSido"></b-form-select>
   </b-col>
 </template>

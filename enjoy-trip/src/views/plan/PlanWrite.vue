@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-row>
+      <b-row style="margin: 0">
         <b-col cols=3 style="padding-right: 0px; padding-left: 0px;">
           <plan-write-detail>
           </plan-write-detail>

@@ -16,7 +16,7 @@
           <div>
             시작 날짜
           </div>
-          <div style=" padding-left: 2vw; padding-right: 1vw">
+          <div style="padding-left: 1vw;  padding-right: 1vw">
             <b-form-datepicker v-model="startDate" class="mb-2"></b-form-datepicker>
           </div>
         </div>
@@ -24,7 +24,7 @@
           <div>
             도착 날짜
           </div>
-          <div style=" padding-left: 2vw; padding-right: 1vw">
+          <div style=" padding-left: 1vw; padding-right: 1vw">
             <b-form-datepicker v-model="endDate" class="mb-2"></b-form-datepicker>
           </div>
         </div>
@@ -112,7 +112,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   height: 20%;
-  padding-left: 2vw;
+  padding-left: 1vw;
   padding-right: 1vw
 }
 
