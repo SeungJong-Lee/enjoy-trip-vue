@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 80vh; border-right: 1px solid gainsboro">
+  <div style="height: 90vh; border-right: 1px solid gainsboro">
     <div style="height: 40vh; border-bottom: 1px solid gainsboro">
       <div style="font-size: xx-large; height: 30%">
         <div v-if="planInfo">
@@ -102,7 +102,7 @@ export default {
 <style scoped>
 .scroll-container {
   overflow-y: auto;
-  max-height: 40vh;
+  max-height: 50vh;
   padding-left: 1vw;
   padding-right: 1vw;
 }

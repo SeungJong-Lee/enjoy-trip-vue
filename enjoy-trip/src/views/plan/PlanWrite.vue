@@ -7,7 +7,7 @@
           </plan-write-detail>
         </b-col>
         <b-col cols=6 style="padding-right: 0px; padding-left: 0px;">
-          <main-map style="height: 80vh"></main-map>
+          <main-map style="height: 90vh"></main-map>
         </b-col>
         <b-col cols=3 style="padding-right: 0px; padding-left: 0px">
           <plan-write-attractions></plan-write-attractions>
