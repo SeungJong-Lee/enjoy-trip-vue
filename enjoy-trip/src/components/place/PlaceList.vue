@@ -144,9 +144,12 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import { axiosBuilderWithJwt } from "@/api/httpJwt";
 import { ref } from "vue";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+
+const userStore = "trailStore";
 export default {
   components: {},
   data() {
@@ -172,7 +175,11 @@ export default {
       key: "",
       word: "",
       recommend: [],
+      followers: [],
     };
+  },
+  computed: {
+    ...mapState(userStore, ["follow"]),
   },
   mounted() {},
   created() {
@@ -180,6 +187,7 @@ export default {
     this.addScrollListener();
   },
   methods: {
+    ...mapActions(userStore, ["getFollowList"]),
     writePost() {
       // 글쓰기 버튼이 클릭되었을 때 수행할 동작
       this.isWrite = true;
@@ -278,6 +286,16 @@ export default {
           this.isLiked = true;
         } else this.isLiked = false;
       }, 100);
+      // console.log(this.follow.userId + "                  " + title);
+      this.followers = [];
+      for (let i = 0; i < this.follow.length; i++) {
+        this.followers.push(this.follow[i].userId);
+      }
+      if (this.followers.includes(title.userId)) {
+        this.isFollowing = true;
+      } else {
+        this.isFollowing = false;
+      }
     },
     closeModal() {
       this.isModalOpen = false;
@@ -323,6 +341,16 @@ export default {
     },
     toggleFollow() {
       this.isFollowing = !this.isFollowing;
+      if (this.isFollowing) {
+        console.log("asdaasdasdasdasdasdasdad1231321321");
+        this.followers.push(this.loginUser);
+        axiosBuilderWithJwt().post(`/user/api/followers/${this.loginUser}/${this.article.userId}`);
+        setTimeout(() => {
+          this.getFollowList({
+            userId: this.loginUser,
+          });
+        }, 300);
+      }
     },
   },
   beforeDestroy() {
