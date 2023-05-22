@@ -1,11 +1,24 @@
 <template>
   <div style="height: 90vh; border-left: 1px solid gainsboro">
-    <div style="padding: 1vh; height: 20vh; border-bottom: 1px solid gainsboro">
-      <select-sido @select-sido="selectSido" style="margin-bottom: 1vh"></select-sido>
-      <select-gugun :sidoCode="sidoCode" @select-gugun="selectGugun" style="margin-bottom: 1vh"></select-gugun>
-      <select-content-type @select-content-type="selectContentType"></select-content-type>
+    <div style="display: flex; flex-direction: column; padding: 1vh; height: 30vh; border-bottom: 1px solid gainsboro">
+      <div style="flex: 1; display: flex; padding: 0">
+        <select-sido @select-sido="selectSido" style="padding-left: 0"></select-sido>
+      </div>
+      <div style="flex: 1">
+        <select-gugun :sidoCode="sidoCode" @select-gugun="selectGugun" style="padding-left: 0"></select-gugun>
+      </div>
+      <div style="flex: 1">
+        <select-content-type @select-content-type="selectContentType" style="padding-left: 0"></select-content-type>
+      </div>
+      <div style="flex: 1; display: flex; justify-content: space-between; padding-bottom: 1vh">
+        <input placeholder="여행지 검색" style="width: calc(100% - 5vh); padding-right: 1vh">
+        <button style="margin-right: 2vw; border: 0; background-color: rgba(0,0,0,0);">
+          <img style=" height: 4vh;"
+               src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe">
+        </button>
+      </div>
     </div>
-    <div class="scroll-container" >
+    <div class="scroll-container">
       <plan-attraction-list :attractions="attractions" @place-click="(attraction) => addAttraction(attraction)">
       </plan-attraction-list>
     </div>
@@ -67,7 +80,7 @@ export default {
 <style scoped>
 .scroll-container {
   overflow-y: auto;
-  max-height: 70vh;
+  max-height: 60vh;
   padding-left: 1vw;
   padding-right: 1vw;
 }

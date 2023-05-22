@@ -5,7 +5,7 @@
         <b-col cols="6">
           <main-map style="height: 80vh"></main-map>
         </b-col>
-        <b-col cols="3" style="border-right: 1px solid gainsboro; border-left: 1px solid gainsboro">
+        <b-col cols="3">
           <plan-detail></plan-detail>
         </b-col>
         <b-col cols="3">
