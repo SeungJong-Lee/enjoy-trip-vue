@@ -168,6 +168,7 @@ export default {
       heartIcon: faHeart,
       isFollowing: false,
       isWrite: false,
+      loginUser: sessionStorage.getItem("userId"),
       key: "",
       word: "",
       recommend: [],
@@ -266,12 +267,12 @@ export default {
           this.recommend.push(data[i].user_id);
         }
       });
-      let loginUser = sessionStorage.getItem("userId");
+
       setTimeout(() => {
-        console.log("asdasd" + this.recommend + "  " + loginUser);
-        if (this.recommend.includes(loginUser)) {
+        console.log("asdasd" + this.recommend + "  " + this.loginUser);
+        if (this.recommend.includes(this.loginUser)) {
           this.isLiked = true;
-        }
+        } else this.isLiked = false;
       }, 100);
     },
     closeModal() {
@@ -296,12 +297,24 @@ export default {
       }
     },
     toggleLike() {
-      console.log(this.recommend);
       this.isLiked = !this.isLiked;
       if (this.isLiked) {
-        this.likeCount++;
+        this.recommend.push(this.loginUser);
+        console.log(this.recommend);
+        http.post(`/place/api/recommend/add`, {
+          user_id: this.loginUser,
+          place_no: this.article.placeNo,
+        });
       } else {
-        this.likeCount--;
+        const index = this.recommend.indexOf(this.loginUser);
+        if (index !== -1) {
+          this.recommend.splice(index, 1);
+        }
+        console.log(this.recommend);
+        console.log(this.loginUser + " " + this.article.placeNo);
+        http.delete(
+          `/place/api/recommend/del?user_id=${this.loginUser}&place_no=${this.article.placeNo}`
+        );
       }
     },
     toggleFollow() {
