@@ -19,7 +19,7 @@
             <div class="select-arrow"></div>
           </div>
           <input type="text" v-model="word" placeholder="검색어를 입력하세요" />
-          <button @click="search" style="margin-left: 3%">검색</button>
+          <button @click="search" style="margin-left: 3%" class="selbtn">검색</button>
         </div>
       </b-col>
     </b-row>
@@ -97,9 +97,7 @@
             </b-col>
             <b-col cols="3">
               <button @click="toggleFollow" class="follow-button">
-                <font-awesome-icon
-                  :icon="isFollowing ? 'user-minus' : 'user-plus'"
-                />
+                <font-awesome-icon :icon="isFollowing ? 'user-minus' : 'user-plus'" />
               </button>
             </b-col>
           </b-row>
@@ -111,12 +109,9 @@
               </b-col>
               <b-col cols="3">
                 <button @click="toggleLike" class="like-button">
-                  <font-awesome-icon
-                    :icon="heartIcon"
-                    :class="{ active: isLiked }"
-                  />
+                  <font-awesome-icon :icon="heartIcon" :class="{ active: isLiked }" />
                 </button>
-                <span> {{ likeCount }}</span>
+                <span> {{ recommend.length }}</span>
               </b-col>
             </b-row>
             <hr />
@@ -149,9 +144,9 @@
 </template>
 
 <script>
-import http from '@/api/http';
-import { ref } from 'vue';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import http from "@/api/http";
+import { ref } from "vue";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 export default {
   components: {},
   data() {
@@ -164,17 +159,18 @@ export default {
       list2: [],
       list3: [],
       isModalOpen: false,
-      imageUrl: '',
+      imageUrl: "",
       article: {},
       reply: [],
-      inputValue: '',
-      likeCount: ref(0),
+      inputValue: "",
+      likeCount: 0,
       isLiked: ref(false),
       heartIcon: faHeart,
       isFollowing: false,
       isWrite: false,
-      key: '',
-      word: '',
+      key: "",
+      word: "",
+      recommend: [],
     };
   },
   mounted() {},
@@ -186,11 +182,11 @@ export default {
     writePost() {
       // 글쓰기 버튼이 클릭되었을 때 수행할 동작
       this.isWrite = true;
-      this.$router.push('/place/placewrite');
+      this.$router.push("/place/placewrite");
     },
     mvList() {
       this.isWrite = false;
-      this.$router.push('/place');
+      this.$router.push("/place");
     },
     search() {
       this.items = [];
@@ -233,10 +229,10 @@ export default {
       }
     },
     addScrollListener() {
-      window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener("scroll", this.handleScroll);
     },
     removeScrollListener() {
-      window.removeEventListener('scroll', this.handleScroll);
+      window.removeEventListener("scroll", this.handleScroll);
     },
     handleScroll() {
       if (this.isLoading) return;
@@ -253,25 +249,38 @@ export default {
       }, 200);
     },
     mvView(imageUrl, title) {
-      console.log('이동');
+      console.log("이동");
       console.log(title);
       this.article = title;
       this.imageUrl = imageUrl;
       this.isModalOpen = true;
+      this.recommend = [];
       http.get(`/place/api/${this.article.placeNo}`).then(({ data }) => {
         // this.items = data.data;
         this.reply = data.reply;
         // window.location.reload();
         console.log(this.reply);
       });
+      http.get(`/place/api/recommend/${this.article.placeNo}`).then(({ data }) => {
+        for (let i = 0; i < data.length; i++) {
+          this.recommend.push(data[i].user_id);
+        }
+      });
+      let loginUser = sessionStorage.getItem("userId");
+      setTimeout(() => {
+        console.log("asdasd" + this.recommend + "  " + loginUser);
+        if (this.recommend.includes(loginUser)) {
+          this.isLiked = true;
+        }
+      }, 100);
     },
     closeModal() {
       this.isModalOpen = false;
-      this.inputValue = '';
+      this.inputValue = "";
     },
     replyWrite() {
-      if (this.inputValue != '') {
-        var user = sessionStorage.getItem('userId');
+      if (this.inputValue != "") {
+        var user = sessionStorage.getItem("userId");
         console.log(user);
         http.post(`/place/api/reply`, {
           replyContent: this.inputValue,
@@ -281,12 +290,13 @@ export default {
         });
         console.log(this.inputValue);
         setTimeout(() => {
-          this.inputValue = '';
+          this.inputValue = "";
           this.mvView(this.article.placeImgSrc, this.article);
         }, 300);
       }
     },
     toggleLike() {
+      console.log(this.recommend);
       this.isLiked = !this.isLiked;
       if (this.isLiked) {
         this.likeCount++;
@@ -463,7 +473,7 @@ input {
   border: 1px solid #ccc;
 }
 
-button {
+.selbtn {
   font-size: 14px;
   padding: 6px 10px;
   border-radius: 4px;
@@ -473,11 +483,11 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+.selbtn:hover {
   background-color: #0056b3;
 }
 
-button:active {
+.selbtn:active {
   background-color: #004099;
 }
 </style>
