@@ -5,19 +5,13 @@
       <div class="post-content">
         <p class="post-info">작성자: {{ board.user_id }}</p>
         <p class="post-info">글번호: {{ board.trail_board_no }}</p>
-        <p class="post-info">
-          여행시작일: {{ board.trail_board_start_time | formatDate }}
-        </p>
-        <p class="post-info">
-          여행종료일: {{ board.trail_board_end_time | formatDate }}
-        </p>
+        <p class="post-info">여행시작일: {{ board.trail_board_start_time | formatDate }}</p>
+        <p class="post-info">여행종료일: {{ board.trail_board_end_time | formatDate }}</p>
         <p class="post-info">
           모집인원: {{ members.length }} /
           {{ board.trail_board_max_member }}
         </p>
-        <p class="post-info">
-          작성일: {{ board.trail_board_create_time | formatDate }}
-        </p>
+        <p class="post-info">작성일: {{ board.trail_board_create_time | formatDate }}</p>
       </div>
       <div v-if="members != null">
         <span>함께하는사람 : </span>
@@ -43,26 +37,24 @@
       </button>
       <span v-if="loninUser == board.user_id">
         <button class="btn btn-custom btn-edit" @click="editPost">수정</button>
-        <button class="btn btn-custom btn-delete" @click="deletePost">
-          삭제
-        </button>
+        <button class="btn btn-custom btn-delete" @click="deletePost">삭제</button>
       </span>
       <button class="btn btn-custom btn-mvlist" @click="mvList">목록</button>
     </div>
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex';
-import http from '@/api/http';
+import { mapState, mapActions } from "vuex";
+import { axiosBuilderWithJwt } from "@/api/httpJwt";
 
-const trailStore = 'trailStore';
+const trailStore = "trailStore";
 export default {
-  name: 'TrailBoardView',
+  name: "TrailBoardView",
   components: {},
   data() {
     return {
-      message: '',
-      loninUser: sessionStorage.getItem('userId'),
+      message: "",
+      loninUser: sessionStorage.getItem("userId"),
       joinmembers: [],
       joinCount: 0,
     };
@@ -74,8 +66,8 @@ export default {
     },
   },
   computed: {
-    ...mapState(trailStore, ['board']),
-    ...mapState(trailStore, ['members']),
+    ...mapState(trailStore, ["board"]),
+    ...mapState(trailStore, ["members"]),
   },
   created() {
     // this.setJoinMember({
@@ -87,10 +79,10 @@ export default {
     this.joinCount = this.members.length;
   },
   methods: {
-    ...mapActions(trailStore, ['setJoinMember']),
+    ...mapActions(trailStore, ["setJoinMember"]),
     async joinTrip() {
       try {
-        await http.post(`/trail/board/joinparty`, {
+        await axiosBuilderWithJwt().post(`/trail/board/joinparty`, {
           trail_board_no: this.board.trail_board_no,
           user_id: this.loninUser,
         });
@@ -112,20 +104,20 @@ export default {
     },
 
     editPost() {
-      this.$router.push('/trailboardwriteitem');
+      this.$router.push("/trailboardwriteitem");
     },
     deletePost() {
-      http
+      axiosBuilderWithJwt()
         .delete(`/trail/board/delete/${this.board.trail_board_no}`)
         .then(() => {
-          this.$router.push('/trail');
+          this.$router.push("/trail");
         })
         .catch((error) => {
           console.log(error);
         });
     },
     mvList() {
-      this.$router.push('/trail');
+      this.$router.push("/trail");
     },
   },
 };

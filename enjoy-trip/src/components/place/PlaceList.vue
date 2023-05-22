@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import http from "@/api/http";
+import { axiosBuilderWithJwt } from "@/api/httpJwt";
 import { ref } from "vue";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 export default {
@@ -205,7 +205,7 @@ export default {
         // 예: API 호출, 데이터베이스 쿼리 등
 
         // 새로운 데이터를 items 배열에 추가
-        http
+        axiosBuilderWithJwt()
           .get(`/place/api?pgno=${this.page}&key=${this.key}&word=${this.word}`)
           .then(({ data }) => {
             // this.items = data.data;
@@ -256,17 +256,21 @@ export default {
       this.imageUrl = imageUrl;
       this.isModalOpen = true;
       this.recommend = [];
-      http.get(`/place/api/${this.article.placeNo}`).then(({ data }) => {
-        // this.items = data.data;
-        this.reply = data.reply;
-        // window.location.reload();
-        console.log(this.reply);
-      });
-      http.get(`/place/api/recommend/${this.article.placeNo}`).then(({ data }) => {
-        for (let i = 0; i < data.length; i++) {
-          this.recommend.push(data[i].user_id);
-        }
-      });
+      axiosBuilderWithJwt()
+        .get(`/place/api/${this.article.placeNo}`)
+        .then(({ data }) => {
+          // this.items = data.data;
+          this.reply = data.reply;
+          // window.location.reload();
+          console.log(this.reply);
+        });
+      axiosBuilderWithJwt()
+        .get(`/place/api/recommend/${this.article.placeNo}`)
+        .then(({ data }) => {
+          for (let i = 0; i < data.length; i++) {
+            this.recommend.push(data[i].user_id);
+          }
+        });
 
       setTimeout(() => {
         console.log("asdasd" + this.recommend + "  " + this.loginUser);
@@ -283,7 +287,7 @@ export default {
       if (this.inputValue != "") {
         var user = sessionStorage.getItem("userId");
         console.log(user);
-        http.post(`/place/api/reply`, {
+        axiosBuilderWithJwt().post(`/place/api/reply`, {
           replyContent: this.inputValue,
           placeNo: this.article.placeNo,
           parentId: 0,
@@ -301,7 +305,7 @@ export default {
       if (this.isLiked) {
         this.recommend.push(this.loginUser);
         console.log(this.recommend);
-        http.post(`/place/api/recommend/add`, {
+        axiosBuilderWithJwt().post(`/place/api/recommend/add`, {
           user_id: this.loginUser,
           place_no: this.article.placeNo,
         });
@@ -312,7 +316,7 @@ export default {
         }
         console.log(this.recommend);
         console.log(this.loginUser + " " + this.article.placeNo);
-        http.delete(
+        axiosBuilderWithJwt().delete(
           `/place/api/recommend/del?user_id=${this.loginUser}&place_no=${this.article.placeNo}`
         );
       }

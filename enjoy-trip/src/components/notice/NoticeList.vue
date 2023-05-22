@@ -7,9 +7,7 @@
     </b-row>
     <b-row class="mb-1">
       <b-col class="text-right">
-        <b-button variant="outline-primary" @click="moveWrite()"
-          >글쓰기</b-button
-        >
+        <b-button variant="outline-primary" @click="moveWrite()">글쓰기</b-button>
       </b-col>
     </b-row>
     <b-row>
@@ -39,37 +37,39 @@
 </template>
 
 <script>
-import http from '@/api/http';
+import { axiosBuilderWithJwt } from "@/api/httpJwt";
 export default {
-  name: 'NoticeList',
+  name: "NoticeList",
   components: {},
   data() {
     return {
       articles: [],
       fields: [
-        { key: 'noticeNo', label: '글번호', tdClass: 'tdClass' },
-        { key: 'noticeTitle', label: '제목', tdClass: 'tdSubject' },
-        { key: 'userId', label: '작성자', tdClass: 'tdClass' },
-        { key: 'noticeCreateTime', label: '작성일', tdClass: 'tdClass' },
-        { key: 'noticeHit', label: '조회수', tdClass: 'tdClass' },
+        { key: "noticeNo", label: "글번호", tdClass: "tdClass" },
+        { key: "noticeTitle", label: "제목", tdClass: "tdSubject" },
+        { key: "userId", label: "작성자", tdClass: "tdClass" },
+        { key: "noticeCreateTime", label: "작성일", tdClass: "tdClass" },
+        { key: "noticeHit", label: "조회수", tdClass: "tdClass" },
       ],
       perPage: 10,
       currentPage: 1,
     };
   },
   created() {
-    http.get(`/notice/api?key=&word=`).then(({ data }) => {
-      this.articles = data;
-      console.log(data);
-    });
+    axiosBuilderWithJwt()
+      .get(`/notice/api?key=&word=`)
+      .then(({ data }) => {
+        this.articles = data;
+        console.log(data);
+      });
   },
   methods: {
     moveWrite() {
-      this.$router.push({ name: 'noticewrite' });
+      this.$router.push({ name: "noticewrite" });
     },
     viewArticle(article) {
       this.$router.push({
-        name: 'noticeview',
+        name: "noticeview",
         params: { articleno: article.noticeNo },
       });
     },
