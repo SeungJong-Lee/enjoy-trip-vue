@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="button-container">
-        <plan-write-modal @button-click-event="(subject) => aa(subject)"></plan-write-modal>
+        <plan-write-modal @button-click-event="(subject) => submitPlan(subject)"></plan-write-modal>
       </div>
     </div>
     <div class="scroll-container">
@@ -43,6 +43,8 @@
 <script>
 import PlanAttractionList from "@/components/plan/PlanAttractionList";
 import PlanWriteModal from "@/components/plan/write/PlanWriteModal";
+import {axiosBuilderWithJwt} from "@/api/httpJwt";
+
 
 export default {
   name: "PlanWriteDetail",
@@ -53,6 +55,7 @@ export default {
       userId: "",
       startDate: "",
       endDate: "",
+      subject: "",
     }
   },
   created() {
@@ -70,8 +73,27 @@ export default {
     deleteAttraction(attraction) {
       this.$store.commit("setSelectedAttractionsSet", attraction)
     },
-    submitMakedPlan(subject){
-      console.log(subject);
+    submitPlan(subject) {
+      this.subject = subject;
+      axiosBuilderWithJwt().post(`plan/write`, this.makePlanWriteRequestDto())
+          .then(({data}) => {
+            alert(data.msg);
+            this.$router.push({name: "plan"})
+          })
+          .catch(({response}) => alert(response.data))
+    },
+    makeContentIdList() {
+      const contentIdList = [];
+      this.selectedAttractions.forEach((attraction) => contentIdList.push(attraction.contentId));
+      return contentIdList;
+    },
+    makePlanWriteRequestDto() {
+      return {
+        startDate: this.startDate,
+        endDate: this.endDate,
+        planTitle: this.subject,
+        contentIdList: this.makeContentIdList(),
+      }
     }
   }
 }
