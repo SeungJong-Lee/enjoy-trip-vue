@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 10vh">
     <div class="button-container">
       <button v-b-toggle.sidebar-right class="toggle-button">상세검색</button>
     </div>

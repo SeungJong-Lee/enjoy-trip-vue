@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 80vh">
+  <div style="height: 90vh; border-left: 1px solid gainsboro">
     <div v-if="planAttractions.length !== 0">
       <div style="position: relative; height: 70vh; align-items: center">
         <div class="scroll-container">
@@ -93,8 +93,7 @@ export default {
 }
 
 .centered-text {
-  margin-top: 100%;
-  margin-bottom: auto;
+  padding-top: 40vh;
 }
 
 
