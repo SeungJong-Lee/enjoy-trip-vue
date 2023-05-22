@@ -16,7 +16,7 @@
 import {mapActions, mapMutations} from "vuex";
 import SelectSido from "@/components/item/SelectSido.vue";
 import SelectGugun from "@/components/item/SelectGugun.vue";
-import httpJwt from "@/api/httpJwt";
+import {axiosBuilderWithJwt} from "@/api/httpJwt";
 import SelectContentType from "@/components/item/SelectContentType";
 import PlanAttractionList from "@/components/plan/PlanAttractionList";
 
@@ -57,7 +57,7 @@ export default {
       this.getAttractions()
     },
     getAttractions() {
-      httpJwt(`attraction/${this.sidoCode}/${this.gugunCode}/${this.contentTypeId}`)
+      axiosBuilderWithJwt().get(`attraction/${this.sidoCode}/${this.gugunCode}/${this.contentTypeId}`)
           .then(({data}) => this.attractions = data);
     },
   },

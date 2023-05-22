@@ -35,13 +35,13 @@
 </template>
 
 <script>
-import httpJwt from "@/api/httpJwt";
+import {axiosBuilderWithJwt} from "@/api/httpJwt";
 
 export default {
   name: "PlanDetail",
   methods: {
     recommendClickListener(planId) {
-      httpJwt.put(`plan/${planId}`)
+      axiosBuilderWithJwt.put(`plan/${planId}`)
           .then(() => alert("추천되었습니다"))
           .catch(({response}) => alert(response.data))
     },

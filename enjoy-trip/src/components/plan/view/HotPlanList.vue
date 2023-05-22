@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import httpJwt from "@/api/httpJwt";
+import {axiosBuilderWithJwt} from "@/api/httpJwt";
 
 export default {
   name: "HotPlanList",
@@ -41,12 +41,12 @@ export default {
   },
   methods: {
     getHotPlanList() {
-      httpJwt.get(`plan/view?pgno=${this.pgno}&order=recommend_count`)
+      axiosBuilderWithJwt().get(`plan/view?pgno=${this.pgno}&order=recommend_count`)
           .then(({data}) => this.planList = data.data)
           .catch(({response}) => alert(response.data))
     },
     planClickListener(planId) {
-      httpJwt.get(`plan/${planId}`)
+      axiosBuilderWithJwt().get(`plan/${planId}`)
           .then(({data}) => this.setSelectedPlanState(data.data))
           .catch(({response}) => alert(response.data));
     },
