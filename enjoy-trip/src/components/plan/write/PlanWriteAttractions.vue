@@ -11,9 +11,9 @@
         <select-content-type @select-content-type="selectContentType" style="padding-left: 0"></select-content-type>
       </div>
       <div style="flex: 1; display: flex; justify-content: space-between; padding-bottom: 1vh">
-        <input placeholder="여행지 검색" style="width: calc(100% - 5vh); padding-right: 1vh">
+        <input v-model="searchWord" placeholder="여행지 검색" style="width: calc(100% - 5vh); padding-right: 1vh;">
         <button style="margin-right: 2vw; border: 0; background-color: rgba(0,0,0,0);">
-          <img style=" height: 4vh;"
+          <img @click="searchListener" style=" height: 4vh;"
                src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe">
         </button>
       </div>
@@ -49,6 +49,7 @@ export default {
       gugunCode: 0,
       contentTypeId: 0,
       attractions: [],
+      searchWord: "",
     };
   },
   methods: {
@@ -72,6 +73,10 @@ export default {
     getAttractions() {
       axiosBuilderWithJwt().get(`attraction/${this.sidoCode}/${this.gugunCode}/${this.contentTypeId}`)
           .then(({data}) => this.attractions = data);
+    },
+    searchListener() {
+      axiosBuilderWithJwt().get(`attraction/search/${this.searchWord}`)
+          .then(({data}) => this.attractions = data.data);
     },
   },
 }
