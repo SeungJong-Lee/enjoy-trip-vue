@@ -12,8 +12,8 @@
       </div>
       <div style="flex: 1; display: flex; justify-content: space-between; padding-bottom: 1vh">
         <input v-model="searchWord" placeholder="여행지 검색" style="width: calc(100% - 5vh); padding-right: 1vh;">
-        <button style="margin-right: 2vw; border: 0; background-color: rgba(0,0,0,0);">
-          <img @click="addAttraction" style=" height: 4vh;"
+        <button @click="getAttractions" style="margin-right: 2vw; border: 0; background-color: rgba(0,0,0,0);">
+          <img style=" height: 4vh;"
                src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe">
         </button>
       </div>
