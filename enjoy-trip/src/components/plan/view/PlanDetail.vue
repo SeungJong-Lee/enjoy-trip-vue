@@ -20,11 +20,11 @@
           </div>
         </div>
       </div>
-      <div class="button-container" @click="recommendClickListener(planInfo.planId)">
-        <button class="rec-button">
-          추천
-        </button>
-      </div>
+<!--      <div class="button-container" @click="recommendClickListener(planInfo.planId)">-->
+<!--        <button class="rec-button">-->
+<!--          추천-->
+<!--        </button>-->
+<!--      </div>-->
     </div>
     <div v-else style="height: 80vh">
       <div class="centered-text">
@@ -89,13 +89,14 @@ export default {
 
 .scroll-container {
   overflow-y: auto;
-  height: 100%;
+  height: 90vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
 }
 
 .centered-text {
   padding-top: 40vh;
 }
-
 
 .place-container {
   display: flex;
@@ -124,7 +125,6 @@ export default {
 .place-container:hover {
   transform: scale(1.05);
 }
-
 
 .description-container {
   padding-left: 1vw;
