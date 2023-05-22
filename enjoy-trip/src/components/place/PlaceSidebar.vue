@@ -6,27 +6,44 @@
       </b-col>
     </b-row>
     <div>
-      <b-row>
+      <b-row v-for="(user, index) in follow" :key="index">
         <b-col cols="3">
-          <img src="@/assets/blank_profile.png" width="50" />
+          <img :src="user.userImgSrc" width="50" />
         </b-col>
-        <b-col cols="9" class="mt-2">안규보</b-col>
+        <b-col cols="9" class="mt-2">{{ user.userId }}</b-col>
       </b-row>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+
+const userStore = "trailStore";
+
 export default {
-  name: 'PlaceSidebar',
+  name: "PlaceSidebar",
   components: {},
   data() {
     return {
-      message: '',
+      message: "",
+      loginUser: sessionStorage.getItem("userId"),
     };
   },
-  created() {},
-  methods: {},
+  computed: {
+    ...mapState(userStore, ["follow"]),
+  },
+  created() {
+    this.getFollowList({
+      userId: this.loginUser,
+    });
+    setTimeout(() => {
+      console.log(this.follow + "asdasdadasd");
+    }, 1000);
+  },
+  methods: {
+    ...mapActions(userStore, ["getFollowList"]),
+  },
 };
 </script>
 

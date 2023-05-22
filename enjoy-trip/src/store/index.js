@@ -3,6 +3,7 @@ import Vuex from "vuex";
 
 import itemStore from "./modules/item/itemStore";
 import trailStore from "./modules/trailStore";
+// import userStore from "./modules/userStore";
 
 Vue.use(Vuex);
 
@@ -10,12 +11,13 @@ export default new Vuex.Store({
   modules: {
     itemStore,
     trailStore,
+    // userStore,
   },
   state: {
     isLoggedIn: false,
-    planInfo:{},
-    planAttractions:[],
-    planAttraction:{},
+    planInfo: {},
+    planAttractions: [],
+    planAttraction: {},
     selectedAttractions: [],
     selectedAttractionsSet: new Set(),
   },
@@ -29,15 +31,15 @@ export default new Vuex.Store({
     getPlanAttractions(state) {
       return state.planAttractions;
     },
-    getPlanAttraction(state){
+    getPlanAttraction(state) {
       return state.planAttraction;
     },
     getSelectedAttractions(state) {
       return state.selectedAttractions;
     },
-    getSelectedAttractionsSet(state){
+    getSelectedAttractionsSet(state) {
       return state.selectedAttractionsSet;
-    }
+    },
   },
   mutations: {
     setLoggedIn(state, value) {
@@ -46,13 +48,13 @@ export default new Vuex.Store({
     setPlanInfo(state, value) {
       state.planInfo = value;
     },
-    setPlanAttracions(state, value){
+    setPlanAttracions(state, value) {
       state.planAttractions = value;
     },
-    setPlanAttraction(state, value){
+    setPlanAttraction(state, value) {
       state.planAttraction = value;
     },
-    setSelectedAttractions(state, value){
+    setSelectedAttractions(state, value) {
       state.selectedAttractions = [...value];
     },
     setSelectedAttractionsSet(state, value) {
