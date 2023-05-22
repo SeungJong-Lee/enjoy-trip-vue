@@ -1,11 +1,11 @@
 <template>
   <div>
     <div style="display: flex; flex-direction: column; padding: 1vh; height: 25vh; border-bottom: 1px solid gainsboro">
-      <div style="flex: 1; padding: 1vh">
+      <div style="flex: 1;">
         <button v-if="isMyPlan" class="toggle-button">인기 계획 보기</button>
         <button v-else class="toggle-button">내 계획 보기</button>
       </div>
-      <div style="flex: 1; display: flex; justify-content: space-between; padding: 1vh">
+      <div style="flex: 1; display: flex; justify-content: space-between;">
         <div style="display: flex; align-content: center; justify-content: center; flex-direction: column">
           검색 조건
         </div>
@@ -16,7 +16,7 @@
           </select>
         </div>
       </div>
-      <div style="flex: 1; display: flex; justify-content: space-between; padding: 1vh">
+      <div style="flex: 1; display: flex; justify-content: space-between;">
         <input v-model="searchWord" placeholder="여행지 검색" style="width: calc(100% - 5vh);">
         <button @click="getPlan" style="border: 0; background-color: rgba(0,0,0,0);">
           <img style=" height: 4vh;"
