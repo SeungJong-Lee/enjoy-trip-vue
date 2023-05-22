@@ -6,9 +6,9 @@
       </b-col>
     </b-row>
     <div>
-      <b-row v-for="(user, index) in follow" :key="index">
+      <b-row v-for="(user, index) in follow" :key="index" style="margin-bottom: 1%">
         <b-col cols="3">
-          <img :src="user.userImgSrc" width="50" />
+          <img :src="user.userImgSrc" width="50" class="userImg" />
         </b-col>
         <b-col cols="9" class="mt-2">{{ user.userId }}</b-col>
       </b-row>
@@ -47,4 +47,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.userImg {
+  border-radius: 10%;
+}
+</style>

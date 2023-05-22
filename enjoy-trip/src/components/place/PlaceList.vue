@@ -338,6 +338,9 @@ export default {
           `/place/api/recommend/del?user_id=${this.loginUser}&place_no=${this.article.placeNo}`
         );
       }
+      axiosBuilderWithJwt().put(
+        `/place/api/recommend/${this.recommend.length}/${this.article.placeNo}`
+      );
     },
     toggleFollow() {
       this.isFollowing = !this.isFollowing;
