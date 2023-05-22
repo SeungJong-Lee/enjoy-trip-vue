@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div style="height: 80vh">
     <div v-if="planAttractions.length !== 0">
-      <div style="position: relative; height: 80vh">
+      <div style="position: relative; height: 70vh; align-items: center">
         <div class="scroll-container">
           <div class="place-container" v-for="place in planAttractions" :key="place.contentId" @click="planPlaceClickListener(place)">
             <div class="image-container">
@@ -26,12 +26,11 @@
         </button>
       </div>
     </div>
-    <div v-else style="height: 80%">
+    <div v-else style="height: 80vh">
       <div class="centered-text">
         계획을 선택해주세요
       </div>
     </div>
-
   </div>
 </template>
 
@@ -81,17 +80,16 @@ export default {
 }
 
 .button-container {
-  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
   width: calc(100% - 30px);
-  position: absolute;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  bottom: 0;
 }
 
 .scroll-container {
   overflow-y: auto;
-  max-height: calc(80vh - 50px);
+  height: 100%;
 }
 
 .centered-text {

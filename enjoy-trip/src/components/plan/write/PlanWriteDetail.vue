@@ -30,47 +30,29 @@
         </div>
       </div>
       <div class="button-container">
-        <button class="submit-button" @click="openModal">계획 만들기</button>
+        <plan-write-modal @button-click-event="(subject) => aa(subject)"></plan-write-modal>
       </div>
     </div>
     <div class="scroll-container">
       <plan-attraction-list :attractions="selectedAttractions"
                             @place-click="(attraction) => deleteAttraction(attraction)"></plan-attraction-list>
     </div>
-
-    <!--  모달 내용  -->
-    <transition name="modal-fade">
-      <div v-if="isModalOpen" class="modal" @click.self="closeModal">
-        <div class="modal-content">
-          <h2>계획을 만드시겠습니까?</h2>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10vh">
-            <div>
-              계획 제목
-            </div>
-            <input/>
-          </div>
-          <div style="margin-top: 5vh; display: flex; justify-content: end">
-            <button class="submit-button">계획 만들기</button>
-          </div>
-        </div>
-      </div>
-    </transition>
   </div>
 </template>
 
 <script>
 import PlanAttractionList from "@/components/plan/PlanAttractionList";
+import PlanWriteModal from "@/components/plan/write/PlanWriteModal";
 
 export default {
   name: "PlanWriteDetail",
-  components: {PlanAttractionList},
+  components: {PlanWriteModal, PlanAttractionList},
   props: ["planInfo"],
   data() {
     return {
       userId: "",
       startDate: "",
       endDate: "",
-      isModalOpen: false
     }
   },
   created() {
@@ -88,20 +70,8 @@ export default {
     deleteAttraction(attraction) {
       this.$store.commit("setSelectedAttractionsSet", attraction)
     },
-    openModal() {
-      this.isModalOpen = true;
-      document.body.style.overflow = 'hidden'; // 화면 스크롤 방지
-      document.addEventListener('click', this.outsideClickHandler);
-    },
-    closeModal() {
-      this.isModalOpen = false;
-      document.body.style.overflow = 'auto'; // 화면 스크롤 재활성화
-      document.removeEventListener('click', this.outsideClickHandler);
-    },
-    outsideClickHandler(event) {
-      if (event.target === event.currentTarget) {
-        this.closeModal();
-      }
+    submitMakedPlan(subject){
+      console.log(subject);
     }
   }
 }
