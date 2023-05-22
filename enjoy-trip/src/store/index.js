@@ -1,8 +1,8 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-import itemStore from "./modules/item/itemStore";
-import trailStore from "./modules/trailStore";
+import itemStore from './modules/item/itemStore';
+import trailStore from './modules/trailStore';
 // import userStore from "./modules/userStore";
 
 Vue.use(Vuex);
@@ -16,6 +16,7 @@ export default new Vuex.Store({
   state: {
     isLoggedIn: false,
     planInfo: {},
+    searchAttractions: [],
     planAttractions: [],
     planAttraction: {},
     selectedAttractions: [],
@@ -45,6 +46,9 @@ export default new Vuex.Store({
     setLoggedIn(state, value) {
       state.isLoggedIn = value;
     },
+    setSearchAttractions(state, value) {
+      state.searchAttractions = value;
+    },
     setPlanInfo(state, value) {
       state.planInfo = value;
     },
@@ -56,6 +60,9 @@ export default new Vuex.Store({
     },
     setSelectedAttractions(state, value) {
       state.selectedAttractions = [...value];
+    },
+    changeSelectedAttractions(state, value) {
+      state.selectedAttractions = value;
     },
     setSelectedAttractionsSet(state, value) {
       if (state.selectedAttractionsSet.has(value)) {

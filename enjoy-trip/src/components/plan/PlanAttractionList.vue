@@ -1,34 +1,69 @@
 <template>
   <div>
-    <div class="place-container" v-for="place in attractions" :key="place.contentId"
-         @click="placeClickListener(place)">
-      <div class="image-container">
-        <img :src="place.firstImage"
-             onerror="this.src='https://github.com/qkdk/enjoy-trip/assets/86948395/c643b90b-fb65-4678-8dd7-7321cb0fdfaf'"
-             class="fixed-image"/>
-      </div>
-      <div class="description-container">
-        <div class="title-container">
-          {{ place.title }}
+    <draggable v-model="draggedAttractions" @end="handleDragEnd">
+      <div
+        class="place-container"
+        v-for="place in draggedAttractions"
+        :key="place.contentId"
+        @click="placeClickListener(place)"
+      >
+        <div class="image-container">
+          <img
+            :src="place.firstImage"
+            onerror="this.src='https://github.com/qkdk/enjoy-trip/assets/86948395/c643b90b-fb65-4678-8dd7-7321cb0fdfaf'"
+            class="fixed-image"
+          />
         </div>
-        <div class="addr-container">
-          {{ place.addr1 }}
+        <div class="description-container">
+          <div class="title-container">
+            {{ place.title }}
+          </div>
+          <div class="addr-container">
+            {{ place.addr1 }}
+          </div>
         </div>
       </div>
-    </div>
+    </draggable>
   </div>
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
+import draggable from 'vuedraggable';
+
 export default {
-  name: "PlanAttractionList",
-  props: ["attractions"],
+  name: 'PlanAttractionList',
+  props: ['attractions'],
+  data() {
+    return {
+      draggedAttractions: [],
+    };
+  },
+  components: {
+    draggable,
+  },
+  computed: {
+    ...mapState(['selectedAttractions']),
+  },
+  mounted() {
+    this.draggedAttractions = [...this.attractions];
+  },
+  watch: {
+    attractions(newAttractions) {
+      this.draggedAttractions = [...newAttractions];
+    },
+  },
   methods: {
+    ...mapMutations(['changeSelectedAttractions']),
     placeClickListener(place) {
-      this.$emit("place-click", place);
-    }
-  }
-}
+      this.$emit('place-click', place);
+    },
+    handleDragEnd() {
+      // 드래그 앤 드롭 종료 시 실행할 로직을 여기에 작성합니다.
+      this.changeSelectedAttractions(this.draggedAttractions);
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -90,5 +125,4 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 </style>
