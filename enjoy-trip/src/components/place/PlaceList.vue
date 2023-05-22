@@ -95,7 +95,7 @@
             <b-col cols="9">
               {{ article.userId }}
             </b-col>
-            <b-col cols="3">
+            <b-col cols="3" v-if="loginUser != this.article.userId">
               <button @click="toggleFollow" class="follow-button">
                 <font-awesome-icon :icon="isFollowing ? 'user-minus' : 'user-plus'" />
               </button>
@@ -342,9 +342,17 @@ export default {
     toggleFollow() {
       this.isFollowing = !this.isFollowing;
       if (this.isFollowing) {
-        console.log("asdaasdasdasdasdasdasdad1231321321");
         this.followers.push(this.loginUser);
         axiosBuilderWithJwt().post(`/user/api/followers/${this.loginUser}/${this.article.userId}`);
+        setTimeout(() => {
+          this.getFollowList({
+            userId: this.loginUser,
+          });
+        }, 300);
+      } else {
+        axiosBuilderWithJwt().delete(
+          `/user/api/followers/del/${this.loginUser}/${this.article.userId}`
+        );
         setTimeout(() => {
           this.getFollowList({
             userId: this.loginUser,
