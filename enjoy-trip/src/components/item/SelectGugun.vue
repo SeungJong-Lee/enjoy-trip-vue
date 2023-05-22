@@ -22,7 +22,7 @@ export default {
   name: "SelectGugun",
   data() {
     return {
-      gugunCode: null,
+      gugunCode: 0,
     };
   },
   props: {
@@ -31,7 +31,7 @@ export default {
   watch: {
     sidoCode() {
       this.CLEAR_GUGUN_LIST();
-      this.gugunCode = null;
+      this.gugunCode = 0;
       if (this.sidoCode) this.getGugun(this.sidoCode);
     },
   },

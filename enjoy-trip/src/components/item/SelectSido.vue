@@ -22,7 +22,7 @@ export default {
   name: "SelectSido",
   data() {
     return {
-      sidoCode: null,
+      sidoCode: 0,
     };
   },
   computed: {
