@@ -1,10 +1,25 @@
 <template>
   <div style="background-color: #42b983">
     <div id="map" style="height: 100%; width: 100%"></div>
+
+    <transition name="modal-fade">
+      <div v-if="isModalOpen" class="modal" @click.self="closeModal">
+        <div class="modal-content">
+          <h1>{{ curAttraction.title }}</h1>
+          <h3 v-if="curAttraction.tel == ''" style="text-align: left">전화번호: 없음</h3>
+          <h3 v-else style="text-align: left">전화번호: {{ curAttraction.tel }}</h3>
+          <div>
+            {{ curDescription }}
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import {axiosBuilderWithJwt} from "@/api/httpJwt";
+
 const baseUrl = `http://localhost:8080/enjoytrip`;
 
 export default {
@@ -16,6 +31,11 @@ export default {
       markers: [],
       positions: [],
       mapOption: {},
+      curValue: [],
+
+      curAttraction: {},
+      curDescription: "",
+      isModalOpen: false,
     }
   },
   mounted() {
@@ -51,7 +71,26 @@ export default {
     }
   },
   methods: {
+    // 모달 설정
+    openModal() {
+      this.isModalOpen = true;
+      document.body.style.overflow = 'hidden'; // 화면 스크롤 방지
+      document.addEventListener('click', this.outsideClickHandler);
+    },
+    closeModal() {
+      this.isModalOpen = false;
+      document.body.style.overflow = 'auto'; // 화면 스크롤 재활성화
+      document.removeEventListener('click', this.outsideClickHandler);
+    },
+    outsideClickHandler(event) {
+      if (event.target === event.currentTarget) {
+        this.closeModal();
+      }
+    },
+
+    // 맵 설정
     placeAndPlanClickEventListener(newValue) {
+      this.curValue = newValue;
       if (newValue.length !== 0) {
         this.initMap(newValue[0].latitude, newValue[0].longitude, this.map.getLevel())
         this.mapContainer = document.getElementById("map"); // 지도를 표시할 div
@@ -76,7 +115,6 @@ export default {
         });
         polyline.setMap(this.map);
       }
-
     },
 
     createPositions(newValue) {
@@ -142,14 +180,13 @@ export default {
                  align-items: flex-start;
                  margin-top: 5px;
                  margin-bottom: 5px;
-                 height: 10vh;
                  border-radius: 5px;
                  padding: 10px;
                  background-color: white;
                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                  transition: transform 0.2s;
                ">
-                 <div style="  padding-left: 1vw;
+                 <div style="
                    display: flex;
                    flex-direction: column;
                    flex: 1;
@@ -204,6 +241,11 @@ export default {
             "mouseout",
             this.makeOutListener(customOverlay)
         );
+        window.kakao.maps.event.addListener(
+            marker,
+            "click",
+            this.makeClickListener(this, i)
+        )
       }
     },
     makeOverListener(overlay, map) {
@@ -216,10 +258,68 @@ export default {
         overlay.setMap(null);
       };
     },
+    makeClickListener(self, index) {
+      return function () {
+        // 받아온 데이터를 이용해서 모달창을 띄운다.
+        axiosBuilderWithJwt().get(`attraction/${self.curValue[index].contentId}`)
+            .then(({data}) => {
+              self.curAttraction = self.curValue[index]
+              self.curDescription = data.data;
+              self.openModal();
+            })
+      };
+    },
   }
 }
 </script>
 
 <style scoped>
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
+}
 
+.modal-fade-enter-active {
+  opacity: 0;
+}
+
+.modal-fade-enter-to {
+  opacity: 1;
+}
+
+.modal-fade-leave-active {
+  opacity: 1;
+}
+
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60vw;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
 </style>

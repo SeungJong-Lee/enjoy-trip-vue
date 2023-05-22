@@ -103,18 +103,8 @@ export default {
 .scroll-container {
   overflow-y: auto;
   max-height: 50vh;
-  padding-left: 1vw;
+  padding-left: 2vw;
   padding-right: 1vw;
-}
-
-.submit-button {
-  border: none;
-  background-color: #a7dbe1;
-  border-radius: 5px;
-  width: 100%;
-  outline: none;
-  color: white;
-  padding: 10px;
 }
 
 .button-container {
@@ -124,56 +114,6 @@ export default {
   height: 20%;
   padding-left: 2vw;
   padding-right: 1vw
-}
-
-.modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  transition: opacity 0.3s ease;
-}
-
-.modal-fade-enter-active {
-  opacity: 0;
-}
-
-.modal-fade-enter-to {
-  opacity: 1;
-}
-
-.modal-fade-leave-active {
-  opacity: 1;
-}
-
-.modal-fade-leave-to {
-  opacity: 0;
-}
-
-.modal-content {
-  background-color: #fefefe;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 30vw;
-  max-width: 600px;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close:hover {
-  color: #000;
 }
 
 </style>
