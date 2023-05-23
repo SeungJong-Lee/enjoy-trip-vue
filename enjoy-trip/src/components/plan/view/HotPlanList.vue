@@ -52,8 +52,8 @@
         flex-direction: column;
       "
     >
-      <button v-if="isMyPlan" class="submit-button">계획 삭제하기</button>
-      <button v-else class="submit-button">내 계획으로 가져오기</button>
+      <button v-if="isMyPlan" class="submit-button" @click="deletePlan">계획 삭제하기</button>
+      <button v-else class="submit-button" @click="copyPlan">내 계획으로 가져오기</button>
     </div>
   </div>
 </template>
@@ -70,12 +70,29 @@ export default {
       isMyPlan: false,
       searchWord: "",
       key: "plan_title",
+      selectedPlanId: "",
     };
   },
   created() {
     this.getHotPlanList();
   },
   methods: {
+    copyPlan() {
+      if (this.selectedPlanId.length === 0) {
+        alert("계획을 선택해주세요");
+      } else {
+        axiosBuilderWithJwt()
+            .get(`plan/copy/${this.selectedPlanId}`)
+            .then(({data}) => alert(data.msg))
+            .catch(({response}) => alert(response.data));
+      }
+    },
+    deletePlan() {
+      axiosBuilderWithJwt()
+          .delete(`plan/${this.selectedPlanId}`)
+          .then(({data}) => alert(data.msg))
+          .catch(({response}) => alert(response.data));
+    },
     getListByKeyAndWord() {
       axiosBuilderWithJwt()
           .get(`plan/view?pgno=${this.pgno}&key=${this.key}&word=${this.searchWord}`)
@@ -95,6 +112,7 @@ export default {
           .catch(({response}) => alert(response.data));
     },
     planClickListener(planId) {
+      this.selectedPlanId = planId;
       axiosBuilderWithJwt()
           .get(`plan/${planId}`)
           .then(({data}) => this.setSelectedPlanState(data.data))
@@ -113,8 +131,10 @@ export default {
         this.isMyPlan = !this.isMyPlan;
       }
     },
-  },
-};
+  }
+  ,
+}
+;
 </script>
 
 <style scoped>
