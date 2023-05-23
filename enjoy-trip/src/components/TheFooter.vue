@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="container-fluid bg-light position-relative bottom-0">
+    <div class="container-fluid bg-light position-relative bottom-0" style="height: 15vh">
       <div class="row">
         <div class="col-2 mt-3 mb-3">
           <a class="navbar-brand" href="#">
