@@ -1,8 +1,8 @@
 <template>
   <div style="display: flex; flex-direction: column">
-    <div class="preview">
+    <!-- <div class="preview">
       <img v-if="imageUrl" :src="imageUrl" alt="Preview" class="preview-image" />
-    </div>
+    </div> -->
     <div class="form-group">
       <div class="custom-container">
         <input id="files" type="file" multiple class="custom-input" @change="handleFileUpload" />
@@ -100,7 +100,7 @@ export default {
         joinData.append("userDomain", this.formData.userDomain);
         joinData.append("file", this.files[0]);
         axios
-          .post(`${baseURL}user/api/join`, joinData, {
+          .post(`${baseURL}/user/api/join`, joinData, {
             headers: {
               "Content-Type": "multipart/form-data",
               authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
