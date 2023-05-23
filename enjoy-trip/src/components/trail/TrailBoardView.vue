@@ -72,7 +72,8 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex';
+import axios from 'axios';
+import { mapState, mapActions, mapMutations } from 'vuex';
 import { axiosBuilderWithJwt } from '@/api/http';
 import MainMap from '../plan/MainMap.vue';
 import TrailView from './TrailView.vue';
@@ -91,6 +92,9 @@ export default {
       joinmembers: [],
       joinCount: 0,
       isView: true,
+      cityName: '',
+      isError: false,
+      trailLocation: {},
     };
   },
   filters: {
@@ -102,6 +106,8 @@ export default {
   computed: {
     ...mapState(trailStore, ['board']),
     ...mapState(trailStore, ['members']),
+    ...mapState(trailStore, ['location']),
+    ...mapState(trailStore, ['trail']),
   },
   created() {
     axiosBuilderWithJwt()
@@ -109,17 +115,72 @@ export default {
       .then(({ data }) => {
         this.setTrail(data);
       });
-    // this.setJoinMember({
-    //   no: this.board.trail_board_no,
-    // });
+    setTimeout(() => {
+      axiosBuilderWithJwt()
+        .get(`/trail/getcity/${this.board.trail_board_trail_id}`)
+        .then(({ data }) => {
+          this.cityName =
+            data.sidoName +
+            ' ' +
+            data.gugunName +
+            ' ' +
+            this.trail.start_detail_addr;
+          console.log(this.cityName);
+        });
+    }, 300);
+    setTimeout(() => {
+      axios
+        .get(
+          `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`
+        )
+        .then(({ data }) => {
+          if (data.response.status == 'OK') {
+            console.log(data);
+            this.trailLocation = {
+              x: data.response.result.point.x,
+              y: data.response.result.point.y,
+            };
+            // console.log('ok');
+          } else {
+            this.isError = true;
+          }
+        });
+    }, 500);
+
+    setTimeout(() => {
+      if (this.isError) {
+        console.log('에러발생');
+        axios
+          .get(
+            `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`
+          )
+          .then(({ data }) => {
+            console.log(data);
+            if (data.response.status != 'OK') {
+              this.trailLocation = null;
+            } else {
+              this.trailLocation = {
+                x: data.response.result.point.x,
+                y: data.response.result.point.y,
+              };
+            }
+          });
+      }
+    }, 750);
+
     for (let i = 0; i < this.members.length; i++) {
       this.joinmembers.push(this.members[i].trail_party_member_id);
     }
     this.joinCount = this.members.length;
+    setTimeout(() => {
+      console.log(this.trailLocation);
+      this.SET_TRAIL_LOCATION(this.trailLocation);
+    }, 1000);
   },
   methods: {
     ...mapActions(trailStore, ['setTrail']),
     ...mapActions(trailStore, ['setJoinMember']),
+    ...mapMutations(trailStore, ['SET_TRAIL_LOCATION']),
     async joinTrip() {
       try {
         await axiosBuilderWithJwt().post(`/trail/board/joinparty`, {
