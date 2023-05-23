@@ -7,24 +7,20 @@
         </div>
         <div v-else>
           {{ userId }}
-          <br/>
+          <br />
           님의 계획
         </div>
       </div>
       <div style="height: 50%; align-items: center; padding-top: 2vh">
         <div style="height: 50%">
-          <div>
-            시작 날짜
-          </div>
-          <div style="padding-left: 1vw;  padding-right: 1vw">
+          <div>시작 날짜</div>
+          <div style="padding-left: 1vw; padding-right: 1vw">
             <b-form-datepicker v-model="startDate" class="mb-2"></b-form-datepicker>
           </div>
         </div>
         <div style="height: 50%">
-          <div>
-            도착 날짜
-          </div>
-          <div style=" padding-left: 1vw; padding-right: 1vw">
+          <div>도착 날짜</div>
+          <div style="padding-left: 1vw; padding-right: 1vw">
             <b-form-datepicker v-model="endDate" class="mb-2"></b-form-datepicker>
           </div>
         </div>
@@ -34,8 +30,10 @@
       </div>
     </div>
     <div class="scroll-container">
-      <plan-attraction-list :attractions="selectedAttractions"
-                            @place-click="(attraction) => deleteAttraction(attraction)"></plan-attraction-list>
+      <plan-attraction-list
+        :attractions="selectedAttractions"
+        @place-click="(attraction) => deleteAttraction(attraction)"
+      ></plan-attraction-list>
     </div>
   </div>
 </template>
@@ -43,12 +41,11 @@
 <script>
 import PlanAttractionList from "@/components/plan/PlanAttractionList";
 import PlanWriteModal from "@/components/plan/write/PlanWriteModal";
-import {axiosBuilderWithJwt} from "@/api/httpJwt";
-
+import { axiosBuilderWithJwt } from "@/api/http";
 
 export default {
   name: "PlanWriteDetail",
-  components: {PlanWriteModal, PlanAttractionList},
+  components: { PlanWriteModal, PlanAttractionList },
   props: ["planInfo"],
   data() {
     return {
@@ -56,7 +53,7 @@ export default {
       startDate: "",
       endDate: "",
       subject: "",
-    }
+    };
   },
   created() {
     this.userId = sessionStorage.getItem("userId");
@@ -67,20 +64,21 @@ export default {
     },
     selectedAttractionsSet() {
       return this.$store.getters.getSelectedAttractionsSet;
-    }
+    },
   },
   methods: {
     deleteAttraction(attraction) {
-      this.$store.commit("setSelectedAttractionsSet", attraction)
+      this.$store.commit("setSelectedAttractionsSet", attraction);
     },
     submitPlan(subject) {
       this.subject = subject;
-      axiosBuilderWithJwt().post(`plan/write`, this.makePlanWriteRequestDto())
-          .then(({data}) => {
-            alert(data.msg);
-            this.$router.push({name: "plan"})
-          })
-          .catch(({response}) => alert(response.data))
+      axiosBuilderWithJwt()
+        .post(`plan/write`, this.makePlanWriteRequestDto())
+        .then(({ data }) => {
+          alert(data.msg);
+          this.$router.push({ name: "plan" });
+        })
+        .catch(({ response }) => alert(response.data));
     },
     makeContentIdList() {
       const contentIdList = [];
@@ -93,10 +91,10 @@ export default {
         endDate: this.endDate,
         planTitle: this.subject,
         contentIdList: this.makeContentIdList(),
-      }
-    }
-  }
-}
+      };
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -113,7 +111,6 @@ export default {
   flex-direction: column;
   height: 20%;
   padding-left: 1vw;
-  padding-right: 1vw
+  padding-right: 1vw;
 }
-
 </style>

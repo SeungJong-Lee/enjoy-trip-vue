@@ -27,6 +27,7 @@
 
 <script>
 import axios from "axios";
+import { baseURL } from "@/api/http";
 export default {
   name: "PlaceWrite",
   components: {},
@@ -69,7 +70,7 @@ export default {
         formData.append("upfile", this.files[i]);
       }
       axios
-        .post(`http://localhost:8080/enjoytrip/place/api/write`, formData, {
+        .post(`${baseURL}/place/api/write`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,

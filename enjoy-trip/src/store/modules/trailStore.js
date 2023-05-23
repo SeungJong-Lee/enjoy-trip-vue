@@ -1,5 +1,5 @@
 import { trailList, trailBoardList, getTrailBoardLatest, getJoinMember } from "@/api/trail";
-import { axiosBuilderWithJwt } from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/http";
 
 const trailStore = {
   namespaced: true,

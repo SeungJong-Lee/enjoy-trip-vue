@@ -2,29 +2,31 @@
   <div>
     <div class="custom-container">
       아이디
-      <input class="custom-input" v-model="loginForm.userId"/>
+      <input class="custom-input" v-model="loginForm.userId" />
     </div>
     <div class="custom-container">
       비밀번호
-      <input type="password" class="custom-input" v-model="loginForm.userPw"/>
+      <input type="password" class="custom-input" v-model="loginForm.userPw" />
     </div>
     <div class="custom-container" style="font-size: small">
       <router-link to="#">비밀번호를 잊으셨나요?</router-link>
     </div>
-    <br/>
+    <br />
     <div class="custom-container">
       <button class="submit-button" @click="submitLogin">로그인</button>
     </div>
-    <br/>
+    <br />
     <div>
-      <span style="font-size: small">회원이 아니세요? <router-link to="signup">회원가입 하기</router-link></span>
+      <span style="font-size: small"
+        >회원이 아니세요? <router-link to="signup">회원가입 하기</router-link></span
+      >
     </div>
-    <br/>
+    <br />
   </div>
 </template>
 
 <script>
-import http from "@/api/http";
+import { http } from "@/api/http";
 
 export default {
   name: "LoginForm",
@@ -34,24 +36,25 @@ export default {
         userId: "",
         userPw: "",
       },
-    }
+    };
   },
   methods: {
     afterLoginSuccess(data) {
-      sessionStorage.setItem('userId', data.userId);
-      sessionStorage.setItem('userRole', data.userRole);
-      sessionStorage.setItem('accessToken', data.accessToken);
+      sessionStorage.setItem("userId", data.userId);
+      sessionStorage.setItem("userRole", data.userRole);
+      sessionStorage.setItem("accessToken", data.accessToken);
 
-      this.$store.commit('setLoggedIn', true);
+      this.$store.commit("setLoggedIn", true);
       this.$router.push("/");
     },
     submitLogin() {
-      http.post("/authenticate", this.loginForm)
-          .then(({data}) => this.afterLoginSuccess(data.data))
-          .catch(() => alert("아이디 혹은 비밀번호가 일치하지 않습니다."))
-    }
-  }
-}
+      http
+        .post("/authenticate", this.loginForm)
+        .then(({ data }) => this.afterLoginSuccess(data.data))
+        .catch(() => alert("아이디 혹은 비밀번호가 일치하지 않습니다."));
+    },
+  },
+};
 </script>
 
 <style scoped>

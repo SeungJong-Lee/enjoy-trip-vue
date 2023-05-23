@@ -1,46 +1,79 @@
 <template>
   <div>
-    <div style="display: flex; flex-direction: column; padding: 1vh; height: 25vh; border-bottom: 1px solid gainsboro">
-      <div style="flex: 1;">
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        padding: 1vh;
+        height: 25vh;
+        border-bottom: 1px solid gainsboro;
+      "
+    >
+      <div style="flex: 1">
         <button v-if="isMyPlan" class="toggle-button">인기 계획 보기</button>
         <button v-else class="toggle-button">내 계획 보기</button>
       </div>
-      <div style="flex: 1; display: flex; justify-content: space-between;">
-        <div style="display: flex; align-content: center; justify-content: center; flex-direction: column">
+      <div style="flex: 1; display: flex; justify-content: space-between">
+        <div
+          style="
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            flex-direction: column;
+          "
+        >
           검색 조건
         </div>
-        <div style="display: flex; align-content: center; justify-content: center; flex-direction: column">
+        <div
+          style="
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            flex-direction: column;
+          "
+        >
           <select>
             <option>계획 이름</option>
             <option>작성자</option>
           </select>
         </div>
       </div>
-      <div style="flex: 1; display: flex; justify-content: space-between;">
-        <input v-model="searchWord" placeholder="여행지 검색" style="width: calc(100% - 5vh);">
-        <button @click="getPlan" style="border: 0; background-color: rgba(0,0,0,0);">
-          <img style=" height: 4vh;"
-               src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe">
+      <div style="flex: 1; display: flex; justify-content: space-between">
+        <input v-model="searchWord" placeholder="여행지 검색" style="width: calc(100% - 5vh)" />
+        <button @click="getPlan" style="border: 0; background-color: rgba(0, 0, 0, 0)">
+          <img
+            style="height: 4vh"
+            src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe"
+          />
         </button>
       </div>
     </div>
     <div class="scroll-container">
-      <div v-for="plan in planList" :key="plan.planId" class="plan-container" @click="planClickListener(plan.planId)">
+      <div
+        v-for="plan in planList"
+        :key="plan.planId"
+        class="plan-container"
+        @click="planClickListener(plan.planId)"
+      >
         <div class="title-container">
           {{ plan.planTitle }}
         </div>
         <div class="description-container">
-          <div class="user-info">
-            만든이: {{ plan.userId }}
-          </div>
-          <div class="recommend-count">
-            추천수: {{ plan.recommendCount }}
-          </div>
+          <div class="user-info">만든이: {{ plan.userId }}</div>
+          <div class="recommend-count">추천수: {{ plan.recommendCount }}</div>
         </div>
       </div>
     </div>
     <div
-        style="height: 10vh; padding: 1vh; border-top: 1px solid gainsboro; display: flex; justify-content: center; flex-direction: column">
+      style="
+        height: 10vh;
+        padding: 1vh;
+        border-top: 1px solid gainsboro;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      "
+    >
       <button v-if="isMyPlan" class="submit-button">계획 삭제하기</button>
       <button v-else class="submit-button">내 계획으로 가져오기</button>
     </div>
@@ -48,7 +81,7 @@
 </template>
 
 <script>
-import {axiosBuilderWithJwt} from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/http";
 
 export default {
   name: "HotPlanList",
@@ -58,7 +91,7 @@ export default {
       planList: [],
       isMyPlan: false,
       searchWord: "",
-    }
+    };
   },
   created() {
     this.getHotPlanList();
@@ -68,21 +101,23 @@ export default {
       console.log("getPlanMethodCall");
     },
     getHotPlanList() {
-      axiosBuilderWithJwt().get(`plan/view?pgno=${this.pgno}&order=recommend_count`)
-          .then(({data}) => this.planList = data.data)
-          .catch(({response}) => alert(response.data))
+      axiosBuilderWithJwt()
+        .get(`plan/view?pgno=${this.pgno}&order=recommend_count`)
+        .then(({ data }) => (this.planList = data.data))
+        .catch(({ response }) => alert(response.data));
     },
     planClickListener(planId) {
-      axiosBuilderWithJwt().get(`plan/${planId}`)
-          .then(({data}) => this.setSelectedPlanState(data.data))
-          .catch(({response}) => alert(response.data));
+      axiosBuilderWithJwt()
+        .get(`plan/${planId}`)
+        .then(({ data }) => this.setSelectedPlanState(data.data))
+        .catch(({ response }) => alert(response.data));
     },
     setSelectedPlanState(data) {
-      this.$store.commit("setPlanInfo", data.planInfo)
+      this.$store.commit("setPlanInfo", data.planInfo);
       this.$store.commit("setPlanAttracions", data.attractionList);
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -105,7 +140,6 @@ export default {
   color: white;
   padding: 10px;
 }
-
 
 .scroll-container {
   overflow-y: auto;

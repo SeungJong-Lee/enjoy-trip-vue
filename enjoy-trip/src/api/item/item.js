@@ -1,4 +1,4 @@
-import { axiosBuilderWithJwt } from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/http";
 
 function sidoList(success, fail) {
   axiosBuilderWithJwt().get(`/trail/sido`).then(success).catch(fail);

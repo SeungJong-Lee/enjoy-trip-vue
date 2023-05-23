@@ -11,17 +11,10 @@
       </b-col>
       <b-col cols="9">
         <div class="search-bar">
-          <button
-            v-if="!isSort"
-            class="selbtn"
-            style="margin-right: 3%"
-            @click="sort"
-          >
+          <button v-if="!isSort" class="selbtn" style="margin-right: 3%" @click="sort">
             좋아요순
           </button>
-          <button v-else class="selbtn" style="margin-right: 3%" @click="sort">
-            최신순
-          </button>
+          <button v-else class="selbtn" style="margin-right: 3%" @click="sort">최신순</button>
           <div class="select-wrapper">
             <select v-model="key">
               <option value="place_title">제목</option>
@@ -30,9 +23,7 @@
             <div class="select-arrow"></div>
           </div>
           <input type="text" v-model="word" placeholder="검색어를 입력하세요" />
-          <button @click="search" style="margin-left: 3%" class="selbtn">
-            검색
-          </button>
+          <button @click="search" style="margin-left: 3%" class="selbtn">검색</button>
         </div>
       </b-col>
     </b-row>
@@ -41,7 +32,7 @@
         <div v-for="(place, index) in list1" :key="index" class="image-wrapper">
           <div class="rounded-image">
             <img
-              :src="place.placeImgSrc"
+              :src="mkUrl(place.placeImgSrc)"
               width="100%"
               height="250px"
               class="image-effect"
@@ -58,7 +49,7 @@
         <div v-for="(place, index) in list2" :key="index" class="image-wrapper">
           <div class="rounded-image">
             <img
-              :src="place.placeImgSrc"
+              :src="mkUrl(place.placeImgSrc)"
               width="100%"
               height="250px"
               class="image-effect"
@@ -75,7 +66,7 @@
         <div v-for="(place, index) in list3" :key="index" class="image-wrapper">
           <div class="rounded-image">
             <img
-              :src="place.placeImgSrc"
+              :src="mkUrl(place.placeImgSrc)"
               width="100%"
               height="250px"
               class="image-effect"
@@ -101,7 +92,7 @@
     >
       <b-row>
         <b-col cols="8">
-          <img :src="imageUrl" alt="이미지" width="100%" height="700" />
+          <img :src="mkUrl(imageUrl)" alt="이미지" width="100%" height="700" />
         </b-col>
         <b-col cols="4">
           <b-row class="user-info">
@@ -110,9 +101,7 @@
             </b-col>
             <b-col cols="3" v-if="loginUser != this.article.userId">
               <button @click="toggleFollow" class="follow-button">
-                <font-awesome-icon
-                  :icon="isFollowing ? 'user-minus' : 'user-plus'"
-                />
+                <font-awesome-icon :icon="isFollowing ? 'user-minus' : 'user-plus'" />
               </button>
             </b-col>
           </b-row>
@@ -124,10 +113,7 @@
               </b-col>
               <b-col cols="3">
                 <button @click="toggleLike" class="like-button">
-                  <font-awesome-icon
-                    :icon="heartIcon"
-                    :class="{ active: isLiked }"
-                  />
+                  <font-awesome-icon :icon="heartIcon" :class="{ active: isLiked }" />
                 </button>
                 <span> {{ recommend.length }}</span>
               </b-col>
@@ -162,12 +148,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { axiosBuilderWithJwt } from '@/api/httpJwt';
-import { ref } from 'vue';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { mapState, mapActions } from "vuex";
+import { axiosBuilderWithJwt } from "@/api/http";
+import { ref } from "vue";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { baseURL } from "@/api/http";
 
-const userStore = 'trailStore';
+const userStore = "trailStore";
 export default {
   components: {},
   data() {
@@ -180,25 +167,25 @@ export default {
       list2: [],
       list3: [],
       isModalOpen: false,
-      imageUrl: '',
+      imageUrl: "",
       article: {},
       reply: [],
-      inputValue: '',
+      inputValue: "",
       likeCount: 0,
       isLiked: ref(false),
       heartIcon: faHeart,
       isFollowing: false,
       isWrite: false,
-      loginUser: sessionStorage.getItem('userId'),
-      key: '',
-      word: '',
+      loginUser: sessionStorage.getItem("userId"),
+      key: "",
+      word: "",
       recommend: [],
       followers: [],
       isSort: false,
     };
   },
   computed: {
-    ...mapState(userStore, ['follow']),
+    ...mapState(userStore, ["follow"]),
   },
   mounted() {},
   created() {
@@ -207,7 +194,7 @@ export default {
     this.addScrollListener();
   },
   methods: {
-    ...mapActions(userStore, ['getFollowList']),
+    ...mapActions(userStore, ["getFollowList"]),
     sort() {
       this.isSort = !this.isSort;
       this.search();
@@ -215,11 +202,11 @@ export default {
     writePost() {
       // 글쓰기 버튼이 클릭되었을 때 수행할 동작
       this.isWrite = true;
-      this.$router.push('/place/placewrite');
+      this.$router.push("/place/placewrite");
     },
     mvList() {
       this.isWrite = false;
-      this.$router.push('/place');
+      this.$router.push("/place");
     },
     search() {
       this.items = [];
@@ -268,10 +255,10 @@ export default {
       }
     },
     addScrollListener() {
-      window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener("scroll", this.handleScroll);
     },
     removeScrollListener() {
-      window.removeEventListener('scroll', this.handleScroll);
+      window.removeEventListener("scroll", this.handleScroll);
     },
     handleScroll() {
       if (this.isLoading) return;
@@ -287,8 +274,11 @@ export default {
         }
       }, 200);
     },
+    mkUrl(url) {
+      return baseURL + url;
+    },
     mvView(imageUrl, title) {
-      console.log('이동');
+      console.log("이동");
       console.log(title);
       this.article = title;
       this.imageUrl = imageUrl;
@@ -311,7 +301,7 @@ export default {
         });
 
       setTimeout(() => {
-        console.log('asdasd' + this.recommend + '  ' + this.loginUser);
+        console.log("asdasd" + this.recommend + "  " + this.loginUser);
         if (this.recommend.includes(this.loginUser)) {
           this.isLiked = true;
         } else this.isLiked = false;
@@ -329,11 +319,11 @@ export default {
     },
     closeModal() {
       this.isModalOpen = false;
-      this.inputValue = '';
+      this.inputValue = "";
     },
     replyWrite() {
-      if (this.inputValue != '') {
-        var user = sessionStorage.getItem('userId');
+      if (this.inputValue != "") {
+        var user = sessionStorage.getItem("userId");
         console.log(user);
         axiosBuilderWithJwt().post(`/place/api/reply`, {
           replyContent: this.inputValue,
@@ -343,7 +333,7 @@ export default {
         });
         console.log(this.inputValue);
         setTimeout(() => {
-          this.inputValue = '';
+          this.inputValue = "";
           this.mvView(this.article.placeImgSrc, this.article);
         }, 300);
       }
@@ -363,7 +353,7 @@ export default {
           this.recommend.splice(index, 1);
         }
         console.log(this.recommend);
-        console.log(this.loginUser + ' ' + this.article.placeNo);
+        console.log(this.loginUser + " " + this.article.placeNo);
         axiosBuilderWithJwt().delete(
           `/place/api/recommend/del?user_id=${this.loginUser}&place_no=${this.article.placeNo}`
         );
@@ -376,9 +366,7 @@ export default {
       this.isFollowing = !this.isFollowing;
       if (this.isFollowing) {
         this.followers.push(this.loginUser);
-        axiosBuilderWithJwt().post(
-          `/user/api/followers/${this.loginUser}/${this.article.userId}`
-        );
+        axiosBuilderWithJwt().post(`/user/api/followers/${this.loginUser}/${this.article.userId}`);
         setTimeout(() => {
           this.getFollowList({
             userId: this.loginUser,

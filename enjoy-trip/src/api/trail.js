@@ -1,4 +1,4 @@
-import { axiosBuilderWithJwt } from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/http";
 
 function trailList(params, success, fail) {
   console.log(params);

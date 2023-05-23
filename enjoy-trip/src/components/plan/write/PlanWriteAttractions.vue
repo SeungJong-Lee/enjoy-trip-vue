@@ -10,39 +10,17 @@
       "
     >
       <div style="flex: 1; display: flex">
-        <select-sido
-          @select-sido="selectSido"
-          style="width: 100%"
-        ></select-sido>
+        <select-sido @select-sido="selectSido" style="width: 100%"></select-sido>
       </div>
       <div style="flex: 1">
-        <select-gugun
-          :sidoCode="sidoCode"
-          @select-gugun="selectGugun"
-        ></select-gugun>
+        <select-gugun :sidoCode="sidoCode" @select-gugun="selectGugun"></select-gugun>
       </div>
       <div style="flex: 1">
-        <select-content-type
-          @select-content-type="selectContentType"
-        ></select-content-type>
+        <select-content-type @select-content-type="selectContentType"></select-content-type>
       </div>
-      <div
-        style="
-          flex: 1;
-          display: flex;
-          justify-content: space-between;
-          padding-bottom: 1vh;
-        "
-      >
-        <input
-          v-model="searchWord"
-          placeholder="여행지 검색"
-          style="width: calc(100% - 5vh)"
-        />
-        <button
-          @click="getAttractions"
-          style="border: 0; background-color: rgba(0, 0, 0, 0)"
-        >
+      <div style="flex: 1; display: flex; justify-content: space-between; padding-bottom: 1vh">
+        <input v-model="searchWord" placeholder="여행지 검색" style="width: calc(100% - 5vh)" />
+        <button @click="getAttractions" style="border: 0; background-color: rgba(0, 0, 0, 0)">
           <img
             style="height: 4vh"
             src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe"
@@ -61,17 +39,17 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
-import SelectSido from '@/components/item/SelectSido.vue';
-import SelectGugun from '@/components/item/SelectGugun.vue';
-import { axiosBuilderWithJwt } from '@/api/httpJwt';
-import SelectContentType from '@/components/item/SelectContentType';
+import { mapActions, mapMutations } from "vuex";
+import SelectSido from "@/components/item/SelectSido.vue";
+import SelectGugun from "@/components/item/SelectGugun.vue";
+import { axiosBuilderWithJwt } from "@/api/http";
+import SelectContentType from "@/components/item/SelectContentType";
 // import PlanAttractionList from '@/components/plan/PlanAttractionList';
-import PlanSearchList from '@/components/plan/PlanSearchList.vue';
+import PlanSearchList from "@/components/plan/PlanSearchList.vue";
 
-const itemStore = 'itemStore';
+const itemStore = "itemStore";
 export default {
-  name: 'PlanWriteAttractions',
+  name: "PlanWriteAttractions",
   components: {
     // PlanAttractionList,
     SelectContentType,
@@ -81,20 +59,20 @@ export default {
   },
   data() {
     return {
-      message: '',
+      message: "",
       sidoCode: 0,
       gugunCode: 0,
       contentTypeId: 0,
       attractions: [],
-      searchWord: '',
+      searchWord: "",
     };
   },
   methods: {
     addAttraction(attraction) {
-      this.$store.commit('setSelectedAttractionsSet', attraction);
+      this.$store.commit("setSelectedAttractionsSet", attraction);
     },
-    ...mapActions(itemStore, ['getGugun']),
-    ...mapMutations(itemStore, ['CLEAR_GUGUN_LIST']),
+    ...mapActions(itemStore, ["getGugun"]),
+    ...mapMutations(itemStore, ["CLEAR_GUGUN_LIST"]),
     selectSido(sidoCode) {
       this.sidoCode = sidoCode;
       console.log(sidoCode);
@@ -118,7 +96,7 @@ export default {
         )
         .then(({ data }) => {
           this.attractions = data.data;
-          this.$store.commit('setSearchAttractions', data.data);
+          this.$store.commit("setSearchAttractions", data.data);
         });
     },
   },

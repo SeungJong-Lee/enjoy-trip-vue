@@ -2,8 +2,8 @@
   <div style="height: 90vh; border-left: 1px solid gainsboro">
     <div v-if="planAttractions.length !== 0">
       <div>
-        <b-button v-b-toggle.sidebar-right @click="executeMethod">Toggle Sidebar</b-button>
-        <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
+        <b-button v-b-toggle.sidebar-right @click="executeMethod">대중교통 경로보기</b-button>
+        <b-sidebar id="sidebar-right" title="대중교통" right shadow>
           <div class="px-3 py-2">
             <plan-route ref="planRoute"></plan-route>
           </div>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { axiosBuilderWithJwt } from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/http";
 import PlanRoute from "./PlanRoute.vue";
 
 export default {

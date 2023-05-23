@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { axiosBuilderWithJwt } from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/http";
 import { mapState, mapMutations, mapActions } from "vuex";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/default.css";

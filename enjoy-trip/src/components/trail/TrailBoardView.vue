@@ -45,7 +45,7 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
-import { axiosBuilderWithJwt } from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/http";
 
 const trailStore = "trailStore";
 export default {

@@ -8,18 +8,27 @@
     <div style="height: 85vh; padding-top: 2vh; padding-left: 10vw; padding-right: 10vw">
       <h1>인기 여행지</h1>
       <div style="display: flex; padding: 10px">
-        <main-card v-for="item in placeData1" :key="item.placeNo" :image-url="item.placeImgSrc"
-                   :title="item.placeTitle" style="flex: 1; margin-left:10px; margin-right: 10px">
+        <main-card
+          v-for="item in placeData1"
+          :key="item.placeNo"
+          :image-url="item.placeImgSrc"
+          :title="item.placeTitle"
+          style="flex: 1; margin-left: 10px; margin-right: 10px"
+        >
         </main-card>
       </div>
       <div style="display: flex; padding: 10px">
-        <main-card v-for="item in placeData2" :key="item.placeNo" :image-url="item.placeImgSrc"
-                   :title="item.placeTitle" style="flex: 1; margin-left:10px; margin-right: 10px">
+        <main-card
+          v-for="item in placeData2"
+          :key="item.placeNo"
+          :image-url="item.placeImgSrc"
+          :title="item.placeTitle"
+          style="flex: 1; margin-left: 10px; margin-right: 10px"
+        >
         </main-card>
       </div>
     </div>
   </div>
-
 
   <!--  <div>-->
   <!--    <b-container class="text-center">-->
@@ -224,28 +233,29 @@
 <script>
 import MainCarousel from "@/components/main/MainCarousel";
 import MainCard from "@/components/main/MainCard";
-import {axiosBuilderWithJwt} from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/http";
 
 export default {
-  name: 'AppMain',
-  components: {MainCard, MainCarousel},
+  name: "AppMain",
+  components: { MainCard, MainCarousel },
   data() {
     return {
-      message: '',
+      message: "",
       placeData1: [],
       placeData2: [],
     };
   },
   created() {
-    axiosBuilderWithJwt().get(`place/api/sort?pgno=1&key=&word=`)
-        .then(({data}) => {
-          for (let i = 0; i < 4; i++) {
-            this.placeData1.push(data.data[i]);
-          }
-          for (let i = 4; i < 8; i++) {
-            this.placeData2.push(data.data[i]);
-          }
-        });
+    axiosBuilderWithJwt()
+      .get(`place/api/sort?pgno=1&key=&word=`)
+      .then(({ data }) => {
+        for (let i = 0; i < 4; i++) {
+          this.placeData1.push(data.data[i]);
+        }
+        for (let i = 4; i < 8; i++) {
+          this.placeData2.push(data.data[i]);
+        }
+      });
   },
   methods: {},
 };

@@ -123,7 +123,7 @@ export default {
         for (let i = 0; i < this.planAttractions.length - 1; i++) {
           console.log(i + "           asdadasd");
           axios
-            .get("http://localhost:8080/enjoytrip/서울역왕십리역.json")
+            .get("http://localhost:8080/enjoytrip/test.json")
             .then(({ data }) => {
               this.legs = data.metaData.plan.itineraries[0].legs;
               //   console.log(this.legs);

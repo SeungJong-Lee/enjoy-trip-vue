@@ -46,6 +46,7 @@
 <script>
 // import http from "@/api/http";
 import axios from "axios";
+import { baseURL } from "@/api/http";
 
 export default {
   name: "JoinForm",
@@ -99,7 +100,7 @@ export default {
         joinData.append("userDomain", this.formData.userDomain);
         joinData.append("file", this.files[0]);
         axios
-          .post(`http://localhost:8080/enjoytrip/user/api/join`, joinData, {
+          .post(`${baseURL}user/api/join`, joinData, {
             headers: {
               "Content-Type": "multipart/form-data",
               authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,

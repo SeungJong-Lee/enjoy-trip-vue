@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { axiosBuilderWithJwt } from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/http";
 
 export default {
   name: "BoardDetail",

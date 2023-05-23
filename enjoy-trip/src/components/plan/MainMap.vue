@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import {axiosBuilderWithJwt} from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/http";
 
 const baseUrl = `http://localhost:8080/enjoytrip`;
 
@@ -36,7 +36,7 @@ export default {
       curAttraction: {},
       curDescription: "",
       isModalOpen: false,
-    }
+    };
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -54,11 +54,11 @@ export default {
     },
     selectedAttractions() {
       return this.$store.getters.getSelectedAttractions;
-    }
+    },
   },
   watch: {
     planAttractions(newValue) {
-      this.placeAndPlanClickEventListener(newValue)
+      this.placeAndPlanClickEventListener(newValue);
     },
     planAttraction(newValue) {
       this.placeAndPlanClickEventListener([newValue]);
@@ -68,19 +68,19 @@ export default {
         this.placeAndPlanClickEventListener(newValue);
       },
       deep: true,
-    }
+    },
   },
   methods: {
     // 모달 설정
     openModal() {
       this.isModalOpen = true;
-      document.body.style.overflow = 'hidden'; // 화면 스크롤 방지
-      document.addEventListener('click', this.outsideClickHandler);
+      document.body.style.overflow = "hidden"; // 화면 스크롤 방지
+      document.addEventListener("click", this.outsideClickHandler);
     },
     closeModal() {
       this.isModalOpen = false;
-      document.body.style.overflow = 'auto'; // 화면 스크롤 재활성화
-      document.removeEventListener('click', this.outsideClickHandler);
+      document.body.style.overflow = "auto"; // 화면 스크롤 재활성화
+      document.removeEventListener("click", this.outsideClickHandler);
     },
     outsideClickHandler(event) {
       if (event.target === event.currentTarget) {
@@ -92,11 +92,11 @@ export default {
     placeAndPlanClickEventListener(newValue) {
       this.curValue = newValue;
       if (newValue.length !== 0) {
-        this.initMap(newValue[0].latitude, newValue[0].longitude, this.map.getLevel())
+        this.initMap(newValue[0].latitude, newValue[0].longitude, this.map.getLevel());
         this.mapContainer = document.getElementById("map"); // 지도를 표시할 div
         this.positions = [];
-        this.createPositions(newValue)
-        this.makeLine(newValue)
+        this.createPositions(newValue);
+        this.makeLine(newValue);
         this.showMark(this.positions);
       }
     },
@@ -104,27 +104,31 @@ export default {
     makeLine(newValue) {
       if (newValue.length !== 0) {
         let linePath = [];
-        newValue.forEach((place) => linePath.push(new window.kakao.maps.LatLng(place.latitude, place.longitude)))
+        newValue.forEach((place) =>
+          linePath.push(new window.kakao.maps.LatLng(place.latitude, place.longitude))
+        );
 
         let polyline = new window.kakao.maps.Polyline({
           path: linePath, // 선을 구성하는 좌표배열 입니다
           strokeWeight: 4, // 선의 두께 입니다
-          strokeColor: '#0f4773', // 선의 색깔입니다
+          strokeColor: "#0f4773", // 선의 색깔입니다
           strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-          strokeStyle: 'solid' // 선의 스타일입니다
+          strokeStyle: "solid", // 선의 스타일입니다
         });
         polyline.setMap(this.map);
       }
     },
 
     createPositions(newValue) {
-      newValue.forEach((attraction, index) => this.positions.push(this.makeMark(attraction, index)))
+      newValue.forEach((attraction, index) =>
+        this.positions.push(this.makeMark(attraction, index))
+      );
     },
 
     initScript() {
       const script = document.createElement("script");
       script.src =
-          "//dapi.kakao.com/v2/maps/sdk.js?appkey=b7c6907abe12849970bf0d5a19f6717e&autoload=false";
+        "//dapi.kakao.com/v2/maps/sdk.js?appkey=b7c6907abe12849970bf0d5a19f6717e&autoload=false";
       script.onload = () => window.kakao.maps.load(this.initMap);
       document.head.appendChild(script);
     },
@@ -140,13 +144,13 @@ export default {
     },
 
     makeMark(element, index) {
-      let imageSrc =
-              "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png", // 마커이미지의 주소입니다
-          imageSize = new window.kakao.maps.Size(24, 24), // 마커이미지의 크기입니다
-          imageOption = {}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+      let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png", // 마커이미지의 주소입니다
+        imageSize = new window.kakao.maps.Size(24, 24), // 마커이미지의 크기입니다
+        imageOption = {}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
       if (index === 0) {
-        imageSrc = 'https://github.com/qkdk/enjoy-trip/assets/86948395/aac0a8a9-ee1f-4ca9-a5a9-e2e4feedbcbc';
+        imageSrc =
+          "https://github.com/qkdk/enjoy-trip/assets/86948395/aac0a8a9-ee1f-4ca9-a5a9-e2e4feedbcbc";
       } else if (element.contentTypeId == 12) {
         imageSrc = `${baseUrl}/img/marker/marker_photo.png`;
       } else if (element.contentTypeId == 14) {
@@ -168,14 +172,9 @@ export default {
       const coordY = element.longitude;
       // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 
-      const markerImage = new window.kakao.maps.MarkerImage(
-              imageSrc,
-              imageSize,
-              imageOption
-          ),
-          markerPosition = new window.kakao.maps.LatLng(coordX, coordY), // 마커가 표시될 위치입니다
-          content =
-              `<div style="  display: flex;
+      const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+        markerPosition = new window.kakao.maps.LatLng(coordX, coordY), // 마커가 표시될 위치입니다
+        content = `<div style="  display: flex;
                  flex-direction: row;
                  align-items: flex-start;
                  margin-top: 5px;
@@ -213,8 +212,8 @@ export default {
                      ${element.addr1}
                    </div>
                  </div>
-               </div>`
-      return {markerPosition, markerImage, content};
+               </div>`;
+      return { markerPosition, markerImage, content };
     },
     showMark(positions) {
       for (let i = 0; i < positions.length; i++) {
@@ -232,25 +231,21 @@ export default {
         });
 
         window.kakao.maps.event.addListener(
-            marker,
-            "mouseover",
-            this.makeOverListener(customOverlay, this.map)
+          marker,
+          "mouseover",
+          this.makeOverListener(customOverlay, this.map)
         );
         window.kakao.maps.event.addListener(
-            marker,
-            "mouseout",
-            this.makeOutListener(customOverlay)
+          marker,
+          "mouseout",
+          this.makeOutListener(customOverlay)
         );
-        window.kakao.maps.event.addListener(
-            marker,
-            "click",
-            this.makeClickListener(this, i)
-        )
+        window.kakao.maps.event.addListener(marker, "click", this.makeClickListener(this, i));
       }
     },
     makeOverListener(overlay, map) {
       return function () {
-        overlay.setMap(map)
+        overlay.setMap(map);
       };
     },
     makeOutListener(overlay) {
@@ -261,16 +256,17 @@ export default {
     makeClickListener(self, index) {
       return function () {
         // 받아온 데이터를 이용해서 모달창을 띄운다.
-        axiosBuilderWithJwt().get(`attraction/${self.curValue[index].contentId}`)
-            .then(({data}) => {
-              self.curAttraction = self.curValue[index]
-              self.curDescription = data.data;
-              self.openModal();
-            })
+        axiosBuilderWithJwt()
+          .get(`attraction/${self.curValue[index].contentId}`)
+          .then(({ data }) => {
+            self.curAttraction = self.curValue[index];
+            self.curDescription = data.data;
+            self.openModal();
+          });
       };
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
