@@ -1,6 +1,6 @@
 <template>
   <header>
-    <b-navbar toggleable="lg" type="light" variant="light" class="custom-nav" style="height: 10vh">
+    <b-navbar toggleable="lg" type="light" variant="light" class="custom-nav" style="height: 10vh; z-index: 99999">
       <b-navbar-brand href="#">
         <router-link :to="{ name: 'home' }" class="nav-link"
           ><img src="@/assets/logo.png" width="100"
