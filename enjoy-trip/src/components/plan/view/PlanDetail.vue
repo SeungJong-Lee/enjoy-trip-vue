@@ -1,13 +1,29 @@
 <template>
   <div style="height: 90vh; border-left: 1px solid gainsboro">
     <div v-if="planAttractions.length !== 0">
+      <div>
+        <b-button v-b-toggle.sidebar-right @click="executeMethod">Toggle Sidebar</b-button>
+        <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
+          <div class="px-3 py-2">
+            <plan-route ref="planRoute"></plan-route>
+          </div>
+        </b-sidebar>
+      </div>
+
       <div style="position: relative; height: 70vh; align-items: center">
         <div class="scroll-container">
-          <div class="place-container" v-for="place in planAttractions" :key="place.contentId" @click="planPlaceClickListener(place)">
+          <div
+            class="place-container"
+            v-for="place in planAttractions"
+            :key="place.contentId"
+            @click="planPlaceClickListener(place)"
+          >
             <div class="image-container">
-              <img :src="place.firstImage"
-                   onerror="this.src='https://github.com/qkdk/enjoy-trip/assets/86948395/c643b90b-fb65-4678-8dd7-7321cb0fdfaf'"
-                   class="fixed-image"/>
+              <img
+                :src="place.firstImage"
+                onerror="this.src='https://github.com/qkdk/enjoy-trip/assets/86948395/c643b90b-fb65-4678-8dd7-7321cb0fdfaf'"
+                class="fixed-image"
+              />
             </div>
             <div class="description-container">
               <div class="title-container">
@@ -20,34 +36,41 @@
           </div>
         </div>
       </div>
-<!--      <div class="button-container" @click="recommendClickListener(planInfo.planId)">-->
-<!--        <button class="rec-button">-->
-<!--          추천-->
-<!--        </button>-->
-<!--      </div>-->
+      <!--      <div class="button-container" @click="recommendClickListener(planInfo.planId)">-->
+      <!--        <button class="rec-button">-->
+      <!--          추천-->
+      <!--        </button>-->
+      <!--      </div>-->
     </div>
     <div v-else style="height: 80vh">
-      <div class="centered-text">
-        계획을 선택해주세요
-      </div>
+      <div class="centered-text">계획을 선택해주세요</div>
     </div>
   </div>
 </template>
 
 <script>
-import {axiosBuilderWithJwt} from "@/api/httpJwt";
+import { axiosBuilderWithJwt } from "@/api/httpJwt";
+import PlanRoute from "./PlanRoute.vue";
 
 export default {
   name: "PlanDetail",
+  components: {
+    PlanRoute,
+  },
   methods: {
     recommendClickListener(planId) {
-      axiosBuilderWithJwt.put(`plan/${planId}`)
-          .then(() => alert("추천되었습니다"))
-          .catch(({response}) => alert(response.data))
+      axiosBuilderWithJwt
+        .put(`plan/${planId}`)
+        .then(() => alert("추천되었습니다"))
+        .catch(({ response }) => alert(response.data));
     },
-    planPlaceClickListener(place){
+    planPlaceClickListener(place) {
       this.$store.commit("setPlanAttraction", place);
-    }
+    },
+    executeMethod() {
+      // PlanRoute 컴포넌트의 특정 메서드를 실행합니다.
+      this.$refs.planRoute.setRoute();
+    },
   },
   computed: {
     planInfo() {
@@ -56,16 +79,16 @@ export default {
     planAttractions() {
       return this.$store.getters.getPlanAttractions;
     },
-    planAttraction(){
+    planAttraction() {
       return this.$store.getters.getPlanAttraction;
-    }
+    },
   },
   created() {
     this.$store.commit("setPlanInfo", {});
     this.$store.commit("setPlanAttracions", []);
     this.$store.commit("setPlanAttraction", {});
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

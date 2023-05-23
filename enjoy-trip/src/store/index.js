@@ -1,8 +1,8 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
-import itemStore from './modules/item/itemStore';
-import trailStore from './modules/trailStore';
+import itemStore from "./modules/item/itemStore";
+import trailStore from "./modules/trailStore";
 // import userStore from "./modules/userStore";
 
 Vue.use(Vuex);
