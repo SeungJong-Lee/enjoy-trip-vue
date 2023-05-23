@@ -19,8 +19,7 @@
 
 <script>
 import { axiosBuilderWithJwt } from "@/api/http";
-
-const baseUrl = `http://localhost:8080/enjoytrip`;
+import { baseURL } from "@/api/http";
 
 export default {
   name: "MainMap",
@@ -152,21 +151,21 @@ export default {
         imageSrc =
           "https://github.com/qkdk/enjoy-trip/assets/86948395/aac0a8a9-ee1f-4ca9-a5a9-e2e4feedbcbc";
       } else if (element.contentTypeId == 12) {
-        imageSrc = `${baseUrl}/img/marker/marker_photo.png`;
+        imageSrc = `${baseURL}/img/marker/marker_photo.png`;
       } else if (element.contentTypeId == 14) {
-        imageSrc = `${baseUrl}/img/marker/marker_his.png`;
+        imageSrc = `${baseURL}/img/marker/marker_his.png`;
       } else if (element.contentTypeId == 15) {
-        imageSrc = `${baseUrl}/img/marker/marker_party.png`;
+        imageSrc = `${baseURL}/img/marker/marker_party.png`;
       } else if (element.contentTypeId == 25) {
-        imageSrc = `${baseUrl}/img/marker/marker_trip.png`;
+        imageSrc = `${baseURL}/img/marker/marker_trip.png`;
       } else if (element.contentTypeId == 28) {
-        imageSrc = `${baseUrl}/img/marker/marker_sports.png`;
+        imageSrc = `${baseURL}/img/marker/marker_sports.png`;
       } else if (element.contentTypeId == 32) {
-        imageSrc = `${baseUrl}/img/marker/marker_bed.png`;
+        imageSrc = `${baseURL}/img/marker/marker_bed.png`;
       } else if (element.contentTypeId == 38) {
-        imageSrc = `${baseUrl}/img/marker/marker_shop.png`;
+        imageSrc = `${baseURL}/img/marker/marker_shop.png`;
       } else if (element.contentTypeId == 39) {
-        imageSrc = `${baseUrl}/img/marker/marker_food.png`;
+        imageSrc = `${baseURL}/img/marker/marker_food.png`;
       }
       const coordX = element.latitude;
       const coordY = element.longitude;
