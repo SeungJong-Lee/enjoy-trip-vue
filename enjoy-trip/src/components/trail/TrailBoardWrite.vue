@@ -2,7 +2,14 @@
   <div>
     <b-row>
       <b-col cols="4">
-        <TrailView class="view"></TrailView>
+        <TrailView class="view" v-if="isView"></TrailView>
+        <main-map
+          style="height: 50%; margin-top: 20%; margin-left: 10%"
+          v-else
+        ></main-map>
+        <div>
+          <button @click="isView = !isView" style="margin-top: 5%">전환</button>
+        </div>
       </b-col>
       <b-col cols="6" class="mm">
         <TrailBoardWriteItem
@@ -19,6 +26,7 @@
 import TrailView from './TrailView.vue';
 import TrailBoardWriteItem from './TrailBoardWriteItem.vue';
 import TrailBoardView from './TrailBoardView.vue';
+import MainMap from '../plan/MainMap.vue';
 import { mapState } from 'vuex';
 const trailStore = 'trailStore';
 export default {
@@ -27,10 +35,12 @@ export default {
     TrailView,
     TrailBoardWriteItem,
     TrailBoardView,
+    MainMap,
   },
   data() {
     return {
       message: '',
+      isView: true,
     };
   },
   computed: {
