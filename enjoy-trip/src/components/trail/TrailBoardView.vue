@@ -1,56 +1,68 @@
 <template>
-  <div class="post-details" v-if="board != null">
-    <h2 class="post-title">{{ board.trail_board_title }}</h2>
-    <div class="post-content-wrapper">
-      <div class="post-content">
-        <p class="post-info">작성자: {{ board.user_id }}</p>
-        <p class="post-info">글번호: {{ board.trail_board_no }}</p>
-        <p class="post-info">여행시작일: {{ board.trail_board_start_time | formatDate }}</p>
-        <p class="post-info">여행종료일: {{ board.trail_board_end_time | formatDate }}</p>
-        <p class="post-info">
-          모집인원: {{ members.length }} /
-          {{ board.trail_board_max_member }}
-        </p>
-        <p class="post-info">작성일: {{ board.trail_board_create_time | formatDate }}</p>
-      </div>
-      <div v-if="members != null">
-        <span>함께하는사람 : </span>
-        <span v-for="(member, index) in members" :key="index">
-          {{ member.trail_party_member_id }}
-        </span>
-      </div>
-    </div>
-    <div class="post-content-wrapper">
-      <div class="post-content">{{ board.trail_board_content }}</div>
-    </div>
-    <div class="button-group">
-      <button
-        v-if="
-          !joinmembers.includes(loninUser) &&
-          joinCount < board.trail_board_max_member &&
-          joinCount > 0
-        "
-        class="btn btn-custom btn-join"
-        @click="joinTrip"
-      >
-        여행 참여하기
-      </button>
-      <span v-if="loninUser == board.user_id">
-        <button class="btn btn-custom btn-edit" @click="editPost">수정</button>
-        <button class="btn btn-custom btn-delete" @click="deletePost">삭제</button>
-      </span>
-      <button class="btn btn-custom btn-mvlist" @click="mvList">목록</button>
-    </div>
+  <div>
+    <b-row>
+      <b-col cols="4">
+        <main-map style="height: 50%; margin-top: 20%; margin-left: 10%"></main-map>
+      </b-col>
+      <b-col cols="8">
+        <div class="post-details" v-if="board != null">
+          <h2 class="post-title">{{ board.trail_board_title }}</h2>
+          <div class="post-content-wrapper">
+            <div class="post-content">
+              <p class="post-info">작성자: {{ board.user_id }}</p>
+              <p class="post-info">글번호: {{ board.trail_board_no }}</p>
+              <p class="post-info">여행시작일: {{ board.trail_board_start_time | formatDate }}</p>
+              <p class="post-info">여행종료일: {{ board.trail_board_end_time | formatDate }}</p>
+              <p class="post-info">
+                모집인원: {{ members.length }} /
+                {{ board.trail_board_max_member }}
+              </p>
+              <p class="post-info">작성일: {{ board.trail_board_create_time | formatDate }}</p>
+            </div>
+            <div v-if="members != null">
+              <span>함께하는사람 : </span>
+              <span v-for="(member, index) in members" :key="index">
+                {{ member.trail_party_member_id }}
+              </span>
+            </div>
+          </div>
+          <div class="post-content-wrapper">
+            <div class="post-content">{{ board.trail_board_content }}</div>
+          </div>
+          <div class="button-group">
+            <button
+              v-if="
+                !joinmembers.includes(loninUser) &&
+                joinCount < board.trail_board_max_member &&
+                joinCount > 0
+              "
+              class="btn btn-custom btn-join"
+              @click="joinTrip"
+            >
+              여행 참여하기
+            </button>
+            <span v-if="loninUser == board.user_id">
+              <button class="btn btn-custom btn-edit" @click="editPost">수정</button>
+              <button class="btn btn-custom btn-delete" @click="deletePost">삭제</button>
+            </span>
+            <button class="btn btn-custom btn-mvlist" @click="mvList">목록</button>
+          </div>
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
 import { axiosBuilderWithJwt } from "@/api/http";
+import MainMap from "../plan/MainMap.vue";
 
 const trailStore = "trailStore";
 export default {
   name: "TrailBoardView",
-  components: {},
+  components: {
+    MainMap,
+  },
   data() {
     return {
       message: "",

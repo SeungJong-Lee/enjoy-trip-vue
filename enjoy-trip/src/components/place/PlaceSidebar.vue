@@ -8,7 +8,12 @@
     <div>
       <b-row v-for="(user, index) in follow" :key="index" style="margin-bottom: 1%">
         <b-col cols="3">
-          <img :src="mkUrl(user.userImgSrc)" width="50" class="userImg" />
+          <img
+            :src="mkUrl(user.userImgSrc)"
+            width="50"
+            class="userImg"
+            onerror="this.src='https://github.com/qkdk/enjoy-trip/assets/86948395/c643b90b-fb65-4678-8dd7-7321cb0fdfaf'"
+          />
         </b-col>
         <b-col cols="9" class="mt-2">{{ user.userId }}</b-col>
       </b-row>
