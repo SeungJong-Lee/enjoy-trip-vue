@@ -11,7 +11,7 @@
         <main-card
           v-for="item in placeData1"
           :key="item.placeNo"
-          :image-url="item.placeImgSrc"
+          :image-url="mkUrl(item.placeImgSrc)"
           :title="item.placeTitle"
           style="flex: 1; margin-left: 10px; margin-right: 10px"
         >
@@ -21,7 +21,7 @@
         <main-card
           v-for="item in placeData2"
           :key="item.placeNo"
-          :image-url="item.placeImgSrc"
+          :image-url="mkUrl(item.placeImgSrc)"
           :title="item.placeTitle"
           style="flex: 1; margin-left: 10px; margin-right: 10px"
         >
@@ -234,6 +234,7 @@
 import MainCarousel from "@/components/main/MainCarousel";
 import MainCard from "@/components/main/MainCard";
 import { axiosBuilderWithJwt } from "@/api/http";
+import { baseURL } from "@/api/http";
 
 export default {
   name: "AppMain",
@@ -257,7 +258,11 @@ export default {
         }
       });
   },
-  methods: {},
+  methods: {
+    mkUrl(url) {
+      return baseURL + url;
+    },
+  },
 };
 </script>
 
