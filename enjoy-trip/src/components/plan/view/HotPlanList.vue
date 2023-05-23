@@ -38,7 +38,11 @@
         </div>
         <div class="description-container">
           <div class="user-info">만든이: {{ plan.userId }}</div>
-          <div class="recommend-count">추천수: {{ plan.recommendCount }}</div>
+          <div class="recommend-count">
+            <heart-button :is-clickable="isClickable(plan.planId)"
+                          @heart-button-click="recommendClickListener(plan.planId)"></heart-button>
+            {{ plan.recommendCount }}
+          </div>
         </div>
       </div>
     </div>
@@ -59,10 +63,14 @@
 </template>
 
 <script>
+// userId로 조회한다. 좋아요 표시한 목록을
+// 버튼에 인자로 넘겨준다. 값 비교한 것을
 import {axiosBuilderWithJwt} from "@/api/http";
+import HeartButton from "@/components/HeartButton";
 
 export default {
   name: "HotPlanList",
+  components: {HeartButton},
   data() {
     return {
       pgno: 1,
@@ -71,12 +79,34 @@ export default {
       searchWord: "",
       key: "plan_title",
       selectedPlanId: "",
+      recommendList: [],
     };
   },
   created() {
     this.getHotPlanList();
+    this.getRecommendList();
   },
   methods: {
+    recommendClickListener(planId) {
+      axiosBuilderWithJwt()
+          .put(`plan/${planId}`)
+          .then(() => alert("추천되었습니다"))
+          .catch(({response}) => alert(response.data));
+    },
+    isClickable(planId) {
+      for (const recommendedPlanId of this.recommendList) {
+        if (planId == recommendedPlanId) {
+          return false;
+        }
+      }
+      return true;
+    },
+    getRecommendList() {
+      axiosBuilderWithJwt()
+          .get("http://localhost:8080/enjoytrip/plan/recommend")
+          .then(({data}) => this.recommendList = data.data)
+          .catch(({response}) => alert(response.data));
+    },
     copyPlan() {
       if (this.selectedPlanId.length === 0) {
         alert("계획을 선택해주세요");
@@ -132,9 +162,7 @@ export default {
       }
     },
   }
-  ,
 }
-;
 </script>
 
 <style scoped>

@@ -10,6 +10,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import '@/api/lib/fontAwesomeIcon.js'; // fontAwesomeIcon.js 불러옴
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+library.add(faHeart);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
