@@ -80,6 +80,7 @@ export default {
       key: "plan_title",
       selectedPlanId: "",
       recommendList: [],
+      currentMethod: this.getHotPlanList,
     };
   },
   created() {
@@ -90,7 +91,7 @@ export default {
     recommendClickListener(planId) {
       axiosBuilderWithJwt()
           .put(`plan/${planId}`)
-          .then(() => alert("추천되었습니다"))
+          .then(() => this.currentMethod())
           .catch(({response}) => alert(response.data));
     },
     isClickable(planId) {
@@ -124,18 +125,21 @@ export default {
           .catch(({response}) => alert(response.data));
     },
     getListByKeyAndWord() {
+      this.currentMethod = this.getListByKeyAndWord;
       axiosBuilderWithJwt()
           .get(`plan/view?pgno=${this.pgno}&key=${this.key}&word=${this.searchWord}`)
           .then(({data}) => (this.planList = data.data))
           .catch(({response}) => alert(response.data));
     },
     getHotPlanList() {
+      this.currentMethod = this.getHotPlanList;
       axiosBuilderWithJwt()
           .get(`plan/view?pgno=${this.pgno}&order=recommend_count`)
           .then(({data}) => (this.planList = data.data))
           .catch(({response}) => alert(response.data));
     },
     getMyPlanList() {
+      this.currentMethod = this.getMyPlanList;
       axiosBuilderWithJwt()
           .get(`plan/view/user`)
           .then(({data}) => (this.planList = data.data))
