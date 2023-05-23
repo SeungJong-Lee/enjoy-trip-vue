@@ -1,13 +1,13 @@
 <template>
   <button :class="{ 'heart-button': true, 'red': isClicked }" @click="toggleHeart">
-    <font-awesome-icon :icon="['fas', 'heart']" />
+    <font-awesome-icon :icon="['fas', 'heart']"/>
   </button>
 </template>
 
 <script>
 export default {
-  name:"HeartButton",
-  props:["isClickable"],
+  name: "HeartButton",
+  props: ["isClickable"],
   data() {
     return {
       isClicked: false
@@ -18,10 +18,8 @@ export default {
   },
   methods: {
     toggleHeart() {
-      if(!this.isClicked){
-        this.isClicked = !this.isClicked;
-        this.$emit("heart-button-click");
-      }
+      this.isClicked = !this.isClicked;
+      this.$emit("heart-button-click", this.isClicked);
     }
   }
 };

@@ -40,7 +40,7 @@
           <div class="user-info">만든이: {{ plan.userId }}</div>
           <div class="recommend-count">
             <heart-button :is-clickable="isClickable(plan.planId)"
-                          @heart-button-click="recommendClickListener(plan.planId)"></heart-button>
+                          @heart-button-click="(isClicked) => recommendClickListener(plan.planId, isClicked)"></heart-button>
             {{ plan.recommendCount }}
           </div>
         </div>
@@ -63,8 +63,6 @@
 </template>
 
 <script>
-// userId로 조회한다. 좋아요 표시한 목록을
-// 버튼에 인자로 넘겨준다. 값 비교한 것을
 import {axiosBuilderWithJwt} from "@/api/http";
 import HeartButton from "@/components/HeartButton";
 
@@ -88,9 +86,10 @@ export default {
     this.getRecommendList();
   },
   methods: {
-    recommendClickListener(planId) {
+    recommendClickListener(planId, isClicked) {
+      const value = isClicked ? 1 : -1
       axiosBuilderWithJwt()
-          .put(`plan/${planId}`)
+          .put(`plan/${planId}?value=${value}`)
           .then(() => this.currentMethod())
           .catch(({response}) => alert(response.data));
     },
