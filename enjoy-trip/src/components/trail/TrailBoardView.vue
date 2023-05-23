@@ -67,6 +67,9 @@
             </button>
           </div>
         </div>
+        <div>
+          <trail-board-reply></trail-board-reply>
+        </div>
       </b-col>
     </b-row>
   </div>
@@ -77,6 +80,7 @@ import { mapState, mapActions, mapMutations } from 'vuex';
 import { axiosBuilderWithJwt } from '@/api/http';
 import MainMap from '../plan/MainMap.vue';
 import TrailView from './TrailView.vue';
+import TrailBoardReply from './TrailBoardReply.vue';
 
 const trailStore = 'trailStore';
 export default {
@@ -84,6 +88,7 @@ export default {
   components: {
     MainMap,
     TrailView,
+    TrailBoardReply,
   },
   data() {
     return {
@@ -234,7 +239,7 @@ export default {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-top: 5%;
-  margin-bottom: 20%;
+  margin-bottom: 5%;
 }
 
 .post-title {
