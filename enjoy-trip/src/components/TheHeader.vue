@@ -1,6 +1,12 @@
 <template>
   <header>
-    <b-navbar toggleable="lg" type="light" variant="light" class="custom-nav" style="height: 10vh; z-index: 99999">
+    <b-navbar
+      toggleable="lg"
+      type="light"
+      variant="light"
+      class="custom-nav"
+      style="height: 10vh; z-index: 999"
+    >
       <b-navbar-brand href="#">
         <router-link :to="{ name: 'home' }" class="nav-link"
           ><img src="@/assets/logo.png" width="100"
@@ -12,24 +18,16 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item href="">
-            <router-link :to="{ name: 'plan' }" class="nav-link"
-              >여행계획</router-link
-            >
+            <router-link :to="{ name: 'plan' }" class="nav-link">여행계획</router-link>
           </b-nav-item>
           <b-nav-item href="">
-            <router-link :to="{ name: 'place' }" class="nav-link"
-              >핫플레이스
-            </router-link>
+            <router-link :to="{ name: 'place' }" class="nav-link">핫플레이스 </router-link>
           </b-nav-item>
           <b-nav-item href="">
-            <router-link :to="{ name: 'notice' }" class="nav-link"
-              >공지사항
-            </router-link>
+            <router-link :to="{ name: 'notice' }" class="nav-link">공지사항 </router-link>
           </b-nav-item>
           <b-nav-item href="">
-            <router-link :to="{ name: 'trail' }" class="nav-link"
-              >둘레길
-            </router-link>
+            <router-link :to="{ name: 'trail' }" class="nav-link">둘레길 </router-link>
           </b-nav-item>
         </b-navbar-nav>
 
@@ -56,11 +54,11 @@
 
 <script>
 export default {
-  name: 'TheHeader',
+  name: "TheHeader",
   components: {},
   data() {
     return {
-      message: '',
+      message: "",
     };
   },
   computed: {
@@ -72,9 +70,9 @@ export default {
   methods: {
     logout() {
       sessionStorage.clear();
-      this.$store.commit('setLoggedIn', false);
-      if (this.$route.name !== 'home') {
-        this.$router.push({ name: 'home' });
+      this.$store.commit("setLoggedIn", false);
+      if (this.$route.name !== "home") {
+        this.$router.push({ name: "home" });
       }
     },
   },
