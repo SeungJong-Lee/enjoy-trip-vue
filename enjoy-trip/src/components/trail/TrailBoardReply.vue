@@ -30,6 +30,7 @@ import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 
 library.add(faPencilAlt);
 
@@ -46,15 +47,28 @@ export default {
         boardNo: 0,
         replyUserId: sessionStorage.getItem('userId'),
         replyContent: '',
+        replyCreateTime: '',
       },
       comments: [],
     };
   },
   computed: {
     ...mapState(trailStore, ['board']),
+    ...mapState(trailStore, ['members']),
   },
   methods: {
-    submitComment() {},
+    submitComment() {
+      if (this.members.includes(this.reply.replyUserId)) {
+        console.log(this.reply);
+        axiosBuilderWithJwt().post(`/trail/board/reply/write`, this.reply);
+        this.reply.replyCreateTime = moment().format('YYYY-MM-DD HH:mm:ss');
+        this.comments.push(this.reply);
+        this.reply.replyContent = '';
+        this.replyCreateTime = '';
+      } else {
+        alert('계획에 참여하는 사람만 댓글 작성이 가능합니다.');
+      }
+    },
     fetchComments() {
       setTimeout(() => {
         axiosBuilderWithJwt()
@@ -62,14 +76,18 @@ export default {
           .then(({ data }) => {
             this.comments = data;
             console.log(this.comments);
+          })
+          .catch(() => {
+            alert('다시 클릭해주세요');
           });
-      }, 1300);
+      }, 1000);
     },
   },
   mounted() {
     // 컴포넌트가 마운트된 후 서버에서 댓글 목록을 가져옵니다.
 
     this.fetchComments();
+    this.reply.boardNo = this.board.trail_board_no;
   },
 };
 </script>
