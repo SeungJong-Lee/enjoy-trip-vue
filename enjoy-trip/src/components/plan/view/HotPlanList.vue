@@ -1,59 +1,37 @@
 <template>
   <div>
-    <div
-      style="
-        display: flex;
-        flex-direction: column;
-        padding: 1vh;
-        height: 25vh;
-        border-bottom: 1px solid gainsboro;
-      "
-    >
+    <div class="control-container">
       <div style="flex: 1">
-        <button v-if="isMyPlan" class="toggle-button">인기 계획 보기</button>
-        <button v-else class="toggle-button">내 계획 보기</button>
+        <button v-if="isMyPlan" class="toggle-button" @click="changePlanList">인기 계획 보기</button>
+        <button v-else class="toggle-button" @click="changePlanList">내 계획 보기</button>
       </div>
       <div style="flex: 1; display: flex; justify-content: space-between">
-        <div
-          style="
-            display: flex;
-            align-content: center;
-            justify-content: center;
-            flex-direction: column;
-          "
-        >
+        <div class="centered-item">
           검색 조건
         </div>
-        <div
-          style="
-            display: flex;
-            align-content: center;
-            justify-content: center;
-            flex-direction: column;
-          "
-        >
-          <select>
-            <option>계획 이름</option>
-            <option>작성자</option>
+        <div class="centered-item">
+          <select v-model="key">
+            <option value="plan_title">계획 이름</option>
+            <option value="user_id">작성자</option>
           </select>
         </div>
       </div>
       <div style="flex: 1; display: flex; justify-content: space-between">
-        <input v-model="searchWord" placeholder="여행지 검색" style="width: calc(100% - 5vh)" />
-        <button @click="getPlan" style="border: 0; background-color: rgba(0, 0, 0, 0)">
+        <input v-model="searchWord" placeholder="여행지 검색" style="width: calc(100% - 5vh)"/>
+        <button @click="getListByKeyAndWord" style="border: 0; background-color: rgba(0, 0, 0, 0)">
           <img
-            style="height: 4vh"
-            src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe"
+              style="height: 4vh"
+              src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe"
           />
         </button>
       </div>
     </div>
     <div class="scroll-container">
       <div
-        v-for="plan in planList"
-        :key="plan.planId"
-        class="plan-container"
-        @click="planClickListener(plan.planId)"
+          v-for="plan in planList"
+          :key="plan.planId"
+          class="plan-container"
+          @click="planClickListener(plan.planId)"
       >
         <div class="title-container">
           {{ plan.planTitle }}
@@ -65,7 +43,7 @@
       </div>
     </div>
     <div
-      style="
+        style="
         height: 10vh;
         padding: 1vh;
         border-top: 1px solid gainsboro;
@@ -81,7 +59,7 @@
 </template>
 
 <script>
-import { axiosBuilderWithJwt } from "@/api/http";
+import {axiosBuilderWithJwt} from "@/api/http";
 
 export default {
   name: "HotPlanList",
@@ -91,30 +69,49 @@ export default {
       planList: [],
       isMyPlan: false,
       searchWord: "",
+      key: "plan_title",
     };
   },
   created() {
     this.getHotPlanList();
   },
   methods: {
-    getPlan() {
-      console.log("getPlanMethodCall");
+    getListByKeyAndWord() {
+      axiosBuilderWithJwt()
+          .get(`plan/view?pgno=${this.pgno}&key=${this.key}&word=${this.searchWord}`)
+          .then(({data}) => (this.planList = data.data))
+          .catch(({response}) => alert(response.data));
     },
     getHotPlanList() {
       axiosBuilderWithJwt()
-        .get(`plan/view?pgno=${this.pgno}&order=recommend_count`)
-        .then(({ data }) => (this.planList = data.data))
-        .catch(({ response }) => alert(response.data));
+          .get(`plan/view?pgno=${this.pgno}&order=recommend_count`)
+          .then(({data}) => (this.planList = data.data))
+          .catch(({response}) => alert(response.data));
+    },
+    getMyPlanList() {
+      axiosBuilderWithJwt()
+          .get(`plan/view/user`)
+          .then(({data}) => (this.planList = data.data))
+          .catch(({response}) => alert(response.data));
     },
     planClickListener(planId) {
       axiosBuilderWithJwt()
-        .get(`plan/${planId}`)
-        .then(({ data }) => this.setSelectedPlanState(data.data))
-        .catch(({ response }) => alert(response.data));
+          .get(`plan/${planId}`)
+          .then(({data}) => this.setSelectedPlanState(data.data))
+          .catch(({response}) => alert(response.data));
     },
     setSelectedPlanState(data) {
       this.$store.commit("setPlanInfo", data.planInfo);
       this.$store.commit("setPlanAttracions", data.attractionList);
+    },
+    changePlanList() {
+      if (this.isMyPlan) {
+        this.getHotPlanList();
+        this.isMyPlan = !this.isMyPlan;
+      } else {
+        this.getMyPlanList();
+        this.isMyPlan = !this.isMyPlan;
+      }
     },
   },
 };
@@ -129,6 +126,14 @@ export default {
   outline: none;
   color: white;
   padding: 10px;
+}
+
+.control-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1vh;
+  height: 25vh;
+  border-bottom: 1px solid gainsboro;
 }
 
 .submit-button {
@@ -192,5 +197,12 @@ export default {
   color: gray;
   margin-top: auto;
   margin-bottom: 0;
+}
+
+.centered-item {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
 }
 </style>
