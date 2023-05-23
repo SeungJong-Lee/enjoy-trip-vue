@@ -2,10 +2,7 @@
   <div class="carousel">
     <div ref="carouselWrapper" class="carousel-wrapper" :style="{ transform: `translateX(-${currentSlide * slideWidth}px)` }">
       <div v-for="(slide, index) in slides" :key="index" class="carousel-slide">
-        <!-- Slide content -->
         <img :src="slide.image" alt="Slide Image" style="height: 90vh; width: 100vw">
-<!--        <h3>{{ slide.title }}</h3>-->
-<!--        <p>{{ slide.description }}</p>-->
       </div>
     </div>
     <button class="carousel-prev" @click="prevSlide">&#8249;</button>
@@ -20,9 +17,9 @@ export default {
       currentSlide: 0,
       slideWidth: 0,
       slides: [
-        { image: 'https://picsum.photos/id/49/1920/1080', title: 'Slide 1', description: 'Description 1' },
+        { image: 'https://picsum.photos/id/109/1920/1080', title: 'Slide 1', description: 'Description 1' },
         { image: 'https://picsum.photos/id/84/1920/1080', title: 'Slide 2', description: 'Description 2' },
-        { image: 'https://picsum.photos/id/109/1920/1080', title: 'Slide 3', description: 'Description 3' },
+        { image: 'https://picsum.photos/id/49/1920/1080', title: 'Slide 3', description: 'Description 3' },
       ],
     };
   },

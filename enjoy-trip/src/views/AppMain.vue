@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="floating-div">
-      <h1 class="fade-in" style="color: #3f6ba0">Trip By Step</h1>
-      <h3 class="fade-in" style="color: #3f6ba0">marcher dans le monde</h3>
+      <h1 class="fade-in" style="color: dodgerblue">Trip By Step</h1>
+      <h3 class="fade-in" style="color: dodgerblue">marcher dans le monde</h3>
     </div>
     <main-carousel style="height: 90vh"></main-carousel>
     <div style="height: 85vh; padding-top: 2vh; padding-left: 10vw; padding-right: 10vw">
