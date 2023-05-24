@@ -92,6 +92,7 @@
         :title="article.placeTitle"
         v-model="isModalOpen"
         class="custom-modal"
+        hide-footer
     >
       <b-row>
         <b-col cols="8">
