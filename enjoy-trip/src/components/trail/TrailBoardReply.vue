@@ -132,9 +132,6 @@ export default {
   margin: 0 auto;
 }
 
-.comment-form {
-  margin-bottom: 20px;
-}
 
 .comment-form input {
   width: 100%;
@@ -154,13 +151,6 @@ export default {
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-}
-
-.comment-list {
-  margin-top: 20px;
-  max-height: 300px; /* 원하는 높이로 조정 */
-  overflow-y: auto; /* 수직 스크롤바 표시 */
-  margin-top: 20px;
 }
 
 .comment {

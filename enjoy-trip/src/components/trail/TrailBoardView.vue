@@ -1,43 +1,21 @@
 <template>
   <div>
-    <b-row>
-      <b-col
-        cols="4"
-        style="display: flex; flex-direction: column; border-radius: 50%"
-      >
-        <div style="margin-bottom: 20px">
-          <trail-view
-            v-if="!isView"
-            style="
-              height: 410px;
-              width: 600px;
-              margin-left: 150px;
-              margin-top: 65px;
-            "
-          ></trail-view>
-
-          <trail-map
-            style="
-              height: 410px;
-              width: 600px;
-              margin-left: 150px;
-              margin-top: 65px;
-            "
-            v-else
-          ></trail-map>
+    <b-row style="margin: 0">
+      <b-col cols="5" style="display: flex; flex-direction: column; padding: 0">
+        <div style="height: 80vh; width: 100%">
+          <div class="title-container">
+            <h1>둘레길 정보</h1>
+          </div>
+          <trail-view v-if="!isView" class="trail-view-container"></trail-view>
+          <trail-map v-else style="height: 70vh; width: 100%"></trail-map>
         </div>
 
-        <div>
-          <button
-            class="custom-button"
-            @click="isView = !isView"
-            style="margin-top: 5%; margin-left: 260px"
-          >
-            전환
-          </button>
+        <div class="button-container">
+          <button class="custom-button" @click="isView = !isView">전환</button>
         </div>
+
       </b-col>
-      <b-col cols="8">
+      <b-col cols="7" style="padding-top: 10vh; padding-bottom: 0; padding-left: 2vw; padding-right: 2vw;">
         <div class="post-details" v-if="board != null">
           <h2 class="post-title">{{ board.trail_board_title }}</h2>
           <div class="post-content-wrapper">
@@ -70,13 +48,13 @@
           </div>
           <div class="button-group">
             <button
-              v-if="
+                v-if="
                 !joinmembers.includes(loninUser) &&
                 joinCount < board.trail_board_max_member &&
                 joinCount > 0
               "
-              class="btn btn-custom btn-join"
-              @click="joinTrip"
+                class="btn btn-custom btn-join"
+                @click="joinTrip"
             >
               여행 참여하기
             </button>
@@ -93,7 +71,7 @@
             </button>
           </div>
         </div>
-        <div>
+        <div style="padding-top: 2vh">
           <trail-board-reply></trail-board-reply>
         </div>
       </b-col>
@@ -101,10 +79,9 @@
   </div>
 </template>
 <script>
-// import axios from 'axios';
 import jsonp from 'jsonp';
-import { mapState, mapActions, mapMutations } from 'vuex';
-import { axiosBuilderWithJwt } from '@/api/http';
+import {mapActions, mapMutations, mapState} from 'vuex';
+import {axiosBuilderWithJwt} from '@/api/http';
 import TrailView from './TrailView.vue';
 import TrailBoardReply from './TrailBoardReply.vue';
 import TrailMap from '@/components/trail/TrailMap';
@@ -143,65 +120,65 @@ export default {
   },
   created() {
     axiosBuilderWithJwt()
-      .get(`/trail/view/${this.board.trail_board_trail_id}`)
-      .then(({ data }) => {
-        this.setTrail(data);
-      });
+        .get(`/trail/view/${this.board.trail_board_trail_id}`)
+        .then(({data}) => {
+          this.setTrail(data);
+        });
     setTimeout(() => {
       axiosBuilderWithJwt()
-        .get(`/trail/getcity/${this.board.trail_board_trail_id}`)
-        .then(({ data }) => {
-          // this.cityName =
-          //   data.startSidoName +
-          //   " " +
-          //   data.startGugunName +
-          //   " " +
-          //   " " +
-          //   data.endSidoName +
-          //   " " +
-          //   data.endGugunName +
-          //   " " +
-          //   this.trail.start_detail_addr;
-          this.cityName.startName =
-            data.startSidoName +
-            ' ' +
-            data.startGugunName +
-            ' ' +
-            this.trail.start_detail_addr;
-          this.cityName.endName =
-            data.endSidoName +
-            ' ' +
-            data.endGugunName +
-            ' ' +
-            this.trail.end_detail_addr;
-          console.log(
-            this.cityName.startName +
-              ' ' +
-              this.cityName.endName +
-              ' asdadasdasdasd'
-          );
-        });
+          .get(`/trail/getcity/${this.board.trail_board_trail_id}`)
+          .then(({data}) => {
+            // this.cityName =
+            //   data.startSidoName +
+            //   " " +
+            //   data.startGugunName +
+            //   " " +
+            //   " " +
+            //   data.endSidoName +
+            //   " " +
+            //   data.endGugunName +
+            //   " " +
+            //   this.trail.start_detail_addr;
+            this.cityName.startName =
+                data.startSidoName +
+                ' ' +
+                data.startGugunName +
+                ' ' +
+                this.trail.start_detail_addr;
+            this.cityName.endName =
+                data.endSidoName +
+                ' ' +
+                data.endGugunName +
+                ' ' +
+                this.trail.end_detail_addr;
+            console.log(
+                this.cityName.startName +
+                ' ' +
+                this.cityName.endName +
+                ' asdadasdasdasd'
+            );
+          });
     }, 300);
     setTimeout(() => {
       jsonp(
-        `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
-        null,
-        (err, data) => {
-          if (err) {
-            console.log(err);
-          } else {
-            if (data.response.status == 'OK') {
-              console.log(data + 'startOk');
-              this.trailLocation = {
-                startX: data.response.result.point.x,
-                startY: data.response.result.point.y,
-              };
-              // console.log('ok');
+          `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
+          null,
+          (err, data) => {
+            if (err) {
+              console.log(err);
             } else {
-              this.isError = true;
+              if (data.response.status == 'OK') {
+                console.log(data + 'startOk');
+                this.trailLocation = {
+                  startX: data.response.result.point.x,
+                  startY: data.response.result.point.y,
+                };
+                // console.log('ok');
+              } else {
+                this.isError = true;
+              }
             }
           }
-        }
       );
       // axios
       //   .get(
@@ -225,25 +202,25 @@ export default {
       if (this.isError) {
         console.log('에러발생');
         jsonp(
-          `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
-          null,
-          (err, data) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(data);
-              if (data.response.status != 'OK') {
-                console.log(data + ' startOk');
-                this.trailLocation.startX = null;
-                this.trailLocation.startY = null;
+            `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
+            null,
+            (err, data) => {
+              if (err) {
+                console.log(err);
               } else {
-                this.trailLocation = {
-                  startX: data.response.result.point.x,
-                  startY: data.response.result.point.y,
-                };
+                console.log(data);
+                if (data.response.status != 'OK') {
+                  console.log(data + ' startOk');
+                  this.trailLocation.startX = null;
+                  this.trailLocation.startY = null;
+                } else {
+                  this.trailLocation = {
+                    startX: data.response.result.point.x,
+                    startY: data.response.result.point.y,
+                  };
+                }
               }
             }
-          }
         );
         // axios
         //   .get(
@@ -266,22 +243,22 @@ export default {
     }, 750);
     setTimeout(() => {
       jsonp(
-        `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
-        null,
-        (err, data) => {
-          if (err) {
-            console.log(err);
-          } else {
-            if (data.response.status == 'OK') {
-              console.log(data + ' endOd');
-              this.trailLocation.endX = data.response.result.point.x;
-              this.trailLocation.endY = data.response.result.point.y;
-              // console.log('ok');
+          `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
+          null,
+          (err, data) => {
+            if (err) {
+              console.log(err);
             } else {
-              this.isError = true;
+              if (data.response.status == 'OK') {
+                console.log(data + ' endOd');
+                this.trailLocation.endX = data.response.result.point.x;
+                this.trailLocation.endY = data.response.result.point.y;
+                // console.log('ok');
+              } else {
+                this.isError = true;
+              }
             }
           }
-        }
       );
       // axios
       //   .get(
@@ -302,23 +279,23 @@ export default {
     setTimeout(() => {
       if (this.isError) {
         jsonp(
-          `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
-          null,
-          (err, data) => {
-            console.log('에러발생');
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(data + ' endOk');
-              if (data.response.status != 'OK') {
-                this.trailLocation.endX = null;
-                this.trailLocation.endY = null;
+            `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
+            null,
+            (err, data) => {
+              console.log('에러발생');
+              if (err) {
+                console.log(err);
               } else {
-                this.trailLocation.endX = data.response.result.point.x;
-                this.trailLocation.endY = data.response.result.point.y;
+                console.log(data + ' endOk');
+                if (data.response.status != 'OK') {
+                  this.trailLocation.endX = null;
+                  this.trailLocation.endY = null;
+                } else {
+                  this.trailLocation.endX = data.response.result.point.x;
+                  this.trailLocation.endY = data.response.result.point.y;
+                }
               }
             }
-          }
         );
         // console.log('에러발생');
         // axios
@@ -379,13 +356,13 @@ export default {
     },
     deletePost() {
       axiosBuilderWithJwt()
-        .delete(`/trail/board/delete/${this.board.trail_board_no}`)
-        .then(() => {
-          this.$router.push('/trail');
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+          .delete(`/trail/board/delete/${this.board.trail_board_no}`)
+          .then(() => {
+            this.$router.push('/trail');
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     },
     mvList() {
       this.$router.push('/trail');
@@ -395,16 +372,18 @@ export default {
 </script>
 
 <style scoped>
+.title-container {
+  height: 10vh;
+  align-items: center;
+  padding: 1vh;
+}
+
 .post-details {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+  padding: 1vw;
   background-color: #f2f7fb;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 5%;
-  margin-bottom: 5%;
 }
 
 .post-title {
@@ -491,23 +470,40 @@ export default {
 .btn-custom:hover .btn-join {
   color: #fff;
 }
+
 .button-group {
   text-align: right;
 }
 
 .custom-button {
-  margin-top: 5%;
-  margin-left: 200px;
-  padding: 10px 20px;
-  background-color: #c2daee;
-  color: #000000;
+  width: 50%;
+  height: 50%;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
+  background-color: #a7dbe1;
 }
+
 
 .custom-button:hover {
   background-color: #81c5fd;
 }
+
+.trail-view-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  width: 100%;
+  padding: 5vh;
+}
+
+.button-container {
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 </style>
