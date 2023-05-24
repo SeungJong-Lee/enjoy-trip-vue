@@ -1,48 +1,51 @@
 <template>
-  <div class="post-editor" v-if="board == null">
-    <h1>같이 둘레길 갈 사람을 구해보세요</h1>
-    <input type="text" v-model="title" placeholder="제목" class="input-field" />
-    <textarea v-model="content" placeholder="내용" rows="8" class="textarea-field"></textarea>
-    <div class="date-picker">
-      <label for="start-date">시작일:</label>
-      <input type="date" id="start-date" v-model="startDate" class="date-input" />
+  <div class="post-container" v-if="board == null">
+    <div class="post-detail-container">
+      <input type="text" v-model="title" placeholder="제목" class="input-field"/>
+      <textarea v-model="content" placeholder="내용" rows="8" class="textarea-field"></textarea>
+      <div class="date-picker">
+        <label for="start-date" style="width: auto; margin: 0; margin-right: 1vw">시작일:</label>
+        <input type="date" id="start-date" v-model="startDate" class="date-input" style="flex: 1"/>
+      </div>
+      <div class="date-picker">
+        <label for="end-date" style="width: auto; margin: 0; margin-right: 1vw">종료일:</label>
+        <input type="date" id="end-date" v-model="endDate" class="date-input" style="flex: 1"/>
+      </div>
+      <vue-slider v-model="numPeople" :min="1" :max="10" class="slider"></vue-slider>
+      <div class="slider-text">몇 명에서 가고 싶은가요? {{ numPeople }}명</div>
     </div>
-    <div class="date-picker">
-      <label for="end-date">종료일:</label>
-      <input type="date" id="end-date" v-model="endDate" class="date-input" />
+    <div class="button-container">
+      <button class="custom-button" @click="write">작성</button>
     </div>
-    <vue-slider v-model="numPeople" :min="1" :max="10" class="slider"></vue-slider>
-    <div class="slider-text">몇 명에서 가고 싶은가요? {{ numPeople }}명</div>
-    <button class="submit-button" @click="write">작성</button>
   </div>
 
   <div class="post-modify" v-else>
     <h1>같이 둘레길 갈 사람을 구해보세요</h1>
-    <input type="text" v-model="board.trail_board_title" placeholder="제목" class="input-field" />
+    <input type="text" v-model="board.trail_board_title" placeholder="제목" class="input-field"/>
     <textarea
-      v-model="board.trail_board_content"
-      placeholder="내용"
-      rows="8"
-      class="textarea-field"
+        v-model="board.trail_board_content"
+        placeholder="내용"
+        rows="8"
+        class="textarea-field"
     ></textarea>
     <div class="date-picker">
       <label for="start-date">시작일:</label>
       <input
-        type="date"
-        id="start-date"
-        v-model="board.trail_board_start_time"
-        class="date-input"
+          type="date"
+          id="start-date"
+          v-model="board.trail_board_start_time"
+          class="date-input"
       />
     </div>
     <div class="date-picker">
       <label for="end-date">종료일:</label>
-      <input type="date" id="end-date" v-model="board.trail_board_end_time" class="date-input" />
+      <input type="date" id="end-date" v-model="board.trail_board_end_time" class="date-input"/>
     </div>
     <vue-slider
-      v-model="board.trail_board_member_count"
-      :min="1"
-      :max="10"
-      class="slider"
+        v-model="board.trail_board_member_count"
+        :min="1"
+        :max="10"
+        class="slider"
     ></vue-slider>
     <div class="slider-text">몇 명에서 가고 싶은가요? {{ members.length }}명</div>
     <button class="submit-button" @click="modify">수정</button>
@@ -50,8 +53,8 @@
 </template>
 
 <script>
-import { axiosBuilderWithJwt } from "@/api/http";
-import { mapState, mapMutations, mapActions } from "vuex";
+import {axiosBuilderWithJwt} from "@/api/http";
+import {mapActions, mapMutations, mapState} from "vuex";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
 
@@ -144,8 +147,30 @@ export default {
 </script>
 
 <style scoped>
-.post-editor {
-  margin-top: 20px;
+.custom-button {
+  width: 50%;
+  height: 50%;
+  border: none;
+  border-radius: 5px;
+  background-color: #a7dbe1;
+}
+
+.button-container {
+  height: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-detail-container {
+  width: 100%;
+  height: 70vh;
+}
+
+.post-container {
+  height: 100%;
+  width: 100%;
 }
 
 h1 {
@@ -234,6 +259,7 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
 .post-modify {
   margin-top: 5%;
   margin-bottom: 5%;
