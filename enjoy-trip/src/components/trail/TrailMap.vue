@@ -15,14 +15,9 @@ export default {
       positions: [],
       mapOption: {},
       curValue: [],
-
-      // curAttraction: {},
-      // curDescription: "",
     };
   },
   mounted() {
-    // 마운트 될때마다 vuex값 초기화
-
     if (window.kakao && window.kakao.maps) {
       this.initMap();
     } else {
@@ -30,43 +25,39 @@ export default {
     }
   },
   computed: {
-    // planAttractions() {
-    //   return this.$store.getters.getPlanAttractions;
-    // },
-    // planAttraction() {
-    //   return this.$store.getters.getPlanAttraction;
-    // },
-    // selectedAttractions() {
-    //   return this.$store.getters.getSelectedAttractions;
-    // },
-    // 스타트 포인트와 엔드 포인트 좌표 받기
-
+    trailLocation() {
+      return this.$store.getters["trailStore/GET_TRAIL_LOCATION"];
+    }
   },
   watch: {
-    // planAttractions(newValue) {
-    //   this.placeAndPlanClickEventListener(newValue);
-    // },
-    // planAttraction(newValue) {
-    //   this.placeAndPlanClickEventListener([newValue]);
-    // },
-    // selectedAttractions: {
-    //   handler(newValue) {
-    //     this.placeAndPlanClickEventListener(newValue);
-    //   },
-    //   deep: true,
-    // },
-    // 스타트 포인트와 엔드 좌표 변경 감지
+    trailLocation: {
+      handler(newValue) {
+        this.trailLocationChangeListener(newValue);
+      },
+      deep: true,
+    }
   },
   methods: {
     // 맵 설정
-    placeAndPlanClickEventListener(newValue) {
+    trailLocationChangeListener(newValue) {
+      const mappedValue = [
+        {
+          latitude: newValue.startY,
+          longitude: newValue.startX
+        },
+        {
+          latitude: newValue.endY,
+          longitude: newValue.endX
+        }
+      ];
+
       this.curValue = newValue;
-      if (newValue.length !== 0) {
-        this.initMap(newValue[0].latitude, newValue[0].longitude, this.map.getLevel());
+      if (mappedValue.length !== 0) {
+        this.initMap(mappedValue[0].latitude, mappedValue[0].longitude, this.map.getLevel());
         this.mapContainer = document.getElementById("map"); // 지도를 표시할 div
         this.positions = [];
-        this.createPositions(newValue);
-        this.makeLine(newValue);
+        this.createPositions(mappedValue);
+        // this.makeLine(mappedValue);
         this.showMark(this.positions);
       }
     },
@@ -88,11 +79,9 @@ export default {
         polyline.setMap(this.map);
       }
     },
-
     createPositions(newValue) {
       newValue.forEach((attraction, index) =>
-          this.positions.push(this.makeMark(attraction, index))
-      );
+          this.positions.push(this.makeMark(attraction, index)));
     },
 
     initScript() {

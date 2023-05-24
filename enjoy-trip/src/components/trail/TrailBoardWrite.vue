@@ -2,13 +2,13 @@
   <div>
     <b-row>
       <b-col
-        cols="4"
-        style="display: flex; flex-direction: column; border-radius: 50%"
+          cols="4"
+          style="display: flex; flex-direction: column; border-radius: 50%"
       >
         <div style="margin-bottom: 20px">
           <trail-view
-            v-if="!isView"
-            style="
+              v-if="!isView"
+              style="
               height: 410px;
               width: 600px;
               margin-left: 100px;
@@ -16,22 +16,22 @@
             "
           ></trail-view>
 
-          <main-map
-            style="
+          <trail-map
+              style="
               height: 410px;
               width: 600px;
               margin-left: 100px;
               margin-top: 170px;
             "
-            v-else
-          ></main-map>
+              v-else
+          ></trail-map>
         </div>
 
         <div>
           <button
-            class="custom-button"
-            @click="isView = !isView"
-            style="margin-top: 5%; margin-left: 160px"
+              class="custom-button"
+              @click="isView = !isView"
+              style="margin-top: 5%; margin-left: 160px"
           >
             전환
           </button>
@@ -39,8 +39,8 @@
       </b-col>
       <b-col cols="6" class="mm">
         <TrailBoardWriteItem
-          class="write"
-          v-if="isWritePage"
+            class="write"
+            v-if="isWritePage"
         ></TrailBoardWriteItem>
         <TrailBoardView class="write" v-else></TrailBoardView>
       </b-col>
@@ -52,11 +52,11 @@
 import TrailView from './TrailView.vue';
 import TrailBoardWriteItem from './TrailBoardWriteItem.vue';
 import TrailBoardView from './TrailBoardView.vue';
-import MainMap from '../plan/MainMap.vue';
-import { mapMutations, mapState } from 'vuex';
-// import axios from 'axios';
-import jsonp from 'jsonp';
-import { axiosBuilderWithJwt } from '@/api/http';
+import TrailMap from "@/components/trail/TrailMap";
+import {mapMutations, mapState} from 'vuex';
+import axios from 'axios';
+import {axiosBuilderWithJwt} from '@/api/http';
+
 const trailStore = 'trailStore';
 export default {
   name: 'TrailBoardWrite',
@@ -64,7 +64,7 @@ export default {
     TrailView,
     TrailBoardWriteItem,
     TrailBoardView,
-    MainMap,
+    TrailMap
   },
   data() {
     return {
@@ -83,47 +83,45 @@ export default {
     console.log(this.trail.start_detail_addr + '제발 좀 되라 친구야');
     setTimeout(() => {
       axiosBuilderWithJwt()
-        .get(`/trail/getcity/${this.trail.trail_id}`)
-        .then(({ data }) => {
-          // this.cityName =
-          //   data.startSidoName +
-          //   " " +
-          //   data.startGugunName +
-          //   " " +
-          //   " " +
-          //   data.endSidoName +
-          //   " " +
-          //   data.endGugunName +
-          //   " " +
-          //   this.trail.start_detail_addr;
-          this.cityName.startName =
-            data.startSidoName +
-            ' ' +
-            data.startGugunName +
-            ' ' +
-            this.trail.start_detail_addr;
-          this.cityName.endName =
-            data.endSidoName +
-            ' ' +
-            data.endGugunName +
-            ' ' +
-            this.trail.end_detail_addr;
-          console.log(
-            this.cityName.startName +
-              ' ' +
-              this.cityName.endName +
-              ' asdadasdasdasd'
-          );
-        });
+          .get(`/trail/getcity/${this.trail.trail_id}`)
+          .then(({data}) => {
+            // this.cityName =
+            //   data.startSidoName +
+            //   " " +
+            //   data.startGugunName +
+            //   " " +
+            //   " " +
+            //   data.endSidoName +
+            //   " " +
+            //   data.endGugunName +
+            //   " " +
+            //   this.trail.start_detail_addr;
+            this.cityName.startName =
+                data.startSidoName +
+                ' ' +
+                data.startGugunName +
+                ' ' +
+                this.trail.start_detail_addr;
+            this.cityName.endName =
+                data.endSidoName +
+                ' ' +
+                data.endGugunName +
+                ' ' +
+                this.trail.end_detail_addr;
+            console.log(
+                this.cityName.startName +
+                ' ' +
+                this.cityName.endName +
+                ' asdadasdasdasd'
+            );
+          });
     }, 300);
     setTimeout(() => {
-      jsonp(
-        `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
-        null,
-        (err, data) => {
-          if (err) {
-            console.log(err);
-          } else {
+      axios
+          .get(
+              `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`
+          )
+          .then(({data}) => {
             if (data.response.status == 'OK') {
               console.log(data + 'startOk');
               this.trailLocation = {
@@ -134,37 +132,17 @@ export default {
             } else {
               this.isError = true;
             }
-          }
-        }
-      );
-      // axios
-      //   .get(
-      //     `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`
-      //   )
-      //   .then(({ data }) => {
-      //     if (data.response.status == 'OK') {
-      //       console.log(data + 'startOk');
-      //       this.trailLocation = {
-      //         startX: data.response.result.point.x,
-      //         startY: data.response.result.point.y,
-      //       };
-      //       // console.log('ok');
-      //     } else {
-      //       this.isError = true;
-      //     }
-      //   });
+          });
     }, 500);
 
     setTimeout(() => {
       if (this.isError) {
         console.log('에러발생');
-        jsonp(
-          `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
-          null,
-          (err, data) => {
-            if (err) {
-              console.log(err);
-            } else {
+        axios
+            .get(
+                `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`
+            )
+            .then(({data}) => {
               console.log(data);
               if (data.response.status != 'OK') {
                 console.log(data + ' startOk');
@@ -176,36 +154,15 @@ export default {
                   startY: data.response.result.point.y,
                 };
               }
-            }
-          }
-        );
-        // axios
-        //   .get(
-        //     `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`
-        //   )
-        //   .then(({ data }) => {
-        //     console.log(data);
-        //     if (data.response.status != 'OK') {
-        //       console.log(data + ' startOk');
-        //       this.trailLocation.startX = null;
-        //       this.trailLocation.startY = null;
-        //     } else {
-        //       this.trailLocation = {
-        //         startX: data.response.result.point.x,
-        //         startY: data.response.result.point.y,
-        //       };
-        //     }
-        //   });
+            });
       }
     }, 750);
     setTimeout(() => {
-      jsonp(
-        `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
-        null,
-        (err, data) => {
-          if (err) {
-            console.log(err);
-          } else {
+      axios
+          .get(
+              `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`
+          )
+          .then(({data}) => {
             if (data.response.status == 'OK') {
               console.log(data + ' endOd');
               this.trailLocation.endX = data.response.result.point.x;
@@ -214,35 +171,17 @@ export default {
             } else {
               this.isError = true;
             }
-          }
-        }
-      );
-      // axios
-      //   .get(
-      //     `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`
-      //   )
-      //   .then(({ data }) => {
-      //     if (data.response.status == 'OK') {
-      //       console.log(data + ' endOd');
-      //       this.trailLocation.endX = data.response.result.point.x;
-      //       this.trailLocation.endY = data.response.result.point.y;
-      //       // console.log('ok');
-      //     } else {
-      //       this.isError = true;
-      //     }
-      //   });
+          });
     }, 1000);
 
     setTimeout(() => {
       if (this.isError) {
         console.log('에러발생');
-        jsonp(
-          `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`,
-          null,
-          (err, data) => {
-            if (err) {
-              console.log(err);
-            } else {
+        axios
+            .get(
+                `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`
+            )
+            .then(({data}) => {
               console.log(data + ' endOk');
               if (data.response.status != 'OK') {
                 this.trailLocation.endX = null;
@@ -251,23 +190,7 @@ export default {
                 this.trailLocation.endX = data.response.result.point.x;
                 this.trailLocation.endY = data.response.result.point.y;
               }
-            }
-          }
-        );
-        // axios
-        //   .get(
-        //     `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`
-        //   )
-        //   .then(({ data }) => {
-        //     console.log(data + ' endOk');
-        //     if (data.response.status != 'OK') {
-        //       this.trailLocation.endX = null;
-        //       this.trailLocation.endY = null;
-        //     } else {
-        //       this.trailLocation.endX = data.response.result.point.x;
-        //       this.trailLocation.endY = data.response.result.point.y;
-        //     }
-        //   });
+            });
       }
     }, 1300);
     setTimeout(() => {
@@ -287,13 +210,16 @@ export default {
   margin-bottom: 5%;
   margin-left: 10%;
 }
+
 .write {
   margin-top: 10%;
   margin-bottom: 5%;
 }
+
 .mm {
   margin-left: 7%;
 }
+
 .custom-button {
   margin-top: 5%;
   margin-left: 200px;
