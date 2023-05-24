@@ -2,19 +2,19 @@
   <div>
     <b-row>
       <b-col cols="3">
-        <div style="margin-left: 2%; margin-bottom: 3%">
-          <button class="write-button" @click="writePost">
-            <font-awesome-icon icon="pen" />
+        <div style="display: flex; margin-top: 1vh; margin-left: 1vw; ">
+          <button class="rectangle-shadow" @click="writePost">
+            <font-awesome-icon icon="pen"/>
             글쓰기
           </button>
         </div>
       </b-col>
       <b-col cols="9">
         <div class="search-bar">
-          <button v-if="!isSort" class="selbtn" style="margin-right: 3%" @click="sort">
-            좋아요순
+          <button v-if="!isSort" class="selbtn" style="margin-right: 2vw" @click="sort">
+            좋아요순 정렬
           </button>
-          <button v-else class="selbtn" style="margin-right: 3%" @click="sort">최신순</button>
+          <button v-else class="selbtn" style="margin-right: 2vw" @click="sort">최신순 정렬</button>
           <div class="select-wrapper">
             <select v-model="key">
               <option value="place_title">제목</option>
@@ -22,77 +22,80 @@
             </select>
             <div class="select-arrow"></div>
           </div>
-          <input type="text" v-model="word" placeholder="검색어를 입력하세요" />
-          <button @click="search" style="margin-left: 3%" class="selbtn">검색</button>
+          <input type="text" v-model="word" placeholder="검색어를 입력하세요"/>
+          <button @click="search" style="margin-left: 1vw; background-color: white; border: 0">
+            <img
+                style="height: 4vh"
+                src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe"
+            />
+          </button>
         </div>
       </b-col>
     </b-row>
-    <b-row>
-      <b-col cols="3" md="4" class="mb-3 md-4">
+
+    <b-row style="margin-top: 3vh">
+      <b-col cols="1"></b-col>
+      <b-col cols="3" class="img-col" style="padding-right: 10px; padding-left: 0">
         <div v-for="(place, index) in list1" :key="index" class="image-wrapper">
           <div class="rounded-image">
             <img
-              :src="mkUrl(place.placeImgSrc)"
-              width="100%"
-              height="250px"
-              class="image-effect"
-              style="object-fit: cover"
-              @click="mvView(place.placeImgSrc, place)"
+                :src="mkUrl(place.placeImgSrc)"
+                width="100%"
+                height="250px"
+                class="image-effect"
+                style="object-fit: cover"
+                @click="mvView(place.placeImgSrc, place)"
             />
           </div>
-          <div class="image-overlay">
-            <span class="image-title">{{ place.placeTitle }}</span>
-          </div>
+          <heart-count :recommend="place.recommend"></heart-count>
         </div>
+
       </b-col>
-      <b-col cols="3" md="4" class="mb-3">
+      <b-col cols="3" class="img-col" style="padding-right: 10px; padding-left: 0">
         <div v-for="(place, index) in list2" :key="index" class="image-wrapper">
           <div class="rounded-image">
             <img
-              :src="mkUrl(place.placeImgSrc)"
-              width="100%"
-              height="250px"
-              class="image-effect"
-              style="object-fit: cover"
-              @click="mvView(place.placeImgSrc, place)"
+                :src="mkUrl(place.placeImgSrc)"
+                width="100%"
+                height="250px"
+                class="image-effect"
+                style="object-fit: cover"
+                @click="mvView(place.placeImgSrc, place)"
             />
           </div>
-          <div class="image-overlay">
-            <span class="image-title">{{ place.placeTitle }}</span>
-          </div>
+          <heart-count :recommend="place.recommend"></heart-count>
         </div>
       </b-col>
-      <b-col cols="3" md="4" class="mb-3">
+      <b-col cols="3" class="img-col" style="padding-right: 10px; padding-left: 0">
         <div v-for="(place, index) in list3" :key="index" class="image-wrapper">
           <div class="rounded-image">
             <img
-              :src="mkUrl(place.placeImgSrc)"
-              width="100%"
-              height="250px"
-              class="image-effect"
-              style="object-fit: cover"
-              @click="mvView(place.placeImgSrc, place)"
+                :src="mkUrl(place.placeImgSrc)"
+                width="100%"
+                height="250px"
+                class="image-effect"
+                style="object-fit: cover"
+                @click="mvView(place.placeImgSrc, place)"
             />
           </div>
-          <div class="image-overlay">
-            <span class="image-title">{{ place.placeTitle }}</span>
-          </div>
+          <heart-count :recommend="place.recommend"></heart-count>
         </div>
       </b-col>
+      <b-col cols="2"></b-col>
     </b-row>
     <div ref="scrollTrigger"></div>
     <div v-if="isLoading">로딩 중...</div>
     <!-- 모달창 시작 -->
     <b-modal
-      id="modal-1"
-      size="xl"
-      :title="article.placeTitle"
-      v-model="isModalOpen"
-      class="custom-modal"
+        id="modal-1"
+        size="xl"
+        :title="article.placeTitle"
+        v-model="isModalOpen"
+        class="custom-modal"
     >
       <b-row>
         <b-col cols="8">
-          <img :src="mkUrl(imageUrl)" alt="이미지" width="100%" height="700" />
+          <img :src="mkUrl(imageUrl)" alt="이미지" width="100%" height="700"/>
         </b-col>
         <b-col cols="4">
           <b-row class="user-info">
@@ -101,11 +104,11 @@
             </b-col>
             <b-col cols="3" v-if="loginUser != this.article.userId">
               <button @click="toggleFollow" class="follow-button">
-                <font-awesome-icon :icon="isFollowing ? 'user-minus' : 'user-plus'" />
+                <font-awesome-icon :icon="isFollowing ? 'user-minus' : 'user-plus'"/>
               </button>
             </b-col>
           </b-row>
-          <hr />
+          <hr/>
           <div>
             <b-row class="article-info">
               <b-col cols="9">
@@ -113,16 +116,16 @@
               </b-col>
               <b-col cols="3">
                 <button @click="toggleLike" class="like-button">
-                  <font-awesome-icon :icon="heartIcon" :class="{ active: isLiked }" />
+                  <font-awesome-icon :icon="heartIcon" :class="{ active: isLiked }"/>
                 </button>
                 <span> {{ recommend.length }}</span>
               </b-col>
             </b-row>
-            <hr />
+            <hr/>
           </div>
           <div class="reply-container">
             <p class="my-4" v-for="(rep, i) in reply" :key="i">
-              {{ rep.replyContent }}<br />
+              {{ rep.replyContent }}<br/>
               {{ rep.userId }} - {{ rep.replyCreateTime }}
             </p>
           </div>
@@ -130,10 +133,10 @@
             <b-row>
               <b-col cols="8">
                 <input
-                  type="text"
-                  class="reply-input"
-                  v-model="inputValue"
-                  placeholder="댓글을 입력하세요"
+                    type="text"
+                    class="reply-input"
+                    v-model="inputValue"
+                    placeholder="댓글을 입력하세요"
                 />
               </b-col>
               <b-col cols="4">
@@ -148,15 +151,15 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import { axiosBuilderWithJwt } from "@/api/http";
-import { ref } from "vue";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { baseURL } from "@/api/http";
+import {mapActions, mapState} from "vuex";
+import {axiosBuilderWithJwt, baseURL} from "@/api/http";
+import {ref} from "vue";
+import {faHeart} from "@fortawesome/free-solid-svg-icons";
+import HeartCount from "@/components/place/HeartCount";
 
 const userStore = "trailStore";
 export default {
-  components: {},
+  components: {HeartCount},
   data() {
     return {
       items: [],
@@ -187,7 +190,8 @@ export default {
   computed: {
     ...mapState(userStore, ["follow"]),
   },
-  mounted() {},
+  mounted() {
+  },
   created() {
     this.isSort = false;
     this.fetchData();
@@ -231,13 +235,13 @@ export default {
           url = `/place/api?pgno=${this.page}&key=${this.key}&word=${this.word}`;
         }
         axiosBuilderWithJwt()
-          .get(url)
-          .then(({ data }) => {
-            // this.items = data.data;
-            this.items.push(...data.data);
-            // window.location.reload();
-            console.log(this.items);
-          });
+            .get(url)
+            .then(({data}) => {
+              // this.items = data.data;
+              this.items.push(...data.data);
+              // window.location.reload();
+              console.log(this.items);
+            });
         //   this.items = [...this.items, ...newItems];
         this.isLoading = false;
         setTimeout(() => {
@@ -285,20 +289,20 @@ export default {
       this.isModalOpen = true;
       this.recommend = [];
       axiosBuilderWithJwt()
-        .get(`/place/api/${this.article.placeNo}`)
-        .then(({ data }) => {
-          // this.items = data.data;
-          this.reply = data.reply;
-          // window.location.reload();
-          console.log(this.reply);
-        });
+          .get(`/place/api/${this.article.placeNo}`)
+          .then(({data}) => {
+            // this.items = data.data;
+            this.reply = data.reply;
+            // window.location.reload();
+            console.log(this.reply);
+          });
       axiosBuilderWithJwt()
-        .get(`/place/api/recommend/${this.article.placeNo}`)
-        .then(({ data }) => {
-          for (let i = 0; i < data.length; i++) {
-            this.recommend.push(data[i].user_id);
-          }
-        });
+          .get(`/place/api/recommend/${this.article.placeNo}`)
+          .then(({data}) => {
+            for (let i = 0; i < data.length; i++) {
+              this.recommend.push(data[i].user_id);
+            }
+          });
 
       setTimeout(() => {
         console.log("asdasd" + this.recommend + "  " + this.loginUser);
@@ -306,7 +310,6 @@ export default {
           this.isLiked = true;
         } else this.isLiked = false;
       }, 100);
-      // console.log(this.follow.userId + "                  " + title);
       this.followers = [];
       for (let i = 0; i < this.follow.length; i++) {
         this.followers.push(this.follow[i].userId);
@@ -355,11 +358,11 @@ export default {
         console.log(this.recommend);
         console.log(this.loginUser + " " + this.article.placeNo);
         axiosBuilderWithJwt().delete(
-          `/place/api/recommend/del?user_id=${this.loginUser}&place_no=${this.article.placeNo}`
+            `/place/api/recommend/del?user_id=${this.loginUser}&place_no=${this.article.placeNo}`
         );
       }
       axiosBuilderWithJwt().put(
-        `/place/api/recommend/${this.recommend.length}/${this.article.placeNo}`
+          `/place/api/recommend/${this.recommend.length}/${this.article.placeNo}`
       );
     },
     toggleFollow() {
@@ -374,7 +377,7 @@ export default {
         }, 300);
       } else {
         axiosBuilderWithJwt().delete(
-          `/user/api/followers/del/${this.loginUser}/${this.article.userId}`
+            `/user/api/followers/del/${this.loginUser}/${this.article.userId}`
         );
         setTimeout(() => {
           this.getFollowList({
@@ -390,21 +393,23 @@ export default {
 };
 </script>
 <style>
-.write-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
-  border-radius: 5px;
-  background-color: #5686b9;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
+.rectangle-shadow {
+  width: 15vh;
+  height: 5vh;
+  border-radius: 5vh; /* 조절 가능한 값 */
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-.write-button:hover {
-  background-color: #368de9;
+.img-col {
+  padding: 0;
 }
+
+.image-wrapper {
+  padding-bottom: 10px;
+  position: relative;
+}
+
 .image-effect {
   transition: transform 0.3s ease; /* transform 속성에 대한 0.3초의 transition 설정 */
 }
@@ -417,6 +422,7 @@ export default {
 .container {
   position: relative;
 }
+
 .active {
   color: red; /* 하트가 활성화된 상태일 때의 색상 */
 }
@@ -424,6 +430,7 @@ export default {
 .custom-modal {
   max-width: 800px;
   margin: 0 auto;
+  z-index: 3;
 }
 
 .user-info {
@@ -492,16 +499,18 @@ export default {
 .create-button:hover {
   background-color: #0056b3;
 }
+
 .rounded-image {
   border-radius: 3%;
   overflow: hidden;
 }
+
 .search-bar {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 10px;
-  margin-right: 3%;
+  margin-top: 1vh;
+  margin-right: 1vw;
 }
 
 .select-wrapper {
