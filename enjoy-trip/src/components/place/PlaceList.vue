@@ -125,10 +125,14 @@
             <hr/>
           </div>
           <div class="reply-container">
-            <p class="my-4" v-for="(rep, i) in reply" :key="i">
-              {{ rep.replyContent }}<br/>
-              {{ rep.userId }} - {{ rep.replyCreateTime }}
-            </p>
+
+            <div v-for="(rep, i) in reply" :key="i" style="border-bottom: 1px gainsboro solid">
+              {{ rep.replyContent }}
+              <br/>
+              <div style="display: flex; justify-content: right">
+                {{ rep.userId }} - {{ rep.replyCreateTime }}
+              </div>
+            </div>
           </div>
           <div>
             <b-row>
@@ -488,7 +492,7 @@ export default {
 
 .create-button {
   padding: 10px 20px;
-  background-color: #007bff; /* 원하는 하늘색 코드로 변경합니다. */
+  background-color: #a7dbe1; /* 원하는 하늘색 코드로 변경합니다. */
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -498,7 +502,7 @@ export default {
 }
 
 .create-button:hover {
-  background-color: #0056b3;
+  background-color: #6594cb;
 }
 
 .rounded-image {
