@@ -81,7 +81,7 @@ export default {
       currentMethod: this.getHotPlanList,
     };
   },
-  created() {
+  mounted() {
     this.getHotPlanList();
     this.getRecommendList();
   },
