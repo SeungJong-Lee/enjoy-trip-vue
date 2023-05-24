@@ -2,19 +2,26 @@
   <div>
     <b-row>
       <b-col cols="3">
-        <div style="display: flex; margin-top: 1vh; margin-left: 1vw; ">
+        <div style="display: flex; margin-top: 1vh; margin-left: 1vw">
           <button class="rectangle-shadow" @click="writePost">
-            <font-awesome-icon icon="pen"/>
+            <font-awesome-icon icon="pen" />
             글쓰기
           </button>
         </div>
       </b-col>
       <b-col cols="9">
         <div class="search-bar">
-          <button v-if="!isSort" class="selbtn" style="margin-right: 2vw" @click="sort">
+          <button
+            v-if="!isSort"
+            class="selbtn"
+            style="margin-right: 2vw"
+            @click="sort"
+          >
             좋아요순 정렬
           </button>
-          <button v-else class="selbtn" style="margin-right: 2vw" @click="sort">최신순 정렬</button>
+          <button v-else class="selbtn" style="margin-right: 2vw" @click="sort">
+            최신순 정렬
+          </button>
           <div class="select-wrapper">
             <select v-model="key">
               <option value="place_title">제목</option>
@@ -22,11 +29,14 @@
             </select>
             <div class="select-arrow"></div>
           </div>
-          <input type="text" v-model="word" placeholder="검색어를 입력하세요"/>
-          <button @click="search" style="margin-left: 1vw; background-color: white; border: 0">
+          <input type="text" v-model="word" placeholder="검색어를 입력하세요" />
+          <button
+            @click="search"
+            style="margin-left: 1vw; background-color: white; border: 0"
+          >
             <img
-                style="height: 4vh"
-                src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe"
+              style="height: 4vh"
+              src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe"
             />
           </button>
         </div>
@@ -35,47 +45,58 @@
 
     <b-row style="margin-top: 3vh">
       <b-col cols="1"></b-col>
-      <b-col cols="3" class="img-col" style="padding-right: 10px; padding-left: 0">
+      <b-col
+        cols="3"
+        class="img-col"
+        style="padding-right: 10px; padding-left: 0"
+      >
         <div v-for="(place, index) in list1" :key="index" class="image-wrapper">
           <div class="rounded-image">
             <img
-                :src="mkUrl(place.placeImgSrc)"
-                width="100%"
-                height="250px"
-                class="image-effect"
-                style="object-fit: cover"
-                @click="mvView(place.placeImgSrc, place)"
+              :src="mkUrl(place.placeImgSrc)"
+              width="100%"
+              height="250px"
+              class="image-effect"
+              style="object-fit: cover"
+              @click="mvView(place.placeImgSrc, place)"
             />
           </div>
           <heart-count :recommend="place.recommend"></heart-count>
         </div>
-
       </b-col>
-      <b-col cols="3" class="img-col" style="padding-right: 10px; padding-left: 0">
+      <b-col
+        cols="3"
+        class="img-col"
+        style="padding-right: 10px; padding-left: 0"
+      >
         <div v-for="(place, index) in list2" :key="index" class="image-wrapper">
           <div class="rounded-image">
             <img
-                :src="mkUrl(place.placeImgSrc)"
-                width="100%"
-                height="250px"
-                class="image-effect"
-                style="object-fit: cover"
-                @click="mvView(place.placeImgSrc, place)"
+              :src="mkUrl(place.placeImgSrc)"
+              width="100%"
+              height="250px"
+              class="image-effect"
+              style="object-fit: cover"
+              @click="mvView(place.placeImgSrc, place)"
             />
           </div>
           <heart-count :recommend="place.recommend"></heart-count>
         </div>
       </b-col>
-      <b-col cols="3" class="img-col" style="padding-right: 10px; padding-left: 0">
+      <b-col
+        cols="3"
+        class="img-col"
+        style="padding-right: 10px; padding-left: 0"
+      >
         <div v-for="(place, index) in list3" :key="index" class="image-wrapper">
           <div class="rounded-image">
             <img
-                :src="mkUrl(place.placeImgSrc)"
-                width="100%"
-                height="250px"
-                class="image-effect"
-                style="object-fit: cover"
-                @click="mvView(place.placeImgSrc, place)"
+              :src="mkUrl(place.placeImgSrc)"
+              width="100%"
+              height="250px"
+              class="image-effect"
+              style="object-fit: cover"
+              @click="mvView(place.placeImgSrc, place)"
             />
           </div>
           <heart-count :recommend="place.recommend"></heart-count>
@@ -87,16 +108,16 @@
     <div v-if="isLoading">로딩 중...</div>
     <!-- 모달창 시작 -->
     <b-modal
-        id="modal-1"
-        size="xl"
-        :title="article.placeTitle"
-        v-model="isModalOpen"
-        class="custom-modal"
-        hide-footer
+      id="modal-1"
+      size="xl"
+      :title="article.placeTitle"
+      v-model="isModalOpen"
+      class="custom-modal"
+      hide-footer
     >
       <b-row>
         <b-col cols="8">
-          <img :src="mkUrl(imageUrl)" alt="이미지" width="100%" height="700"/>
+          <img :src="mkUrl(imageUrl)" alt="이미지" width="100%" height="700" />
         </b-col>
         <b-col cols="4">
           <b-row class="user-info">
@@ -105,11 +126,13 @@
             </b-col>
             <b-col cols="3" v-if="loginUser != this.article.userId">
               <button @click="toggleFollow" class="follow-button">
-                <font-awesome-icon :icon="isFollowing ? 'user-minus' : 'user-plus'"/>
+                <font-awesome-icon
+                  :icon="isFollowing ? 'user-minus' : 'user-plus'"
+                />
               </button>
             </b-col>
           </b-row>
-          <hr/>
+          <hr />
           <div>
             <b-row class="article-info">
               <b-col cols="9">
@@ -117,18 +140,24 @@
               </b-col>
               <b-col cols="3">
                 <button @click="toggleLike" class="like-button">
-                  <font-awesome-icon :icon="heartIcon" :class="{ active: isLiked }"/>
+                  <font-awesome-icon
+                    :icon="heartIcon"
+                    :class="{ active: isLiked }"
+                  />
                 </button>
                 <span> {{ recommend.length }}</span>
               </b-col>
             </b-row>
-            <hr/>
+            <hr />
           </div>
           <div class="reply-container">
-
-            <div v-for="(rep, i) in reply" :key="i" style="border-bottom: 1px gainsboro solid">
+            <div
+              v-for="(rep, i) in reply"
+              :key="i"
+              style="border-bottom: 1px gainsboro solid"
+            >
               {{ rep.replyContent }}
-              <br/>
+              <br />
               <div style="display: flex; justify-content: right">
                 {{ rep.userId }} - {{ rep.replyCreateTime }}
               </div>
@@ -138,10 +167,10 @@
             <b-row>
               <b-col cols="8">
                 <input
-                    type="text"
-                    class="reply-input"
-                    v-model="inputValue"
-                    placeholder="댓글을 입력하세요"
+                  type="text"
+                  class="reply-input"
+                  v-model="inputValue"
+                  placeholder="댓글을 입력하세요"
                 />
               </b-col>
               <b-col cols="4">
@@ -156,15 +185,15 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
-import {axiosBuilderWithJwt, baseURL} from "@/api/http";
-import {ref} from "vue";
-import {faHeart} from "@fortawesome/free-solid-svg-icons";
-import HeartCount from "@/components/place/HeartCount";
+import { mapActions, mapState } from 'vuex';
+import { axiosBuilderWithJwt, baseURL } from '@/api/http';
+import { ref } from 'vue';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import HeartCount from '@/components/place/HeartCount';
 
-const userStore = "trailStore";
+const userStore = 'trailStore';
 export default {
-  components: {HeartCount},
+  components: { HeartCount },
   data() {
     return {
       items: [],
@@ -175,35 +204,34 @@ export default {
       list2: [],
       list3: [],
       isModalOpen: false,
-      imageUrl: "",
+      imageUrl: '',
       article: {},
       reply: [],
-      inputValue: "",
+      inputValue: '',
       likeCount: 0,
       isLiked: ref(false),
       heartIcon: faHeart,
       isFollowing: false,
       isWrite: false,
-      loginUser: sessionStorage.getItem("userId"),
-      key: "",
-      word: "",
+      loginUser: sessionStorage.getItem('userId'),
+      key: '',
+      word: '',
       recommend: [],
       followers: [],
       isSort: false,
     };
   },
   computed: {
-    ...mapState(userStore, ["follow"]),
+    ...mapState(userStore, ['follow']),
   },
-  mounted() {
-  },
+  mounted() {},
   created() {
     this.isSort = false;
     this.fetchData();
     this.addScrollListener();
   },
   methods: {
-    ...mapActions(userStore, ["getFollowList"]),
+    ...mapActions(userStore, ['getFollowList']),
     sort() {
       this.isSort = !this.isSort;
       this.search();
@@ -211,11 +239,11 @@ export default {
     writePost() {
       // 글쓰기 버튼이 클릭되었을 때 수행할 동작
       this.isWrite = true;
-      this.$router.push("/place/placewrite");
+      this.$router.push('/place/placewrite');
     },
     mvList() {
       this.isWrite = false;
-      this.$router.push("/place");
+      this.$router.push('/place');
     },
     search() {
       this.items = [];
@@ -240,13 +268,13 @@ export default {
           url = `/place/api?pgno=${this.page}&key=${this.key}&word=${this.word}`;
         }
         axiosBuilderWithJwt()
-            .get(url)
-            .then(({data}) => {
-              // this.items = data.data;
-              this.items.push(...data.data);
-              // window.location.reload();
-              console.log(this.items);
-            });
+          .get(url)
+          .then(({ data }) => {
+            // this.items = data.data;
+            this.items.push(...data.data);
+            // window.location.reload();
+            console.log(this.items);
+          });
         //   this.items = [...this.items, ...newItems];
         this.isLoading = false;
         setTimeout(() => {
@@ -264,10 +292,10 @@ export default {
       }
     },
     addScrollListener() {
-      window.addEventListener("scroll", this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll);
     },
     removeScrollListener() {
-      window.removeEventListener("scroll", this.handleScroll);
+      window.removeEventListener('scroll', this.handleScroll);
     },
     handleScroll() {
       if (this.isLoading) return;
@@ -287,30 +315,30 @@ export default {
       return baseURL + url;
     },
     mvView(imageUrl, title) {
-      console.log("이동");
+      console.log('이동');
       console.log(title);
       this.article = title;
       this.imageUrl = imageUrl;
       this.isModalOpen = true;
       this.recommend = [];
       axiosBuilderWithJwt()
-          .get(`/place/api/${this.article.placeNo}`)
-          .then(({data}) => {
-            // this.items = data.data;
-            this.reply = data.reply;
-            // window.location.reload();
-            console.log(this.reply);
-          });
+        .get(`/place/api/${this.article.placeNo}`)
+        .then(({ data }) => {
+          // this.items = data.data;
+          this.reply = data.reply;
+          // window.location.reload();
+          console.log(this.reply);
+        });
       axiosBuilderWithJwt()
-          .get(`/place/api/recommend/${this.article.placeNo}`)
-          .then(({data}) => {
-            for (let i = 0; i < data.length; i++) {
-              this.recommend.push(data[i].user_id);
-            }
-          });
+        .get(`/place/api/recommend/${this.article.placeNo}`)
+        .then(({ data }) => {
+          for (let i = 0; i < data.length; i++) {
+            this.recommend.push(data[i].user_id);
+          }
+        });
 
       setTimeout(() => {
-        console.log("asdasd" + this.recommend + "  " + this.loginUser);
+        console.log('asdasd' + this.recommend + '  ' + this.loginUser);
         if (this.recommend.includes(this.loginUser)) {
           this.isLiked = true;
         } else this.isLiked = false;
@@ -327,11 +355,11 @@ export default {
     },
     closeModal() {
       this.isModalOpen = false;
-      this.inputValue = "";
+      this.inputValue = '';
     },
     replyWrite() {
-      if (this.inputValue != "") {
-        var user = sessionStorage.getItem("userId");
+      if (this.inputValue != '') {
+        var user = sessionStorage.getItem('userId');
         console.log(user);
         axiosBuilderWithJwt().post(`/place/api/reply`, {
           replyContent: this.inputValue,
@@ -341,7 +369,7 @@ export default {
         });
         console.log(this.inputValue);
         setTimeout(() => {
-          this.inputValue = "";
+          this.inputValue = '';
           this.mvView(this.article.placeImgSrc, this.article);
         }, 300);
       }
@@ -361,20 +389,22 @@ export default {
           this.recommend.splice(index, 1);
         }
         console.log(this.recommend);
-        console.log(this.loginUser + " " + this.article.placeNo);
+        console.log(this.loginUser + ' ' + this.article.placeNo);
         axiosBuilderWithJwt().delete(
-            `/place/api/recommend/del?user_id=${this.loginUser}&place_no=${this.article.placeNo}`
+          `/place/api/recommend/del?user_id=${this.loginUser}&place_no=${this.article.placeNo}`
         );
       }
       axiosBuilderWithJwt().put(
-          `/place/api/recommend/${this.recommend.length}/${this.article.placeNo}`
+        `/place/api/recommend/${this.recommend.length}/${this.article.placeNo}`
       );
     },
     toggleFollow() {
       this.isFollowing = !this.isFollowing;
       if (this.isFollowing) {
         this.followers.push(this.loginUser);
-        axiosBuilderWithJwt().post(`/user/api/followers/${this.loginUser}/${this.article.userId}`);
+        axiosBuilderWithJwt().post(
+          `/user/api/followers/${this.loginUser}/${this.article.userId}`
+        );
         setTimeout(() => {
           this.getFollowList({
             userId: this.loginUser,
@@ -382,7 +412,7 @@ export default {
         }, 300);
       } else {
         axiosBuilderWithJwt().delete(
-            `/user/api/followers/del/${this.loginUser}/${this.article.userId}`
+          `/user/api/followers/del/${this.loginUser}/${this.article.userId}`
         );
         setTimeout(() => {
           this.getFollowList({
