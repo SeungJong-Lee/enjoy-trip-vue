@@ -1,5 +1,10 @@
 <template>
   <div style="display: flex; flex-direction: column">
+    <div class="form-group">
+      <div class="custom-container">
+        <input id="files" type="file" multiple class="custom-input" @change="handleFileUpload" />
+      </div>
+    </div>
     <div class="custom-container">
       이름
       <input type="text" class="custom-input" v-model="modifyForm.userName" />
@@ -61,6 +66,9 @@ export default {
         userDomain: "",
         userCurPw: "",
       },
+      imageUrl: null,
+      files: [],
+      fileLabelText: "파일을 선택해주세요",
     };
   },
   created() {
@@ -71,18 +79,51 @@ export default {
       alert(data.msg);
       this.$router.push({ name: "home" });
     },
+    handleFileUpload() {
+      this.files = Array.from(event.target.files);
+      console.log(this.files);
+      const uploadFile = this.files[0];
+      if (uploadFile) {
+        this.image = uploadFile;
+        this.imageUrl = URL.createObjectURL(uploadFile);
+        this.imageLabelText = uploadFile.name;
+      } else {
+        this.image = null;
+        this.imageUrl = null;
+        this.imageLabelText = "이미지를 선택해주세요";
+      }
+    },
     submitModify() {
       if (this.checkPwEqual()) {
-        http
-          .put("/user/api/modify", this.modifyForm, {
-            headers: {
-              "Content-Type": "application/json;charset=utf-8",
-              authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-            },
-          })
-          .then(({ data }) => this.afterModifySuccess(data))
-          .catch((error) => console.log(error));
-        // .catch(({ response }) => alert(response.data));
+        if (this.files[0] == undefined) {
+          http
+            .put("/user/api/modify", this.modifyForm, {
+              headers: {
+                "Content-Type": "application/json;charset=utf-8",
+                authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+              },
+            })
+            .then(({ data }) => this.afterModifySuccess(data))
+            .catch(({ response }) => alert(response.data));
+        } else {
+          // 프로필 사진을 변경할 경우
+          const formData = new FormData();
+          formData.append("userName", this.modifyForm.userName);
+          formData.append("userPw", this.modifyForm.userPw);
+          formData.append("userEmail", this.modifyForm.userEmail);
+          formData.append("userDomain", this.modifyForm.userDomain);
+          formData.append("userCurPw", this.modifyForm.userCurPw);
+          formData.append("file", this.files[0]);
+          http
+            .put(`/user/api/modify/profile`, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+              },
+            })
+            .then(({ data }) => this.afterModifySuccess(data))
+            .catch(({ response }) => alert(response.data));
+        }
       } else {
         alert("비밀번호가 일치하지 않습니다.");
       }
