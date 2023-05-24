@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div>{{ price }} 원</div>
+    <div style="margin-bottom: 3%">예상 경비 : {{ price }} 원</div>
     <div v-for="(route, index) in results" :key="index" style="margin-bottom: 5%; z-index: 9999">
-      <b-card>
+      <b-card class="card-style">
         <b-list-group>
           <b-list-group-item
             v-for="plan in route"
@@ -25,12 +25,14 @@
                   :size="iconSize"
                 ></font-awesome-icon>
               </div>
-              <div>
-                <span class="font-weight-bold">{{ plan.start }}</span>
-                <font-awesome-icon icon="chevron-right" class="mx-2"></font-awesome-icon>
-                <span class="font-weight-bold">{{ plan.end }}</span>
+              <div class="icon-text">
+                <div class="top-line">
+                  <span class="font-weight-bold">{{ plan.start }}</span>
+                  <font-awesome-icon icon="chevron-right" class="arrow-icon"></font-awesome-icon>
+                  <span class="font-weight-bold">{{ plan.end }}</span>
+                </div>
                 <div v-if="plan.mode === 'BUS'" class="text-muted">
-                  {{ plan.num }}를 타고 {{ plan.count }}개 정류소 이동
+                  &nbsp;{{ plan.num }}번 {{ plan.count }}개 정류소
                 </div>
               </div>
             </div>
@@ -48,6 +50,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { faWalking, faBus } from "@fortawesome/free-solid-svg-icons";
+// import { baseURL } from "@/api/http";
 
 // 아이콘을 라이브러리에 추가
 library.add(faWalking, faBus, faChevronRight);
@@ -78,20 +81,22 @@ export default {
       this.price = 0;
       this.routes = [];
       this.results = [];
+      // TMap API
       // longitude = x, latitude = y
-      for (let i = 0; i < this.planAttractions.length - 1; i++) {
-        console.log(this.planAttractions[i].longitude + "     " + this.planAttractions[i].latitude);
-        console.log(
-          this.planAttractions[i + 1].longitude + "     " + this.planAttractions[i + 1].latitude
-        );
-        console.log("줄바꿈");
+      for (let j = 0; j < this.planAttractions.length - 1; j++) {
+        // console.log(this.planAttractions[i].longitude + "     " + this.planAttractions[i].latitude);
+        // console.log(
+        //   this.planAttractions[i + 1].longitude + "     " + this.planAttractions[i + 1].latitude
+        // );
+        // console.log("줄바꿈");
         let formData = {
-          startX: this.planAttractions[i].longitude,
-          startY: this.planAttractions[i].latitude,
-          endX: this.planAttractions[i + 1].longitude,
-          endY: this.planAttractions[i + 1].latitude,
+          startX: this.planAttractions[j].longitude,
+          startY: this.planAttractions[j].latitude,
+          endX: this.planAttractions[j + 1].longitude,
+          endY: this.planAttractions[j + 1].latitude,
           count: 1,
         };
+
         setTimeout(() => {
           axios
             .post(`https://apis.openapi.sk.com/transit/routes`, formData, {
@@ -107,6 +112,14 @@ export default {
               this.price = this.price + data.metaData.plan.itineraries[0].fare.regular.totalFare;
 
               for (let i = 0; i < this.legs.length; i++) {
+                if (this.legs[i].start.name == "출발지") {
+                  console.log("출발지::::" + this.planAttractions[j].title);
+                  this.legs[i].start.name = this.planAttractions[j].title;
+                }
+                if (this.legs[i].end.name == "도착지") {
+                  console.log("도착지::::" + this.planAttractions[j + 1].title);
+                  this.legs[i].end.name = this.planAttractions[j + 1].title;
+                }
                 if (this.legs[i].mode == "WALK") {
                   this.routes.push({
                     mode: this.legs[i].mode,
@@ -124,6 +137,7 @@ export default {
                     mode: this.legs[i].mode,
                     num: this.legs[i].route,
                     count: this.legs[i].passStopList.stationList.length,
+                    start: this.legs[i].start.name,
                     end: this.legs[i].end.name,
                   });
                 }
@@ -135,22 +149,28 @@ export default {
             .catch((error) => {
               console.log(error);
             });
-        }, 1000);
+        }, 700 + j * 100);
       }
 
-      // 로컬통신
-
+      // // 로컬통신
       // setTimeout(() => {
-      //   for (let i = 0; i < this.planAttractions.length - 1; i++) {
-      //     console.log(i + "           asdadasd");
+      //   for (let j = 0; j < this.planAttractions.length - 1; j++) {
       //     axios
-      //       .get("http://localhost:8080/enjoytrip/test.json")
+      //       .get(`${baseURL}/test.json`)
       //       .then(({ data }) => {
       //         this.legs = data.metaData.plan.itineraries[0].legs;
       //         //   console.log(this.legs);
       //         this.price = this.price + data.metaData.plan.itineraries[0].fare.regular.totalFare;
 
       //         for (let i = 0; i < this.legs.length; i++) {
+      //           if (this.legs[i].start.name == "출발지") {
+      //             console.log("출발지::::" + this.planAttractions[j].title);
+      //             this.legs[i].start.name = this.planAttractions[j].title;
+      //           }
+      //           if (this.legs[i].end.name == "도착지") {
+      //             console.log("도착지::::" + this.planAttractions[j + 1].title);
+      //             this.legs[i].end.name = this.planAttractions[j + 1].title;
+      //           }
       //           if (this.legs[i].mode == "WALK") {
       //             this.routes.push({
       //               mode: this.legs[i].mode,
@@ -168,6 +188,7 @@ export default {
       //               mode: this.legs[i].mode,
       //               num: this.legs[i].route,
       //               count: this.legs[i].passStopList.stationList.length,
+      //               start: this.legs[i].start.name,
       //               end: this.legs[i].end.name,
       //             });
       //           }
@@ -181,37 +202,47 @@ export default {
       //       });
       //   }
       // }, 300);
-
-      // 티맵 통신
-      //   axios
-      //     .post(`https://apis.openapi.sk.com/transit/routes`, formData, {
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //         appKey: "A5VkFhWQtQ1ymkH89TVCTN9jTuudvH23Uy28N1J6",
-      //         accept: "application/json",
-      //       },
-      //     })
-      //     .then(() => {
-      //       setTimeout(() => {
-      //         this.$router.push("/place");
-      //       }, 300);
-      //     })
-      //     .catch((error) => {
-      //       console.log(error);
-      //     });
     },
   },
 };
 </script>
 
 <style scoped>
+.card-style {
+  /* 원하는 크기로 조절하세요 */
+  width: 100%;
+}
 .fa-walking,
 .fa-bus {
   font-size: 1.5rem;
   margin-right: 0.5rem;
 }
 
-.fa-chevron-right {
+.arrow-icon {
   margin: 0 0.5rem;
+  position: sticky;
+  top: 0;
+}
+
+.icon-text {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.top-line {
+  display: flex;
+  justify-content: center;
+}
+
+.icon-text:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #ccc;
+  z-index: -1;
 }
 </style>

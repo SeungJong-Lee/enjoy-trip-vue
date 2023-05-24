@@ -2,10 +2,18 @@
   <div style="height: 90vh; border-left: 1px solid gainsboro">
     <div v-if="planAttractions.length !== 0">
       <div>
-        <b-button v-b-toggle.sidebar-right @click="executeMethod">대중교통 경로보기</b-button>
-        <b-sidebar id="sidebar-right" title="대중교통" right shadow>
+        <b-button
+          v-b-toggle.sidebar-right
+          @click="executeMethod"
+          style="margin-top: 2%; margin-bottom: 2%"
+          >대중교통 경로보기</b-button
+        >
+        <b-sidebar id="sidebar-right" title="대중교통" right shadow width="600px">
           <div class="px-3 py-2">
-            <plan-route ref="planRoute"></plan-route>
+            <plan-route
+              ref="planRoute"
+              style="width: 500px; height: 100%; margin-left: 30px"
+            ></plan-route>
           </div>
         </b-sidebar>
       </div>
