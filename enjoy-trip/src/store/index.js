@@ -3,75 +3,86 @@ import Vuex from "vuex";
 
 import itemStore from "./modules/item/itemStore";
 import trailStore from "./modules/trailStore";
+import createPersistedState from 'vuex-persistedstate';
 // import userStore from "./modules/userStore";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: {
-    itemStore,
-    trailStore,
-    // userStore,
-  },
-  state: {
-    isLoggedIn: false,
-    planInfo: {},
-    searchAttractions: [],
-    planAttractions: [],
-    planAttraction: {},
-    selectedAttractions: [],
-    selectedAttractionsSet: new Set(),
-  },
-  getters: {
-    isLoggedIn(state) {
-      return state.isLoggedIn;
+    plugins: [
+        createPersistedState({
+            storage: window.sessionStorage,
+            reducer: (state) => {
+                return {
+                    isLoggedIn: state.isLoggedIn,
+                };
+            }
+        })
+    ],
+    modules: {
+        itemStore,
+        trailStore,
+        // userStore,
     },
-    getPlanInfo(state) {
-      return state.planInfo;
+    state: {
+        isLoggedIn: false,
+        planInfo: {},
+        searchAttractions: [],
+        planAttractions: [],
+        planAttraction: {},
+        selectedAttractions: [],
+        selectedAttractionsSet: new Set(),
     },
-    getPlanAttractions(state) {
-      return state.planAttractions;
+    getters: {
+        isLoggedIn(state) {
+            return state.isLoggedIn;
+        },
+        getPlanInfo(state) {
+            return state.planInfo;
+        },
+        getPlanAttractions(state) {
+            return state.planAttractions;
+        },
+        getPlanAttraction(state) {
+            return state.planAttraction;
+        },
+        getSelectedAttractions(state) {
+            return state.selectedAttractions;
+        },
+        getSelectedAttractionsSet(state) {
+            return state.selectedAttractionsSet;
+        },
     },
-    getPlanAttraction(state) {
-      return state.planAttraction;
+    mutations: {
+        setLoggedIn(state, value) {
+            state.isLoggedIn = value;
+        },
+        setSearchAttractions(state, value) {
+            state.searchAttractions = value;
+        },
+        setPlanInfo(state, value) {
+            state.planInfo = value;
+        },
+        setPlanAttracions(state, value) {
+            state.planAttractions = value;
+        },
+        setPlanAttraction(state, value) {
+            state.planAttraction = value;
+        },
+        setSelectedAttractions(state, value) {
+            state.selectedAttractions = [...value];
+        },
+        changeSelectedAttractions(state, value) {
+            state.selectedAttractions = value;
+        },
+        setSelectedAttractionsSet(state, value) {
+            if (state.selectedAttractionsSet.has(value)) {
+                state.selectedAttractionsSet.delete(value);
+            } else {
+                state.selectedAttractionsSet.add(value);
+            }
+            state.selectedAttractions = [...state.selectedAttractionsSet];
+        },
     },
-    getSelectedAttractions(state) {
-      return state.selectedAttractions;
-    },
-    getSelectedAttractionsSet(state) {
-      return state.selectedAttractionsSet;
-    },
-  },
-  mutations: {
-    setLoggedIn(state, value) {
-      state.isLoggedIn = value;
-    },
-    setSearchAttractions(state, value) {
-      state.searchAttractions = value;
-    },
-    setPlanInfo(state, value) {
-      state.planInfo = value;
-    },
-    setPlanAttracions(state, value) {
-      state.planAttractions = value;
-    },
-    setPlanAttraction(state, value) {
-      state.planAttraction = value;
-    },
-    setSelectedAttractions(state, value) {
-      state.selectedAttractions = [...value];
-    },
-    changeSelectedAttractions(state, value) {
-      state.selectedAttractions = value;
-    },
-    setSelectedAttractionsSet(state, value) {
-      if (state.selectedAttractionsSet.has(value)) {
-        state.selectedAttractionsSet.delete(value);
-      } else {
-        state.selectedAttractionsSet.add(value);
-      }
-      state.selectedAttractions = [...state.selectedAttractionsSet];
-    },
-  },
-  actions: {},
+    actions: {},
 });
