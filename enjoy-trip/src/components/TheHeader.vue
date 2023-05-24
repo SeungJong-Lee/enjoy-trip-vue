@@ -85,6 +85,7 @@ export default {
     logout() {
       sessionStorage.clear();
       this.setLoggedIn(false);
+      alert('로그아웃 되었습니다.');
       // this.$store.commit('setLoggedIn', false);
       if (this.$route.name !== 'home') {
         this.$router.push({ name: 'home' });
