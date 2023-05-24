@@ -84,6 +84,7 @@ const routes = [
         path: 'wirte',
         name: 'planwrite',
         component: PlanWrite,
+        props: true,
       },
     ],
   },

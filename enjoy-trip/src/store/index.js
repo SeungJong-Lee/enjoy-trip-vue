@@ -85,6 +85,10 @@ export default new Vuex.Store({
       }
       state.selectedAttractions = [...state.selectedAttractionsSet];
     },
+    setSelectedAttractionSetAll(state, value){
+      state.selectedAttractionsSet = new Set([...value]);
+      state.selectedAttractions = [...state.selectedAttractionsSet];
+    }
   },
   actions: {},
 });

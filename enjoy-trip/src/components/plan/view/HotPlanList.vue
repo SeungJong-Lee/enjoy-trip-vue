@@ -20,7 +20,7 @@
         <input v-model="searchWord" placeholder="여행지 검색" style="width: calc(100% - 5vh)"/>
         <button @click="getListByKeyAndWord" style="border: 0; background-color: rgba(0, 0, 0, 0)">
           <img
-              style="height: 4vh"
+              style="height: 3vh"
               src="https://github.com/qkdk/enjoy-trip/assets/86948395/a60c5653-f4bf-41c5-ae4b-7a95cdd33afe"
           />
         </button>
@@ -35,7 +35,11 @@
       >
         <div class="title-container">
           {{ plan.planTitle }}
-          <button v-if="validateUserId(plan.userId)">수정</button>
+          <button v-if="validateUserId(plan.userId)" @click="modifyClickListener(plan.planId)"
+                  style="background-color: white; border: 0; padding: 0">
+            <img src="https://github.com/qkdk/enjoy-trip/assets/86948395/79a2989a-91b1-4bfd-b3c4-bf64813adb2b"
+                 style="height:3vh">
+          </button>
         </div>
         <div class="description-container">
           <div class="user-info">만든이: {{ plan.userId }}</div>
@@ -64,6 +68,9 @@
 </template>
 
 <script>
+// 데이터를 받아오고
+// vuex에 적용
+// routing
 import {axiosBuilderWithJwt} from "@/api/http";
 import HeartButton from "@/components/HeartButton";
 
@@ -87,6 +94,11 @@ export default {
     this.getRecommendList();
   },
   methods: {
+    modifyClickListener(planId) {
+      this.getPlanDetailByPlanId(planId)
+          .then(({data}) => this.$store.commit("setSelectedAttractionSetAll", data.data.attractionList))
+          .then(() => this.$router.push({name: "planwrite", props: this.$store.getters.getPlanInfo}));
+    },
     validateUserId(userId) {
       return sessionStorage.getItem("userId") === userId;
     },
@@ -150,9 +162,12 @@ export default {
     },
     planClickListener(planId) {
       this.selectedPlanId = planId;
-      axiosBuilderWithJwt()
-          .get(`plan/${planId}`)
+      this.getPlanDetailByPlanId(planId)
           .then(({data}) => this.setSelectedPlanState(data.data))
+    },
+    async getPlanDetailByPlanId(planId) {
+      return await axiosBuilderWithJwt()
+          .get(`plan/${planId}`)
           .catch(({response}) => alert(response.data));
     },
     setSelectedPlanState(data) {
