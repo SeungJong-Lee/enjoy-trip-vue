@@ -13,7 +13,11 @@ const trailStore = {
     follow: [],
     location: {},
   },
-  getters: {},
+  getters: {
+    GET_TRAIL_LOCATION(state){
+      return state.location;
+    }
+  },
   mutations: {
     SET_TRAIL_LOCATION(state, loc) {
       state.location = loc;
