@@ -1,41 +1,52 @@
 <template>
   <div>
-    <b-row style="margin-top: 83px; margin-left: 7px; display: flex; justify-content: center">
+    <b-row
+      style="
+        padding-left: 3%;
+        margin-top: 83px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+      "
+    >
       <div class="custom-select-container">
         <select-sido @select-sido="selectSido"></select-sido>
       </div>
       <div class="custom-select-container">
-        <select-gugun :sidoCode="sidoCode" @select-gugun="selectGugun"></select-gugun>
+        <select-gugun
+          :sidoCode="sidoCode"
+          @select-gugun="selectGugun"
+        ></select-gugun>
       </div>
     </b-row>
   </div>
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
-import SelectSido from "@/components/item/SelectSido.vue";
-import SelectGugun from "@/components/item/SelectGugun.vue";
+import { mapActions, mapMutations } from 'vuex';
+import SelectSido from '@/components/item/SelectSido.vue';
+import SelectGugun from '@/components/item/SelectGugun.vue';
 
-const itemStore = "itemStore";
-const trailStore = "trailStore";
+const itemStore = 'itemStore';
+const trailStore = 'trailStore';
 
 export default {
-  name: "TrailSearch",
+  name: 'TrailSearch',
   components: {
     SelectSido,
     SelectGugun,
   },
   data() {
     return {
-      message: "",
+      message: '',
       sidoCode: null,
     };
   },
   created() {},
   methods: {
-    ...mapActions(trailStore, ["getTrailList"]),
-    ...mapActions(itemStore, ["getGugun"]),
-    ...mapMutations(itemStore, ["CLEAR_GUGUN_LIST"]),
+    ...mapActions(trailStore, ['getTrailList']),
+    ...mapActions(itemStore, ['getGugun']),
+    ...mapMutations(itemStore, ['CLEAR_GUGUN_LIST']),
     selectSido(sidoCode) {
       this.sidoCode = sidoCode;
     },
