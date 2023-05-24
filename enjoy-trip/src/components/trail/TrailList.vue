@@ -145,6 +145,8 @@ export default {
         end_name: item.end_name,
         route: item.route,
         total_length: item.total_length,
+        start_detail_addr: item.start_detail_addr,
+        end_detail_addr: item.end_detail_addr,
       };
       this.showModal = true;
     },

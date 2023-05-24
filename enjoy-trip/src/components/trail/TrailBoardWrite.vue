@@ -69,21 +69,20 @@ export default {
     return {
       message: '',
       isView: true,
+      cityName: {},
+      isError: false,
+      trailLocation: {},
     };
   },
   computed: {
-    ...mapState(trailStore, ['trail']),
     ...mapState(trailStore, ['isWritePage']),
+    ...mapState(trailStore, ['trail']),
   },
   created() {
-    axiosBuilderWithJwt()
-      .get(`/trail/view/${this.board.trail_board_trail_id}`)
-      .then(({ data }) => {
-        this.setTrail(data);
-      });
+    console.log(this.trail.start_detail_addr + '제발 좀 되라 친구야');
     setTimeout(() => {
       axiosBuilderWithJwt()
-        .get(`/trail/getcity/${this.board.trail_board_trail_id}`)
+        .get(`/trail/getcity/${this.trail.trail_id}`)
         .then(({ data }) => {
           // this.cityName =
           //   data.startSidoName +
