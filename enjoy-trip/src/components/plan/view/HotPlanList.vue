@@ -35,6 +35,7 @@
       >
         <div class="title-container">
           {{ plan.planTitle }}
+          <button v-if="validateUserId(plan.userId)">수정</button>
         </div>
         <div class="description-container">
           <div class="user-info">만든이: {{ plan.userId }}</div>
@@ -86,6 +87,9 @@ export default {
     this.getRecommendList();
   },
   methods: {
+    validateUserId(userId) {
+      return sessionStorage.getItem("userId") === userId;
+    },
     recommendClickListener(planId, isClicked) {
       const value = isClicked ? 1 : -1
       axiosBuilderWithJwt()
@@ -234,6 +238,10 @@ export default {
 .title-container {
   font-weight: bold;
   font-size: x-large;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .user-info {
