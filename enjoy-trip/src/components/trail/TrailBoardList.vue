@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div class="board-title">
-      <h2>같이 둘레길 가요!</h2>
-    </div>
     <div class="search-bar">
       <div class="select-wrapper">
         <select v-model="key">
@@ -11,31 +8,31 @@
         </select>
         <div class="select-arrow"></div>
       </div>
-      <input type="text" v-model="word" placeholder="검색어를 입력하세요" />
+      <input type="text" v-model="word" placeholder="검색어를 입력하세요"/>
       <button @click="search">검색</button>
     </div>
     <div class="table-wrapper" style="text-align: center">
       <table class="custom-table">
         <thead>
-          <tr>
-            <th>글번호</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성시간</th>
-            <th>모집인원</th>
-          </tr>
+        <tr>
+          <th>글번호</th>
+          <th>제목</th>
+          <th>작성자</th>
+          <th>작성시간</th>
+          <th>모집인원</th>
+        </tr>
         </thead>
         <tbody>
-          <tr v-for="(board, index) in slicedBoards" :key="index" @click="handleRowClick(board)">
-            <td>{{ board.trail_board_no }}</td>
-            <td>{{ board.trail_board_title }}</td>
-            <td>{{ board.user_id }}</td>
-            <td>{{ board.trail_board_create_time }}</td>
-            <td>
-              {{ board.trail_board_member_count }} /
-              {{ board.trail_board_max_member }}
-            </td>
-          </tr>
+        <tr v-for="(board, index) in slicedBoards" :key="index" @click="handleRowClick(board)">
+          <td>{{ board.trail_board_no }}</td>
+          <td>{{ board.trail_board_title }}</td>
+          <td>{{ board.user_id }}</td>
+          <td>{{ board.trail_board_create_time }}</td>
+          <td>
+            {{ board.trail_board_member_count }} /
+            {{ board.trail_board_max_member }}
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -47,10 +44,10 @@
           </a>
         </li>
         <li
-          class="page-item"
-          v-for="pageNumber in totalPages"
-          :key="pageNumber"
-          :class="{ active: currentPage === pageNumber }"
+            class="page-item"
+            v-for="pageNumber in totalPages"
+            :key="pageNumber"
+            :class="{ active: currentPage === pageNumber }"
         >
           <a class="page-link" href="#" @click="goToPage(pageNumber)">{{ pageNumber }}</a>
         </li>
@@ -65,7 +62,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 
 const trailStore = "trailStore";
 
@@ -74,7 +71,7 @@ export default {
   components: {},
   data() {
     return {
-      key: "",
+      key: "trail_board_title",
       word: "",
       pageSize: 10, // 한 페이지에 표시할 항목 수
       currentPage: 1, // 현재 페이지 번호
@@ -133,9 +130,8 @@ export default {
 
 <style scoped>
 .table-wrapper {
-  max-width: 800px;
+  padding-top: 3vh;
   margin: 0 auto;
-  padding: 20px;
 }
 
 .custom-table {
@@ -162,27 +158,20 @@ export default {
   cursor: pointer;
 }
 
-.board-title {
-  margin-top: 37px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
 .board-title h2 {
   font-size: 24px;
   font-weight: bold;
 }
+
 .search-bar {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 10px;
-  margin-right: 87px;
+  margin: 0;
 }
 
 .select-wrapper {
   position: relative;
-  margin-right: 10px;
 }
 
 .select-arrow {
@@ -218,7 +207,6 @@ select:focus {
 }
 
 input {
-  margin-right: 10px;
   font-size: 14px;
   padding: 6px;
   border-radius: 4px;

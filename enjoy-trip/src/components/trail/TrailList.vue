@@ -168,9 +168,7 @@ export default {
 
 <style scoped>
 .table-wrapper {
-  max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
 }
 
 .custom-table {
@@ -255,11 +253,6 @@ export default {
 .modal-close {
   font-weight: bold;
   text-shadow: 1px 1px 2px rgba(45, 158, 228, 0.3);
-}
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 10px;
 }
 
 .create-plan-button {

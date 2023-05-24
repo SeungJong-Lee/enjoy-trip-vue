@@ -1,11 +1,15 @@
 <template>
   <div>
-    <b-row>
-      <b-col cols="5" class="left-area">
-        <trail-search class="search"></trail-search>
-        <trail-list class="traillist"></trail-list>
+    <b-row style="margin: 0; min-height: 75vh">
+      <b-col cols="6" style="border-right: 1px solid gainsboro; padding: 1vw">
+        <h1 style="height: 10vh">둘레길을 찾아보세요!!</h1>
+        <trail-search></trail-search>
+        <div style="padding-top: 3vh">
+          <trail-list></trail-list>
+        </div>
       </b-col>
-      <b-col cols="6">
+      <b-col cols="6" style=" padding: 1vw">
+        <h1 style="height: 10vh">다양한 사람들을 만나보세요!</h1>
         <trail-board-list></trail-board-list>
       </b-col>
     </b-row>
@@ -17,7 +21,7 @@ import TrailSearch from "@/components/trail/TrailSearch.vue";
 import TrailList from "@/components/trail/TrailList.vue";
 import TrailBoardList from "@/components/trail/TrailBoardList.vue";
 
-import { mapMutations } from "vuex";
+import {mapMutations} from "vuex";
 
 export default {
   name: "AppTrail",
@@ -42,14 +46,4 @@ export default {
 </script>
 
 <style scoped>
-.search {
-  margin-left: 5px;
-}
-
-.traillist {
-  margin-left: 15px;
-}
-.left-area {
-  margin-left: 70px;
-}
 </style>

@@ -1,29 +1,16 @@
 <template>
-  <div>
-    <b-row
-      style="
-        padding-left: 3%;
-        margin-top: 83px;
-        display: flex;
-        justify-content: center;
-        flex-wrap: nowrap;
-      "
-    >
-      <div class="custom-select-container">
-        <select-sido @select-sido="selectSido"></select-sido>
-      </div>
-      <div class="custom-select-container">
-        <select-gugun
-          :sidoCode="sidoCode"
-          @select-gugun="selectGugun"
-        ></select-gugun>
-      </div>
-    </b-row>
+  <div class="search-component-container">
+    <div class="search-component-element" style="padding-right: 0.5vw">
+      <select-sido @select-sido="selectSido"></select-sido>
+    </div>
+    <div class="search-component-element" style="padding-left: 0.5vw">
+      <select-gugun :sidoCode="sidoCode" @select-gugun="selectGugun"></select-gugun>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
+import {mapActions, mapMutations} from 'vuex';
 import SelectSido from '@/components/item/SelectSido.vue';
 import SelectGugun from '@/components/item/SelectGugun.vue';
 
@@ -42,7 +29,8 @@ export default {
       sidoCode: null,
     };
   },
-  created() {},
+  created() {
+  },
   methods: {
     ...mapActions(trailStore, ['getTrailList']),
     ...mapActions(itemStore, ['getGugun']),
@@ -64,9 +52,11 @@ export default {
 </script>
 
 <style scoped>
-.custom-select-container {
-  width: 300px; /* 원하는 너비로 수정 */
-  margin-right: 10px; /* 원하는 여백으로 수정 */
-  margin-bottom: 10px;
+.search-component-container {
+  display: flex;
+}
+
+.search-component-element {
+  flex: 1;
 }
 </style>
