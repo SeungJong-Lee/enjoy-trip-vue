@@ -1,14 +1,27 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="4">
-        <trail-view
-          v-if="!isView"
-          style="height: 50%; margin-top: 20%; margin-left: 10%"
-        ></trail-view>
-        <main-map style="height: 50%; margin-top: 20%; margin-left: 10%" v-else></main-map>
+      <b-col cols="4" style="display: flex; flex-direction: column; border-radius: 50%">
+        <div style="margin-bottom: 20px">
+          <trail-view
+            v-if="!isView"
+            style="height: 410px; width: 600px; margin-left: 150px; margin-top: 65px"
+          ></trail-view>
+
+          <main-map
+            style="height: 410px; width: 600px; margin-left: 150px; margin-top: 65px"
+            v-else
+          ></main-map>
+        </div>
+
         <div>
-          <button @click="isView = !isView" style="margin-top: 5%">전환</button>
+          <button
+            class="custom-button"
+            @click="isView = !isView"
+            style="margin-top: 5%; margin-left: 260px"
+          >
+            전환
+          </button>
         </div>
       </b-col>
       <b-col cols="8">
@@ -311,5 +324,21 @@ export default {
 }
 .button-group {
   text-align: right;
+}
+
+.custom-button {
+  margin-top: 5%;
+  margin-left: 200px;
+  padding: 10px 20px;
+  background-color: #c2daee;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.custom-button:hover {
+  background-color: #81c5fd;
 }
 </style>
