@@ -18,7 +18,8 @@
     <br />
     <div>
       <span style="font-size: small"
-        >회원이 아니세요? <router-link to="signup">회원가입 하기</router-link></span
+        >회원이 아니세요?
+        <router-link to="signup">회원가입 하기</router-link></span
       >
     </div>
     <br />
@@ -26,32 +27,37 @@
 </template>
 
 <script>
-import { http } from "@/api/http";
+import { mapMutations } from 'vuex';
+import { http } from '@/api/http';
+
+const trailStore = 'trailStore';
 
 export default {
-  name: "LoginForm",
+  name: 'LoginForm',
   data() {
     return {
       loginForm: {
-        userId: "",
-        userPw: "",
+        userId: '',
+        userPw: '',
       },
     };
   },
   methods: {
+    ...mapMutations(trailStore, ['setLoggedIn']),
     afterLoginSuccess(data) {
-      sessionStorage.setItem("userId", data.userId);
-      sessionStorage.setItem("userRole", data.userRole);
-      sessionStorage.setItem("accessToken", data.accessToken);
+      sessionStorage.setItem('userId', data.userId);
+      sessionStorage.setItem('userRole', data.userRole);
+      sessionStorage.setItem('accessToken', data.accessToken);
 
-      this.$store.commit("setLoggedIn", true);
-      this.$router.push("/");
+      // this.$store.commit("setLoggedIn", true);
+      this.setLoggedIn(true);
+      this.$router.push('/');
     },
     submitLogin() {
       http
-        .post("/authenticate", this.loginForm)
+        .post('/authenticate', this.loginForm)
         .then(({ data }) => this.afterLoginSuccess(data.data))
-        .catch(() => alert("아이디 혹은 비밀번호가 일치하지 않습니다."));
+        .catch(() => alert('아이디 혹은 비밀번호가 일치하지 않습니다.'));
     },
   },
 };

@@ -12,12 +12,12 @@ export default new Vuex.Store({
   plugins: [
     createPersistedState({
       storage: window.sessionStorage,
-      reducer: (state) => {
-        return {
-          ...state,
-          isLoggedIn: state.isLoggedIn,
-        };
-      },
+      // reducer: (state) => {
+      //   return {
+      //     ...state,
+      //     isLoggedIn: state.isLoggedIn,
+      //   };
+      // },
       paths: ['trailStore'],
     }),
   ],
@@ -27,7 +27,7 @@ export default new Vuex.Store({
     // userStore,
   },
   state: {
-    isLoggedIn: false,
+    // isLoggedIn: false,
     planInfo: {},
     searchAttractions: [],
     planAttractions: [],
@@ -39,9 +39,9 @@ export default new Vuex.Store({
     isLoggedIn(state) {
       return state.isLoggedIn;
     },
-    getPlanInfo(state) {
-      return state.planInfo;
-    },
+    // getPlanInfo(state) {
+    //   return state.planInfo;
+    // },
     getPlanAttractions(state) {
       return state.planAttractions;
     },
@@ -56,9 +56,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setLoggedIn(state, value) {
-      state.isLoggedIn = value;
-    },
+    // setLoggedIn(state, value) {
+    //   state.isLoggedIn = value;
+    // },
     setSearchAttractions(state, value) {
       state.searchAttractions = value;
     },

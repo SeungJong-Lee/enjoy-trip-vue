@@ -17,13 +17,20 @@ const trailStore = {
     members: [],
     follow: [],
     location: {},
+    isLoggedIn: false,
   },
   getters: {
     GET_TRAIL_LOCATION(state) {
       return state.location;
     },
+    getPlanInfo(state) {
+      return state.planInfo;
+    },
   },
   mutations: {
+    setLoggedIn(state, value) {
+      state.isLoggedIn = value;
+    },
     SET_TRAIL_LOCATION(state, loc) {
       state.location = loc;
       console.log(

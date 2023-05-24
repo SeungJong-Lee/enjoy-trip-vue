@@ -18,16 +18,24 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item href="">
-            <router-link :to="{ name: 'plan' }" class="nav-link">여행계획</router-link>
+            <router-link :to="{ name: 'plan' }" class="nav-link"
+              >여행계획</router-link
+            >
           </b-nav-item>
           <b-nav-item href="">
-            <router-link :to="{ name: 'place' }" class="nav-link">핫플레이스 </router-link>
+            <router-link :to="{ name: 'place' }" class="nav-link"
+              >핫플레이스
+            </router-link>
           </b-nav-item>
           <b-nav-item href="">
-            <router-link :to="{ name: 'notice' }" class="nav-link">공지사항 </router-link>
+            <router-link :to="{ name: 'notice' }" class="nav-link"
+              >공지사항
+            </router-link>
           </b-nav-item>
           <b-nav-item href="">
-            <router-link :to="{ name: 'trail' }" class="nav-link">둘레길 </router-link>
+            <router-link :to="{ name: 'trail' }" class="nav-link"
+              >둘레길
+            </router-link>
           </b-nav-item>
         </b-navbar-nav>
 
@@ -53,26 +61,33 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
+const trailStore = 'trailStore';
+
 export default {
-  name: "TheHeader",
+  name: 'TheHeader',
   components: {},
   data() {
     return {
-      message: "",
+      message: '',
     };
   },
   computed: {
-    isLoggedIn() {
-      return this.$store.getters.isLoggedIn;
-    },
+    ...mapState(trailStore, ['isLoggedIn']),
+    // isLoggedIn() {
+    //   return this.$store.getters.isLoggedIn;
+    // },
   },
   created() {},
   methods: {
+    ...mapMutations(trailStore, ['setLoggedIn']),
     logout() {
       sessionStorage.clear();
-      this.$store.commit("setLoggedIn", false);
-      if (this.$route.name !== "home") {
-        this.$router.push({ name: "home" });
+      this.setLoggedIn(false);
+      // this.$store.commit('setLoggedIn', false);
+      if (this.$route.name !== 'home') {
+        this.$router.push({ name: 'home' });
       }
     },
   },
