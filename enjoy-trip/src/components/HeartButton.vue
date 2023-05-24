@@ -16,6 +16,11 @@ export default {
   created() {
     this.isClicked = !this.isClickable;
   },
+  watch: {
+    isClickable(newValue){
+      this.isClicked = !newValue;
+    }
+  },
   methods: {
     toggleHeart() {
       this.isClicked = !this.isClicked;
