@@ -98,7 +98,7 @@ export default {
       joinmembers: [],
       joinCount: 0,
       isView: true,
-      cityName: "",
+      cityName: {},
       isError: false,
       trailLocation: {},
     };
@@ -125,21 +125,35 @@ export default {
       axiosBuilderWithJwt()
         .get(`/trail/getcity/${this.board.trail_board_trail_id}`)
         .then(({ data }) => {
-          this.cityName = data.sidoName + " " + data.gugunName + " " + this.trail.start_detail_addr;
-          console.log(this.cityName);
+          // this.cityName =
+          //   data.startSidoName +
+          //   " " +
+          //   data.startGugunName +
+          //   " " +
+          //   " " +
+          //   data.endSidoName +
+          //   " " +
+          //   data.endGugunName +
+          //   " " +
+          //   this.trail.start_detail_addr;
+          this.cityName.startName =
+            data.startSidoName + " " + data.startGugunName + " " + this.trail.start_detail_addr;
+          this.cityName.endName =
+            data.endSidoName + " " + data.endGugunName + " " + this.trail.end_detail_addr;
+          console.log(this.cityName.startName + " " + this.cityName.endName + " asdadasdasdasd");
         });
     }, 300);
     setTimeout(() => {
       axios
         .get(
-          `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`
+          `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`
         )
         .then(({ data }) => {
           if (data.response.status == "OK") {
             console.log(data);
             this.trailLocation = {
-              x: data.response.result.point.x,
-              y: data.response.result.point.y,
+              startX: data.response.result.point.x,
+              startY: data.response.result.point.y,
             };
             // console.log('ok');
           } else {
@@ -153,7 +167,7 @@ export default {
         console.log("에러발생");
         axios
           .get(
-            `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`
+            `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.startName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`
           )
           .then(({ data }) => {
             console.log(data);
@@ -161,13 +175,52 @@ export default {
               this.trailLocation = null;
             } else {
               this.trailLocation = {
-                x: data.response.result.point.x,
-                y: data.response.result.point.y,
+                startX: data.response.result.point.x,
+                startY: data.response.result.point.y,
               };
             }
           });
       }
     }, 750);
+    setTimeout(() => {
+      axios
+        .get(
+          `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`
+        )
+        .then(({ data }) => {
+          if (data.response.status == "OK") {
+            console.log(data);
+            this.trailLocation = {
+              endX: data.response.result.point.x,
+              endY: data.response.result.point.y,
+            };
+            // console.log('ok');
+          } else {
+            this.isError = true;
+          }
+        });
+    }, 1000);
+
+    setTimeout(() => {
+      if (this.isError) {
+        console.log("에러발생");
+        axios
+          .get(
+            `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName.endName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`
+          )
+          .then(({ data }) => {
+            console.log(data);
+            if (data.response.status != "OK") {
+              this.trailLocation = null;
+            } else {
+              this.trailLocation = {
+                endX: data.response.result.point.x,
+                endY: data.response.result.point.y,
+              };
+            }
+          });
+      }
+    }, 1300);
 
     for (let i = 0; i < this.members.length; i++) {
       this.joinmembers.push(this.members[i].trail_party_member_id);
@@ -176,7 +229,7 @@ export default {
     setTimeout(() => {
       console.log(this.trailLocation);
       this.SET_TRAIL_LOCATION(this.trailLocation);
-    }, 1000);
+    }, 1500);
   },
   methods: {
     ...mapActions(trailStore, ["setTrail"]),

@@ -17,7 +17,7 @@ const trailStore = {
   mutations: {
     SET_TRAIL_LOCATION(state, loc) {
       state.location = loc;
-      console.log(loc);
+      console.log(loc.startX + " " + loc.startY + " " + loc.endX + " " + loc.endY);
     },
     SET_FOLLOW_LIST(state, follow) {
       state.follow = follow;
