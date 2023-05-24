@@ -177,7 +177,7 @@ export default {
   align-items: center;
   justify-content: flex-end;
   margin-bottom: 10px;
-  margin-right: 10%;
+  margin-right: 87px;
 }
 
 .select-wrapper {

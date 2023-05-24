@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import TrailSearch from '@/components/trail/TrailSearch.vue';
-import TrailList from '@/components/trail/TrailList.vue';
-import TrailBoardList from '@/components/trail/TrailBoardList.vue';
+import TrailSearch from "@/components/trail/TrailSearch.vue";
+import TrailList from "@/components/trail/TrailList.vue";
+import TrailBoardList from "@/components/trail/TrailBoardList.vue";
 
-import { mapMutations } from 'vuex';
+import { mapMutations } from "vuex";
 
 export default {
-  name: 'AppTrail',
+  name: "AppTrail",
   components: {
     TrailSearch,
     TrailList,
@@ -28,7 +28,7 @@ export default {
   },
   data() {
     return {
-      message: '',
+      message: "",
     };
   },
   computed: {},
@@ -36,7 +36,7 @@ export default {
     this.SET_ISWRITE_TRUE();
   },
   methods: {
-    ...mapMutations('trailStore', ['SET_ISWRITE_TRUE']),
+    ...mapMutations("trailStore", ["SET_ISWRITE_TRUE"]),
   },
 };
 </script>

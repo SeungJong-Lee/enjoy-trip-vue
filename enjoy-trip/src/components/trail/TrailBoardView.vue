@@ -2,11 +2,11 @@
   <div>
     <b-row>
       <b-col cols="4">
-        <trail-view v-if="!isView"></trail-view>
-        <main-map
+        <trail-view
+          v-if="!isView"
           style="height: 50%; margin-top: 20%; margin-left: 10%"
-          v-else
-        ></main-map>
+        ></trail-view>
+        <main-map style="height: 50%; margin-top: 20%; margin-left: 10%" v-else></main-map>
         <div>
           <button @click="isView = !isView" style="margin-top: 5%">전환</button>
         </div>
@@ -18,19 +18,13 @@
             <div class="post-content">
               <p class="post-info">작성자: {{ board.user_id }}</p>
               <p class="post-info">글번호: {{ board.trail_board_no }}</p>
-              <p class="post-info">
-                여행시작일: {{ board.trail_board_start_time | formatDate }}
-              </p>
-              <p class="post-info">
-                여행종료일: {{ board.trail_board_end_time | formatDate }}
-              </p>
+              <p class="post-info">여행시작일: {{ board.trail_board_start_time | formatDate }}</p>
+              <p class="post-info">여행종료일: {{ board.trail_board_end_time | formatDate }}</p>
               <p class="post-info">
                 모집인원: {{ members.length }} /
                 {{ board.trail_board_max_member }}
               </p>
-              <p class="post-info">
-                작성일: {{ board.trail_board_create_time | formatDate }}
-              </p>
+              <p class="post-info">작성일: {{ board.trail_board_create_time | formatDate }}</p>
             </div>
             <div v-if="members != null">
               <span>함께하는사람 : </span>
@@ -55,16 +49,10 @@
               여행 참여하기
             </button>
             <span v-if="loninUser == board.user_id">
-              <button class="btn btn-custom btn-edit" @click="editPost">
-                수정
-              </button>
-              <button class="btn btn-custom btn-delete" @click="deletePost">
-                삭제
-              </button>
+              <button class="btn btn-custom btn-edit" @click="editPost">수정</button>
+              <button class="btn btn-custom btn-delete" @click="deletePost">삭제</button>
             </span>
-            <button class="btn btn-custom btn-mvlist" @click="mvList">
-              목록
-            </button>
+            <button class="btn btn-custom btn-mvlist" @click="mvList">목록</button>
           </div>
         </div>
         <div>
@@ -75,16 +63,16 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import { mapState, mapActions, mapMutations } from 'vuex';
-import { axiosBuilderWithJwt } from '@/api/http';
-import MainMap from '../plan/MainMap.vue';
-import TrailView from './TrailView.vue';
-import TrailBoardReply from './TrailBoardReply.vue';
+import axios from "axios";
+import { mapState, mapActions, mapMutations } from "vuex";
+import { axiosBuilderWithJwt } from "@/api/http";
+import MainMap from "../plan/MainMap.vue";
+import TrailView from "./TrailView.vue";
+import TrailBoardReply from "./TrailBoardReply.vue";
 
-const trailStore = 'trailStore';
+const trailStore = "trailStore";
 export default {
-  name: 'TrailBoardView',
+  name: "TrailBoardView",
   components: {
     MainMap,
     TrailView,
@@ -92,12 +80,12 @@ export default {
   },
   data() {
     return {
-      message: '',
-      loninUser: sessionStorage.getItem('userId'),
+      message: "",
+      loninUser: sessionStorage.getItem("userId"),
       joinmembers: [],
       joinCount: 0,
       isView: true,
-      cityName: '',
+      cityName: "",
       isError: false,
       trailLocation: {},
     };
@@ -109,10 +97,10 @@ export default {
     },
   },
   computed: {
-    ...mapState(trailStore, ['board']),
-    ...mapState(trailStore, ['members']),
-    ...mapState(trailStore, ['location']),
-    ...mapState(trailStore, ['trail']),
+    ...mapState(trailStore, ["board"]),
+    ...mapState(trailStore, ["members"]),
+    ...mapState(trailStore, ["location"]),
+    ...mapState(trailStore, ["trail"]),
   },
   created() {
     axiosBuilderWithJwt()
@@ -124,12 +112,7 @@ export default {
       axiosBuilderWithJwt()
         .get(`/trail/getcity/${this.board.trail_board_trail_id}`)
         .then(({ data }) => {
-          this.cityName =
-            data.sidoName +
-            ' ' +
-            data.gugunName +
-            ' ' +
-            this.trail.start_detail_addr;
+          this.cityName = data.sidoName + " " + data.gugunName + " " + this.trail.start_detail_addr;
           console.log(this.cityName);
         });
     }, 300);
@@ -139,7 +122,7 @@ export default {
           `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName}&refine=true&simple=true&format=json&type=PARCEL&key=6D07D920-C421-3097-98C5-778C11FA6B49`
         )
         .then(({ data }) => {
-          if (data.response.status == 'OK') {
+          if (data.response.status == "OK") {
             console.log(data);
             this.trailLocation = {
               x: data.response.result.point.x,
@@ -154,14 +137,14 @@ export default {
 
     setTimeout(() => {
       if (this.isError) {
-        console.log('에러발생');
+        console.log("에러발생");
         axios
           .get(
             `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${this.cityName}&refine=true&simple=true&format=json&type=ROAD&key=6D07D920-C421-3097-98C5-778C11FA6B49`
           )
           .then(({ data }) => {
             console.log(data);
-            if (data.response.status != 'OK') {
+            if (data.response.status != "OK") {
               this.trailLocation = null;
             } else {
               this.trailLocation = {
@@ -183,9 +166,9 @@ export default {
     }, 1000);
   },
   methods: {
-    ...mapActions(trailStore, ['setTrail']),
-    ...mapActions(trailStore, ['setJoinMember']),
-    ...mapMutations(trailStore, ['SET_TRAIL_LOCATION']),
+    ...mapActions(trailStore, ["setTrail"]),
+    ...mapActions(trailStore, ["setJoinMember"]),
+    ...mapMutations(trailStore, ["SET_TRAIL_LOCATION"]),
     async joinTrip() {
       try {
         await axiosBuilderWithJwt().post(`/trail/board/joinparty`, {
@@ -210,20 +193,20 @@ export default {
     },
 
     editPost() {
-      this.$router.push('/trailboardwriteitem');
+      this.$router.push("/trailboardwriteitem");
     },
     deletePost() {
       axiosBuilderWithJwt()
         .delete(`/trail/board/delete/${this.board.trail_board_no}`)
         .then(() => {
-          this.$router.push('/trail');
+          this.$router.push("/trail");
         })
         .catch((error) => {
           console.log(error);
         });
     },
     mvList() {
-      this.$router.push('/trail');
+      this.$router.push("/trail");
     },
   },
 };

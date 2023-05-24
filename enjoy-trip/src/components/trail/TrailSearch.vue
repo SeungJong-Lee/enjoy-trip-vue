@@ -1,8 +1,14 @@
 <template>
-  <b-row class="mt-4 mb-4 text-center">
-    <select-sido @select-sido="selectSido"></select-sido>
-    <select-gugun :sidoCode="sidoCode" @select-gugun="selectGugun"></select-gugun>
-  </b-row>
+  <div>
+    <b-row style="margin-top: 83px; margin-left: 7px; display: flex; justify-content: center">
+      <div class="custom-select-container">
+        <select-sido @select-sido="selectSido"></select-sido>
+      </div>
+      <div class="custom-select-container">
+        <select-gugun :sidoCode="sidoCode" @select-gugun="selectGugun"></select-gugun>
+      </div>
+    </b-row>
+  </div>
 </template>
 
 <script>
@@ -46,4 +52,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.custom-select-container {
+  width: 300px; /* 원하는 너비로 수정 */
+  margin-right: 10px; /* 원하는 여백으로 수정 */
+  margin-bottom: 10px;
+}
+</style>
