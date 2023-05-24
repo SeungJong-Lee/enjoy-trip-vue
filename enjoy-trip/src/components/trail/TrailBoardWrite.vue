@@ -16,7 +16,7 @@
       </b-col>
       <b-col cols="7" style="padding: 0; padding-left: 2vw; padding-right: 2vw">
         <div class="title-container">
-          <h1>같이 둘레길 갈 사람을 구해보세요</h1>
+          <h1></h1>
         </div>
         <TrailBoardWriteItem
             class="write-container"
