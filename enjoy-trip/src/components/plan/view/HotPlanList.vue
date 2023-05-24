@@ -94,8 +94,6 @@ export default {
           .catch(({response}) => alert(response.data));
     },
     isClickable(planId) {
-      console.log(this.recommendList);
-      console.log(planId)
       for (const recommendedPlanId of this.recommendList) {
         if (planId == recommendedPlanId) {
           return false;
