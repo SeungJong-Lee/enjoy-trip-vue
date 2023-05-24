@@ -5,14 +5,21 @@
       <div v-if="isModalOpen" class="modal" @click.self="closeModal">
         <div class="modal-content">
           <h2>계획을 만드시겠습니까?</h2>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10vh">
-            <div>
-              계획 제목
-            </div>
-            <input v-model="titleSubject"/>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              margin-top: 10vh;
+            "
+          >
+            <div>계획 제목</div>
+            <input v-model="titleSubject" />
           </div>
           <div style="margin-top: 5vh; display: flex; justify-content: end">
-            <button class="submit-button" @click="buttonClickListener">계획 만들기</button>
+            <button class="submit-button" @click="buttonClickListener">
+              계획 만들기
+            </button>
           </div>
         </div>
       </div>
@@ -21,15 +28,19 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 export default {
-  name: "PlanWriteModal",
-  data(){
+  name: 'PlanWriteModal',
+  data() {
     return {
       isModalOpen: false,
-      titleSubject: "",
-    }
+      titleSubject: '',
+    };
   },
   methods: {
+    ...mapMutations(['changeSelectedAttractions']),
+    ...mapMutations(['setSelectedAttractionsSet']),
+    ...mapMutations(['setSearchAttractions']),
     openModal() {
       this.isModalOpen = true;
       document.body.style.overflow = 'hidden'; // 화면 스크롤 방지
@@ -45,12 +56,15 @@ export default {
         this.closeModal();
       }
     },
-    buttonClickListener(){
-      this.$emit("button-click-event", this.titleSubject);
+    buttonClickListener() {
+      this.$emit('button-click-event', this.titleSubject);
       this.closeModal();
-    }
-  }
-}
+      this.changeSelectedAttractions(null);
+      this.setSelectedAttractionsSet(null);
+      this.setSearchAttractions(null);
+    },
+  },
+};
 </script>
 
 <style scoped>
