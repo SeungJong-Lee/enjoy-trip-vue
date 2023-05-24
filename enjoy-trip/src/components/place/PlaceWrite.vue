@@ -1,42 +1,53 @@
 <template>
   <div class="container">
-    <div class="form-group">
-      <label for="title">제목</label>
-      <input id="title" type="text" class="form-control" v-model="title" />
-    </div>
-    <div class="form-group">
-      <label for="files">파일 선택</label>
-      <div class="custom-file">
-        <input
-          id="files"
-          type="file"
-          multiple
-          class="custom-file-input"
-          @change="handleFileUpload"
-        />
-        <label class="custom-file-label" for="files">{{ fileLabelText }}</label>
+    <div class="form-wrapper">
+      <div class="form-group">
+        <label for="title">제목</label>
+        <input id="title" type="text" class="form-control" v-model="title" />
+      </div>
+      <div class="form-group">
+        <label for="files">파일 선택</label>
+        <div class="custom-file">
+          <input
+            id="files"
+            type="file"
+            multiple
+            class="custom-file-input"
+            @change="handleFileUpload"
+          />
+          <label class="custom-file-label" for="files">{{
+            fileLabelText
+          }}</label>
+        </div>
       </div>
     </div>
     <div class="preview">
-      <img v-if="imageUrl" :src="imageUrl" alt="Preview" class="preview-image" />
+      <img
+        v-if="imageUrl"
+        :src="imageUrl"
+        alt="Preview"
+        class="preview-image"
+      />
     </div>
-    <button class="btn btn-info" @click="submitPost" style="margin-right: 10%">게시</button>
-    <button class="btn btn-secondary" @click="mvList">목록</button>
+    <div class="buttons">
+      <button class="btn btn-info" @click="submitPost">게시</button>
+      <button class="btn btn-secondary" @click="mvList">목록</button>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import { baseURL } from "@/api/http";
+import axios from 'axios';
+import { baseURL } from '@/api/http';
 export default {
-  name: "PlaceWrite",
+  name: 'PlaceWrite',
   components: {},
   data() {
     return {
-      message: "",
-      title: "",
+      message: '',
+      title: '',
       files: [],
-      fileLabelText: "파일을 선택해주세요",
+      fileLabelText: '파일을 선택해주세요',
       imageUrl: null,
     };
   },
@@ -44,7 +55,7 @@ export default {
   methods: {
     mvList() {
       // this.isWrite = false;
-      this.$router.push("/place");
+      this.$router.push('/place');
     },
     handleFileUpload() {
       this.files = Array.from(event.target.files);
@@ -57,28 +68,28 @@ export default {
       } else {
         this.image = null;
         this.imageUrl = null;
-        this.imageLabelText = "이미지를 선택해주세요";
+        this.imageLabelText = '이미지를 선택해주세요';
       }
     },
     submitPost() {
       const formData = new FormData();
-      formData.append("placeTitle", this.title);
-      formData.append("placeContent", "123");
-      var loginUser = sessionStorage.getItem("userId");
-      formData.append("userId", loginUser);
+      formData.append('placeTitle', this.title);
+      formData.append('placeContent', '123');
+      var loginUser = sessionStorage.getItem('userId');
+      formData.append('userId', loginUser);
       for (let i = 0; i < this.files.length; i++) {
-        formData.append("upfile", this.files[i]);
+        formData.append('upfile', this.files[i]);
       }
       axios
         .post(`${baseURL}/place/api/write`, formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
-            authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+            'Content-Type': 'multipart/form-data',
+            authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
           },
         })
         .then(() => {
           setTimeout(() => {
-            this.$router.push("/place");
+            this.$router.push('/place');
           }, 300);
         })
         .catch((error) => {
@@ -91,13 +102,25 @@ export default {
 
 <style scoped>
 .container {
-  max-width: 400px;
-  margin: 0 auto;
+  max-width: 500px;
+  margin: 20px auto 0;
   padding: 20px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .form-group {
   margin-bottom: 20px;
+  width: 100%;
 }
 
 label {
@@ -109,13 +132,14 @@ label {
 }
 
 .custom-file-label::after {
-  content: "파일 선택";
+  content: '파일 선택';
 }
 
 .btn-primary {
   background-color: #007bff;
   color: #fff;
 }
+
 .preview {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -123,8 +147,18 @@ label {
 }
 
 .preview-image {
-  width: 500px;
-  height: 300px;
-  transform: translateX(-70px);
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.buttons button {
+  margin-left: 10px;
 }
 </style>
