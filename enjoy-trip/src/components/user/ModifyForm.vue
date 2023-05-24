@@ -74,14 +74,15 @@ export default {
     submitModify() {
       if (this.checkPwEqual()) {
         http
-          .patch("/user/api/modify", this.modifyForm, {
+          .put("/user/api/modify", this.modifyForm, {
             headers: {
               "Content-Type": "application/json;charset=utf-8",
               authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
             },
           })
           .then(({ data }) => this.afterModifySuccess(data))
-          .catch(({ response }) => alert(response.data));
+          .catch((error) => console.log(error));
+        // .catch(({ response }) => alert(response.data));
       } else {
         alert("비밀번호가 일치하지 않습니다.");
       }
