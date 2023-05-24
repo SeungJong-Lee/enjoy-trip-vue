@@ -18,7 +18,7 @@
           <button
             class="custom-button"
             @click="isView = !isView"
-            style="margin-top: 5%; margin-left: 260px"
+            style="margin-top: 5%; margin-left: 160px"
           >
             전환
           </button>
