@@ -1,11 +1,10 @@
 <template>
   <div>
-    <b-row>
-      <b-col cols="3" class="mt-4">
+    <b-row style="margin: 0">
+      <b-col cols="2" style="padding: 0; border-right: 1px solid gainsboro">
         <PlaceSidebar></PlaceSidebar>
       </b-col>
-      <b-col cols="8" class="mt-4 mb-4">
-        <!-- <PlaceList></PlaceList> -->
+      <b-col cols="10">
         <router-view></router-view>
       </b-col>
     </b-row>

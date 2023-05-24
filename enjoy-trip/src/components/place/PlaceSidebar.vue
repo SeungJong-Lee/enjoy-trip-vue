@@ -1,22 +1,20 @@
 <template>
   <div>
-    <b-row>
-      <b-col cols="12">
-        <h3>팔로워</h3>
-      </b-col>
-    </b-row>
-    <div>
-      <b-row v-for="(user, index) in follow" :key="index" style="margin-bottom: 1%">
-        <b-col cols="3">
-          <img
+    <div class="follow-title">
+      <h3>팔로워</h3>
+    </div>
+    <div v-for="(user, index) in follow" :key="index" class="follow-list-container">
+      <div class="follow-container">
+        <img
             :src="mkUrl(user.userImgSrc)"
             width="50"
             class="userImg"
             onerror="this.src='https://github.com/qkdk/enjoy-trip/assets/86948395/c643b90b-fb65-4678-8dd7-7321cb0fdfaf'"
-          />
-        </b-col>
-        <b-col cols="9" class="mt-2">{{ user.userId }}</b-col>
-      </b-row>
+        />
+        <div class="follow-id-container">
+          {{ user.userId }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -59,5 +57,31 @@ export default {
 <style scoped>
 .userImg {
   border-radius: 10%;
+}
+
+.follow-title {
+  padding-top: 1vh;
+  padding-left: 1vw;
+  display: flex;
+  border-bottom: 1px gainsboro solid;
+}
+
+.follow-list-container{
+
+}
+
+.follow-container {
+  display: flex;
+  justify-content: left;
+  margin-top: 1vh;
+  padding-left: 1vw;
+}
+
+.follow-id-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 1vw;
 }
 </style>
