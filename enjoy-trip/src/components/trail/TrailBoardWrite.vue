@@ -1,14 +1,24 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="4">
-        <TrailView class="view" v-if="isView" style="margin-top: 100px"></TrailView>
-        <main-map style="height: 430px; margin-top: 160px; margin-left: 10%" v-else></main-map>
+      <b-col cols="4" style="display: flex; flex-direction: column; border-radius: 50%">
+        <div style="margin-bottom: 20px">
+          <trail-view
+            v-if="!isView"
+            style="height: 410px; width: 600px; margin-left: 100px; margin-top: 170px"
+          ></trail-view>
+
+          <main-map
+            style="height: 410px; width: 600px; margin-left: 100px; margin-top: 170px"
+            v-else
+          ></main-map>
+        </div>
+
         <div>
           <button
             class="custom-button"
             @click="isView = !isView"
-            style="margin-top: 5%; margin-left: 50px"
+            style="margin-top: 5%; margin-left: 260px"
           >
             전환
           </button>
