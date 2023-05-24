@@ -78,52 +78,29 @@ export default {
       this.price = 0;
       this.routes = [];
       this.results = [];
-      //   for (let i = 0; i < this.planAttractions.length - 1; i++) {
-      //     console.log(this.planAttractions[i].longitude + "     " + this.planAttractions[i].latitude);
-      //     console.log(
-      //       this.planAttractions[i + 1].longitude + "     " + this.planAttractions[i + 1].latitude
-      //     );
-      //     console.log("줄바꿈");
-      //   }
-
-      //   axios
-      //     .get("http://localhost:8080/enjoytrip/test.json")
-      //     .then(({ data }) => {
-      //       this.legs = data.metaData.plan.itineraries[0].legs;
-      //       //   console.log(this.legs);
-      //       this.price = this.price + data.metaData.plan.itineraries[0].fare.regular.totalFare;
-
-      //       for (let i = 0; i < this.legs.length; i++) {
-      //         if (this.legs[i].mode == "WALK") {
-      //           this.routes.push({
-      //             mode: this.legs[i].mode,
-      //             start: this.legs[i].start.name,
-      //             end: this.legs[i].end.name,
-      //           });
-      //           console.log(
-      //             this.legs[i].start.name + "  에서  " + this.legs[i].end.name + "   로 걸어서 이동"
-      //           );
-      //         } else if (this.legs[i].mode == "BUS") {
-      //           this.routes.push({
-      //             mode: this.legs[i].mode,
-      //             num: this.legs[i].route,
-      //             count: this.legs[i].passStopList.stationList.length,
-      //             end: this.legs[i].end.name,
-      //           });
-      //         }
-      //       }
-      //       this.results.push(this.routes);
-      //       this.routes = [];
-      //       this.legs = [];
-      //     })
-      //     .catch((error) => {
-      //       console.error(error);
-      //     });
-      setTimeout(() => {
-        for (let i = 0; i < this.planAttractions.length - 1; i++) {
-          console.log(i + "           asdadasd");
+      // longitude = x, latitude = y
+      for (let i = 0; i < this.planAttractions.length - 1; i++) {
+        console.log(this.planAttractions[i].longitude + "     " + this.planAttractions[i].latitude);
+        console.log(
+          this.planAttractions[i + 1].longitude + "     " + this.planAttractions[i + 1].latitude
+        );
+        console.log("줄바꿈");
+        let formData = {
+          startX: this.planAttractions[i].longitude,
+          startY: this.planAttractions[i].latitude,
+          endX: this.planAttractions[i + 1].longitude,
+          endY: this.planAttractions[i + 1].latitude,
+          count: 1,
+        };
+        setTimeout(() => {
           axios
-            .get("http://localhost:8080/enjoytrip/test.json")
+            .post(`https://apis.openapi.sk.com/transit/routes`, formData, {
+              headers: {
+                "Content-Type": "application/json",
+                appKey: "A5VkFhWQtQ1ymkH89TVCTN9jTuudvH23Uy28N1J6",
+                accept: "application/json",
+              },
+            })
             .then(({ data }) => {
               this.legs = data.metaData.plan.itineraries[0].legs;
               //   console.log(this.legs);
@@ -156,10 +133,54 @@ export default {
               this.legs = [];
             })
             .catch((error) => {
-              console.error(error);
+              console.log(error);
             });
-        }
-      }, 300);
+        }, 1000);
+      }
+
+      // 로컬통신
+
+      // setTimeout(() => {
+      //   for (let i = 0; i < this.planAttractions.length - 1; i++) {
+      //     console.log(i + "           asdadasd");
+      //     axios
+      //       .get("http://localhost:8080/enjoytrip/test.json")
+      //       .then(({ data }) => {
+      //         this.legs = data.metaData.plan.itineraries[0].legs;
+      //         //   console.log(this.legs);
+      //         this.price = this.price + data.metaData.plan.itineraries[0].fare.regular.totalFare;
+
+      //         for (let i = 0; i < this.legs.length; i++) {
+      //           if (this.legs[i].mode == "WALK") {
+      //             this.routes.push({
+      //               mode: this.legs[i].mode,
+      //               start: this.legs[i].start.name,
+      //               end: this.legs[i].end.name,
+      //             });
+      //             console.log(
+      //               this.legs[i].start.name +
+      //                 "  에서  " +
+      //                 this.legs[i].end.name +
+      //                 "   로 걸어서 이동"
+      //             );
+      //           } else if (this.legs[i].mode == "BUS") {
+      //             this.routes.push({
+      //               mode: this.legs[i].mode,
+      //               num: this.legs[i].route,
+      //               count: this.legs[i].passStopList.stationList.length,
+      //               end: this.legs[i].end.name,
+      //             });
+      //           }
+      //         }
+      //         this.results.push(this.routes);
+      //         this.routes = [];
+      //         this.legs = [];
+      //       })
+      //       .catch((error) => {
+      //         console.error(error);
+      //       });
+      //   }
+      // }, 300);
 
       // 티맵 통신
       //   axios
