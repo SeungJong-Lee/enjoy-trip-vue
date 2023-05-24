@@ -82,13 +82,9 @@ export default {
       this.routes = [];
       this.results = [];
       // TMap API
-      // longitude = x, latitude = y
+      let axiosRequests = [];
+
       for (let j = 0; j < this.planAttractions.length - 1; j++) {
-        // console.log(this.planAttractions[i].longitude + "     " + this.planAttractions[i].latitude);
-        // console.log(
-        //   this.planAttractions[i + 1].longitude + "     " + this.planAttractions[i + 1].latitude
-        // );
-        // console.log("줄바꿈");
         let formData = {
           startX: this.planAttractions[j].longitude,
           startY: this.planAttractions[j].latitude,
@@ -96,19 +92,24 @@ export default {
           endY: this.planAttractions[j + 1].latitude,
           count: 1,
         };
+        console.log(formData);
 
-        setTimeout(() => {
-          axios
-            .post(`https://apis.openapi.sk.com/transit/routes`, formData, {
-              headers: {
-                "Content-Type": "application/json",
-                appKey: "A5VkFhWQtQ1ymkH89TVCTN9jTuudvH23Uy28N1J6",
-                accept: "application/json",
-              },
-            })
-            .then(({ data }) => {
+        axiosRequests.push(
+          axios.post(`https://apis.openapi.sk.com/transit/routes`, formData, {
+            headers: {
+              "Content-Type": "application/json",
+              appKey: "A5VkFhWQtQ1ymkH89TVCTN9jTuudvH23Uy28N1J6",
+              accept: "application/json",
+            },
+          })
+        );
+      }
+
+      Promise.all(axiosRequests)
+        .then((responses) => {
+          responses.forEach(({ data }, j) => {
+            if (data && data.metaData && data.metaData.plan && data.metaData.plan.itineraries) {
               this.legs = data.metaData.plan.itineraries[0].legs;
-              //   console.log(this.legs);
               this.price = this.price + data.metaData.plan.itineraries[0].fare.regular.totalFare;
 
               for (let i = 0; i < this.legs.length; i++) {
@@ -145,12 +146,17 @@ export default {
               this.results.push(this.routes);
               this.routes = [];
               this.legs = [];
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }, 700 + j * 100);
-      }
+            } else {
+              console.log("응답 데이터가 올바르지 않습니다.");
+            }
+          });
+
+          console.log("모든 axios 요청이 완료되었습니다.");
+          console.log("results:", this.results);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
       // // 로컬통신
       // setTimeout(() => {
