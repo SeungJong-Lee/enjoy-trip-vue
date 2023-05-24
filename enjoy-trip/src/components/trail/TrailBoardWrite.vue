@@ -38,7 +38,7 @@
 import TrailView from './TrailView.vue';
 import TrailBoardWriteItem from './TrailBoardWriteItem.vue';
 import TrailBoardView from './TrailBoardView.vue';
-// import TrailMap from "@/components/trail/TrailMap";
+import TrailMap from "@/components/trail/TrailMap";
 import {mapMutations, mapState} from 'vuex';
 import axios from 'axios';
 import {axiosBuilderWithJwt} from '@/api/http';
@@ -50,7 +50,7 @@ export default {
     TrailView,
     TrailBoardWriteItem,
     TrailBoardView,
-    // TrailMap
+    TrailMap
   },
   data() {
     return {
