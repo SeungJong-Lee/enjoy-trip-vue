@@ -23,6 +23,7 @@ export default {
     } else {
       this.initScript();
     }
+    this.trailLocationChangeListener(this.trailLocation);
   },
   computed: {
     trailLocation() {
