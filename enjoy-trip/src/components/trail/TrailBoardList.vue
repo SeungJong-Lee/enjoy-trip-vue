@@ -26,11 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="(board, index) in slicedBoards"
-            :key="index"
-            @click="handleRowClick(board)"
-          >
+          <tr v-for="(board, index) in slicedBoards" :key="index" @click="handleRowClick(board)">
             <td>{{ board.trail_board_no }}</td>
             <td>{{ board.trail_board_title }}</td>
             <td>{{ board.user_id }}</td>
@@ -46,12 +42,7 @@
     <nav>
       <ul class="pagination justify-content-center">
         <li class="page-item" :class="{ disabled: currentPage === 1 }">
-          <a
-            class="page-link"
-            href="#"
-            aria-label="Previous"
-            @click="goToPage(currentPage - 1)"
-          >
+          <a class="page-link" href="#" aria-label="Previous" @click="goToPage(currentPage - 1)">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
@@ -61,17 +52,10 @@
           :key="pageNumber"
           :class="{ active: currentPage === pageNumber }"
         >
-          <a class="page-link" href="#" @click="goToPage(pageNumber)">{{
-            pageNumber
-          }}</a>
+          <a class="page-link" href="#" @click="goToPage(pageNumber)">{{ pageNumber }}</a>
         </li>
         <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-          <a
-            class="page-link"
-            href="#"
-            aria-label="Next"
-            @click="goToPage(currentPage + 1)"
-          >
+          <a class="page-link" href="#" aria-label="Next" @click="goToPage(currentPage + 1)">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
@@ -81,25 +65,25 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex';
+import { mapState, mapActions, mapMutations } from "vuex";
 
-const trailStore = 'trailStore';
+const trailStore = "trailStore";
 
 export default {
-  name: 'TrailBoardList',
+  name: "TrailBoardList",
   components: {},
   data() {
     return {
-      key: '',
-      word: '',
+      key: "",
+      word: "",
       pageSize: 10, // 한 페이지에 표시할 항목 수
       currentPage: 1, // 현재 페이지 번호
-      loginUser: sessionStorage.getItem('userId'),
+      loginUser: sessionStorage.getItem("userId"),
     };
   },
   computed: {
-    ...mapState(trailStore, ['boards']),
-    ...mapState(trailStore, ['members']),
+    ...mapState(trailStore, ["boards"]),
+    ...mapState(trailStore, ["members"]),
     totalPages() {
       return Math.ceil(this.boards.length / this.pageSize); // 전체 페이지 수 계산
     },
@@ -117,25 +101,24 @@ export default {
     this.CLEAR_TRAIL_BOARD();
   },
   methods: {
-    ...mapActions(trailStore, ['getTrailBoardList']),
-    ...mapActions(trailStore, ['setBoard']),
-    ...mapActions(trailStore, ['setJoinMember']),
-    ...mapMutations(trailStore, ['CLEAR_TRAIL_BOARD']),
+    ...mapActions(trailStore, ["getTrailBoardList"]),
+    ...mapActions(trailStore, ["setBoard"]),
+    ...mapActions(trailStore, ["setJoinMember"]),
+    ...mapMutations(trailStore, ["CLEAR_TRAIL_BOARD"]),
     goToPage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
       }
     },
     async handleRowClick(board) {
-      console.log(board.trail_board_no + '출력하자');
+      console.log(board.trail_board_no + "출력하자");
       // console.log('Clicked row:', board);
       await this.setJoinMember({
         no: board.trail_board_no,
       });
-      console.log(this.members);
-      this.setBoard(board);
       setTimeout(() => {
-        this.$router.push('/trailboardview');
+        this.setBoard(board);
+        this.$router.push("/trailboardview");
       }, 100);
     },
     search() {

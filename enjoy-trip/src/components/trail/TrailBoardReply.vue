@@ -12,11 +12,7 @@
       </div>
     </div>
     <div class="comment-input">
-      <input
-        v-model="reply.replyContent"
-        placeholder="댓글을 입력하세요"
-        required
-      />
+      <input v-model="reply.replyContent" placeholder="댓글을 입력하세요" required />
       <button class="comment-button" @click="submitComment">
         <font-awesome-icon :icon="['fas', 'pencil-alt']" />
       </button>
@@ -25,48 +21,61 @@
 </template>
 
 <script>
-import { axiosBuilderWithJwt } from '@/api/http';
-import { mapState } from 'vuex';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import moment from 'moment';
+import { axiosBuilderWithJwt } from "@/api/http";
+import { mapState } from "vuex";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
 
 library.add(faPencilAlt);
 
-const trailStore = 'trailStore';
+const trailStore = "trailStore";
 export default {
-  name: 'TrailBoardReply',
+  name: "TrailBoardReply",
   components: {
     FontAwesomeIcon,
   },
   data() {
     return {
-      name: '',
+      name: "",
       reply: {
         boardNo: 0,
-        replyUserId: sessionStorage.getItem('userId'),
-        replyContent: '',
-        replyCreateTime: '',
+        replyUserId: sessionStorage.getItem("userId"),
+        replyContent: "",
+        replyCreateTime: "",
       },
       comments: [],
+      joinmembers: [],
     };
   },
   computed: {
-    ...mapState(trailStore, ['board']),
-    ...mapState(trailStore, ['members']),
+    ...mapState(trailStore, ["board"]),
+    ...mapState(trailStore, ["members"]),
   },
   methods: {
     submitComment() {
-      if (this.members.includes(this.reply.replyUserId)) {
+      // console.log(this.reply.replyUserId + " asdasdasdasd" + this.members.trail_party_member_id);
+
+      this.joinmembers = [];
+      for (let i = 0; i < this.members.length; i++) {
+        this.joinmembers.push(this.members[i].trail_party_member_id);
+      }
+
+      if (this.joinmembers.includes(this.reply.replyUserId)) {
         console.log(this.reply);
         axiosBuilderWithJwt().post(`/trail/board/reply/write`, this.reply);
-        this.reply.replyCreateTime = moment().format('YYYY-MM-DD HH:mm:ss');
-        this.comments.push(this.reply);
-        this.reply.replyContent = '';
-        this.replyCreateTime = '';
+        this.reply.replyCreateTime = moment().format("YYYY-MM-DD HH:mm:ss");
+        console.log(this.reply.replyContent + "    댓글입력한 값입니다.");
+        this.comments.push({
+          replyUserId: this.reply.replyUserId,
+          replyContent: this.reply.replyContent,
+          replyCreateTime: this.reply.replyCreateTime,
+        });
+        this.reply.replyContent = "";
+        this.replyCreateTime = "";
       } else {
-        alert('계획에 참여하는 사람만 댓글 작성이 가능합니다.');
+        alert("계획에 참여하는 사람만 댓글 작성이 가능합니다.");
       }
     },
     fetchComments() {
@@ -75,10 +84,10 @@ export default {
           .get(`/trail/board/reply/${this.board.trail_board_no}`)
           .then(({ data }) => {
             this.comments = data;
-            console.log(this.comments);
+            console.log(this.comments[0] + "       댓글입니다.");
           })
           .catch(() => {
-            alert('다시 클릭해주세요');
+            alert("다시 클릭해주세요");
           });
       }, 1000);
     },

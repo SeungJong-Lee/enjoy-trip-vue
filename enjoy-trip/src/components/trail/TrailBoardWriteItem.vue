@@ -2,43 +2,23 @@
   <div class="post-editor" v-if="board == null">
     <h1>같이 둘레길 갈 사람을 구해보세요</h1>
     <input type="text" v-model="title" placeholder="제목" class="input-field" />
-    <textarea
-      v-model="content"
-      placeholder="내용"
-      rows="8"
-      class="textarea-field"
-    ></textarea>
+    <textarea v-model="content" placeholder="내용" rows="8" class="textarea-field"></textarea>
     <div class="date-picker">
       <label for="start-date">시작일:</label>
-      <input
-        type="date"
-        id="start-date"
-        v-model="startDate"
-        class="date-input"
-      />
+      <input type="date" id="start-date" v-model="startDate" class="date-input" />
     </div>
     <div class="date-picker">
       <label for="end-date">종료일:</label>
       <input type="date" id="end-date" v-model="endDate" class="date-input" />
     </div>
-    <vue-slider
-      v-model="numPeople"
-      :min="1"
-      :max="10"
-      class="slider"
-    ></vue-slider>
+    <vue-slider v-model="numPeople" :min="1" :max="10" class="slider"></vue-slider>
     <div class="slider-text">몇 명에서 가고 싶은가요? {{ numPeople }}명</div>
     <button class="submit-button" @click="write">작성</button>
   </div>
 
   <div class="post-modify" v-else>
     <h1>같이 둘레길 갈 사람을 구해보세요</h1>
-    <input
-      type="text"
-      v-model="board.trail_board_title"
-      placeholder="제목"
-      class="input-field"
-    />
+    <input type="text" v-model="board.trail_board_title" placeholder="제목" class="input-field" />
     <textarea
       v-model="board.trail_board_content"
       placeholder="내용"
@@ -56,12 +36,7 @@
     </div>
     <div class="date-picker">
       <label for="end-date">종료일:</label>
-      <input
-        type="date"
-        id="end-date"
-        v-model="board.trail_board_end_time"
-        class="date-input"
-      />
+      <input type="date" id="end-date" v-model="board.trail_board_end_time" class="date-input" />
     </div>
     <vue-slider
       v-model="board.trail_board_member_count"
@@ -69,31 +44,29 @@
       :max="10"
       class="slider"
     ></vue-slider>
-    <div class="slider-text">
-      몇 명에서 가고 싶은가요? {{ members.length }}명
-    </div>
+    <div class="slider-text">몇 명에서 가고 싶은가요? {{ members.length }}명</div>
     <button class="submit-button" @click="modify">수정</button>
   </div>
 </template>
 
 <script>
-import { axiosBuilderWithJwt } from '@/api/http';
-import { mapState, mapMutations, mapActions } from 'vuex';
-import VueSlider from 'vue-slider-component';
-import 'vue-slider-component/theme/default.css';
+import { axiosBuilderWithJwt } from "@/api/http";
+import { mapState, mapMutations, mapActions } from "vuex";
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/default.css";
 
-const trailStore = 'trailStore';
+const trailStore = "trailStore";
 
 export default {
-  name: 'TrailBoardWriteItem',
+  name: "TrailBoardWriteItem",
   components: {
     VueSlider,
   },
   data() {
     return {
-      message: '',
-      title: '',
-      content: '',
+      message: "",
+      title: "",
+      content: "",
       startDate: null,
       endDate: null,
       initPeople: 1,
@@ -101,31 +74,31 @@ export default {
     };
   },
   computed: {
-    ...mapState(trailStore, ['trail']),
-    ...mapState(trailStore, ['isWritePage']),
-    ...mapState(trailStore, ['board']),
-    ...mapState(trailStore, ['members']),
+    ...mapState(trailStore, ["trail"]),
+    ...mapState(trailStore, ["isWritePage"]),
+    ...mapState(trailStore, ["board"]),
+    ...mapState(trailStore, ["members"]),
   },
   created() {
     // console.log(this.trail.trail_id);
   },
   methods: {
-    ...mapMutations('trailStore', ['CLEAR_BOARD_LIST']),
-    ...mapMutations('trailStore', ['CHANGE_WRITE_PAGE']),
-    ...mapActions(trailStore, ['setBoardLatest']),
-    ...mapActions(trailStore, ['setBoard']),
+    ...mapMutations("trailStore", ["CLEAR_BOARD_LIST"]),
+    ...mapMutations("trailStore", ["CHANGE_WRITE_PAGE"]),
+    ...mapActions(trailStore, ["setBoardLatest"]),
+    ...mapActions(trailStore, ["setBoard"]),
     write() {
       console.log(this.trail.title);
-      if (this.title == '') {
-        alert('제목을 입력하세요');
-      } else if (this.content == '') {
-        alert('본문을 입력하세요');
+      if (this.title == "") {
+        alert("제목을 입력하세요");
+      } else if (this.content == "") {
+        alert("본문을 입력하세요");
       } else if (this.startDate == null) {
-        alert('시작일을 선택하세요');
+        alert("시작일을 선택하세요");
       } else if (this.endDate == null) {
-        alert('종료일을 선택하세요');
+        alert("종료일을 선택하세요");
       } else {
-        let loginUser = sessionStorage.getItem('userId');
+        let loginUser = sessionStorage.getItem("userId");
         setTimeout(async () => {
           await axiosBuilderWithJwt().post(`/trail/write`, {
             trail_board_trail_id: this.trail.trail_id,
@@ -140,27 +113,29 @@ export default {
           });
           this.CLEAR_BOARD_LIST();
           await this.setBoardLatest();
-          this.CHANGE_WRITE_PAGE();
-          this.$router.push('/trailboardview');
-        }, 500);
+          // this.CHANGE_WRITE_PAGE();
+        }, 300);
+        setTimeout(() => {
+          this.$router.push("/trailboardview");
+        }, 600);
       }
     },
     modify() {
       console.log(this.board);
-      if (this.board.trail_board_title == '') {
-        alert('제목을 입력하세요');
-      } else if (this.board.trail_board_content == '') {
-        alert('본문을 입력하세요');
+      if (this.board.trail_board_title == "") {
+        alert("제목을 입력하세요");
+      } else if (this.board.trail_board_content == "") {
+        alert("본문을 입력하세요");
       } else if (this.board.trail_board_start_time == null) {
-        alert('시작일을 선택하세요');
+        alert("시작일을 선택하세요");
       } else if (this.board.trail_board_end_time == null) {
-        alert('종료일을 선택하세요');
+        alert("종료일을 선택하세요");
       } else {
         setTimeout(async () => {
           await axiosBuilderWithJwt().put(`/trail/board/modify`, this.board);
           console.log(this.board);
           await this.setBoard(this.board);
-          this.$router.push('/trailboardview');
+          this.$router.push("/trailboardview");
         }, 500);
       }
     },
