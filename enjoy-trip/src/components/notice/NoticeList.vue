@@ -7,7 +7,9 @@
     </b-row>
     <b-row class="mb-1">
       <b-col class="text-right">
-        <b-button variant="outline-primary" @click="moveWrite()">글쓰기</b-button>
+        <b-button variant="outline-primary" @click="moveWrite()" v-if="user === 'admin'"
+          >글쓰기</b-button
+        >
       </b-col>
     </b-row>
     <b-row>
@@ -53,6 +55,7 @@ export default {
       ],
       perPage: 10,
       currentPage: 1,
+      user: sessionStorage.getItem("userId"),
     };
   },
   created() {

@@ -15,19 +15,12 @@
             class="custom-file-input"
             @change="handleFileUpload"
           />
-          <label class="custom-file-label" for="files">{{
-            fileLabelText
-          }}</label>
+          <label class="custom-file-label" for="files">{{ fileLabelText }}</label>
         </div>
       </div>
     </div>
     <div class="preview">
-      <img
-        v-if="imageUrl"
-        :src="imageUrl"
-        alt="Preview"
-        class="preview-image"
-      />
+      <img v-if="imageUrl" :src="imageUrl" alt="Preview" class="preview-image" />
     </div>
     <div class="buttons">
       <button class="btn btn-info" @click="submitPost">게시</button>
@@ -37,17 +30,17 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { baseURL } from '@/api/http';
+import axios from "axios";
+import { baseURL } from "@/api/http";
 export default {
-  name: 'PlaceWrite',
+  name: "PlaceWrite",
   components: {},
   data() {
     return {
-      message: '',
-      title: '',
+      message: "",
+      title: "",
       files: [],
-      fileLabelText: '파일을 선택해주세요',
+      fileLabelText: "파일을 선택해주세요",
       imageUrl: null,
     };
   },
@@ -55,7 +48,7 @@ export default {
   methods: {
     mvList() {
       // this.isWrite = false;
-      this.$router.push('/place');
+      this.$router.push("/place");
     },
     handleFileUpload() {
       this.files = Array.from(event.target.files);
@@ -68,28 +61,28 @@ export default {
       } else {
         this.image = null;
         this.imageUrl = null;
-        this.imageLabelText = '이미지를 선택해주세요';
+        this.imageLabelText = "이미지를 선택해주세요";
       }
     },
     submitPost() {
       const formData = new FormData();
-      formData.append('placeTitle', this.title);
-      formData.append('placeContent', '123');
-      var loginUser = sessionStorage.getItem('userId');
-      formData.append('userId', loginUser);
+      formData.append("placeTitle", this.title);
+      formData.append("placeContent", "123");
+      var loginUser = sessionStorage.getItem("userId");
+      formData.append("userId", loginUser);
       for (let i = 0; i < this.files.length; i++) {
-        formData.append('upfile', this.files[i]);
+        formData.append("upfile", this.files[i]);
       }
       axios
         .post(`${baseURL}/place/api/write`, formData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
-            authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
+            "Content-Type": "multipart/form-data",
+            authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
         })
         .then(() => {
           setTimeout(() => {
-            this.$router.push('/place');
+            this.$router.push("/place");
           }, 300);
         })
         .catch((error) => {
@@ -132,7 +125,7 @@ label {
 }
 
 .custom-file-label::after {
-  content: '파일 선택';
+  content: "파일 선택";
 }
 
 .btn-primary {
