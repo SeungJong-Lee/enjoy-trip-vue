@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="follow-title" style="min-height: 75vh; border-bottom: none">
+  <div style="min-height: 75vh">
+    <div class="follow-title" style=" border-bottom: none">
       <h3>팔로워</h3>
     </div>
     <div v-for="(user, index) in follow" :key="index" class="follow-list-container">
