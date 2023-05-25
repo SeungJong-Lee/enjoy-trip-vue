@@ -119,7 +119,7 @@ export default {
     },
     getRecommendList() {
       axiosBuilderWithJwt()
-          .get("http://localhost:8080/enjoytrip/plan/recommend")
+          .get("plan/recommend")
           .then(({data}) => this.recommendList = data.data)
           .catch(({response}) => alert(response.data));
     },
