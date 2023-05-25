@@ -22,10 +22,16 @@ import TrailBoardView from '@/components/trail/TrailBoardView';
 import PlanView from '@/views/plan/PlanView';
 import PlanWrite from '@/views/plan/PlanWrite';
 import TrailBoardWriteItem from '@/components/trail/TrailBoardWriteItem';
+import AppError from "@/views/AppError";
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/autherror",
+    name: "autherror",
+    component: AppError,
+  },
   {
     path: '/',
     name: 'home',

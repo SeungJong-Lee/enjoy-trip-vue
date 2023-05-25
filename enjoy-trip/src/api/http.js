@@ -24,8 +24,9 @@ function axiosBuilderWithJwt() {
         response => response,
         error => {
             if (error.response.status === 401) {
-                alert("로그인이 필요합니다.");
-                router.push("/");
+                if (window.location.pathname !== '/autherror') {
+                    router.push("/autherror");
+                }
             } else {
                 return Promise.reject(error);
             }
@@ -39,8 +40,9 @@ http.interceptors.response.use(
     response => response,
     error => {
         if (error.response.status === 401) {
-            alert("로그인이 필요합니다.")
-            router.push("/");
+            if (window.location.pathname !== '/autherror') {
+                router.push("/autherror");
+            }
         } else {
             return Promise.reject(error);
         }
