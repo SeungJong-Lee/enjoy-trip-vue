@@ -2,46 +2,46 @@
   <div style="display: flex; flex-direction: column">
     <div class="form-group">
       <div class="custom-container">
-        <input id="files" type="file" multiple class="custom-input" @change="handleFileUpload" />
+        <input id="files" type="file" multiple class="custom-input" @change="handleFileUpload"/>
       </div>
     </div>
     <div class="custom-container">
       이름
-      <input type="text" class="custom-input" v-model="modifyForm.userName" />
+      <input type="text" class="custom-input" v-model="modifyForm.userName"/>
     </div>
     <div class="custom-container">
       새 비밀번호
-      <input type="password" class="custom-input" v-model="modifyForm.userPw" />
+      <input type="password" class="custom-input" v-model="modifyForm.userPw"/>
     </div>
     <div class="custom-container">
       새 비밀번호 확인
-      <input type="password" class="custom-input" v-model="newPwCheck" />
+      <input type="password" class="custom-input" v-model="newPwCheck"/>
     </div>
     <div class="custom-container">
       이메일
       <div class="row-container">
-        <input type="text" class="custom-input" v-model="modifyForm.userEmail" />
+        <input type="text" class="custom-input" v-model="modifyForm.userEmail"/>
         <input
-          type="email"
-          class="custom-second-input"
-          placeholder="ssafy.com"
-          v-model="modifyForm.userDomain"
+            type="email"
+            class="custom-second-input"
+            placeholder="ssafy.com"
+            v-model="modifyForm.userDomain"
         />
       </div>
     </div>
     <div class="alert-container">
-      <br />
+      <br/>
       현재 비밀번호*
-      <input type="password" class="custom-input" v-model="modifyForm.userCurPw" />
+      <input type="password" class="custom-input" v-model="modifyForm.userCurPw"/>
     </div>
 
     <div class="custom-container">
       <div class="row-container">
         <button class="submit-button" @click="submitModify">변경</button>
         <button
-          class="submit-button"
-          style="margin-left: 5px; background-color: lightcoral"
-          @click="submitDelete"
+            class="submit-button"
+            style="margin-left: 5px; background-color: lightcoral"
+            @click="submitDelete"
         >
           삭제
         </button>
@@ -52,7 +52,8 @@
 </template>
 
 <script>
-import { http } from "@/api/http";
+import {axiosBuilderWithJwt, http} from "@/api/http";
+
 
 export default {
   name: "ModifyForm",
@@ -77,7 +78,7 @@ export default {
   methods: {
     afterModifySuccess(data) {
       alert(data.msg);
-      this.$router.push({ name: "home" });
+      this.$router.push({name: "home"});
     },
     handleFileUpload() {
       this.files = Array.from(event.target.files);
@@ -96,15 +97,9 @@ export default {
     submitModify() {
       if (this.checkPwEqual()) {
         if (this.files[0] == undefined) {
-          http
-            .put("/user/api/modify", this.modifyForm, {
-              headers: {
-                "Content-Type": "application/json;charset=utf-8",
-                authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-              },
-            })
-            .then(({ data }) => this.afterModifySuccess(data))
-            .catch(({ response }) => alert(response.data));
+          axiosBuilderWithJwt().put("/user/api/modify", this.modifyForm)
+              .then(({data}) => this.afterModifySuccess(data))
+              .catch(({response}) => alert(response.data));
         } else {
           // 프로필 사진을 변경할 경우
           const formData = new FormData();
@@ -115,14 +110,14 @@ export default {
           formData.append("userCurPw", this.modifyForm.userCurPw);
           formData.append("file", this.files[0]);
           http
-            .put(`/user/api/modify/profile`, formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-              },
-            })
-            .then(({ data }) => this.afterModifySuccess(data))
-            .catch(({ response }) => alert(response.data));
+              .put(`/user/api/modify/profile`, formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+                },
+              })
+              .then(({data}) => this.afterModifySuccess(data))
+              .catch(({response}) => alert(response.data));
         }
       } else {
         alert("비밀번호가 일치하지 않습니다.");
@@ -133,31 +128,26 @@ export default {
     },
     afterDeleteSuccess(data) {
       alert(data.msg);
-      this.$router.push({ name: "home" });
+      this.$router.push({name: "home"});
     },
     submitDelete() {
-      http
-        .delete("/user/api/delete", {
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-            authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-          },
-          data: {
-            userPw: this.modifyForm.userCurPw,
-          },
-        })
-        .then(({ data }) => this.afterDeleteSuccess(data))
-        .catch(({ response }) => alert(response.data));
+      axiosBuilderWithJwt().delete("/user/api/delete", {
+        data: {
+          userPw: this.modifyForm.userCurPw,
+        },
+      })
+          .then(({data}) => this.afterDeleteSuccess(data))
+          .catch(({response}) => alert(response.data));
     },
     getUserDetail() {
-      http
-        .get(`/user/api/${sessionStorage.getItem("userId")}`)
-        .then(({ data }) => {
-          this.modifyForm.userEmail = data.data.userEmail;
-          this.modifyForm.userDomain = data.data.userDomain;
-          this.modifyForm.userName = data.data.userName;
-        })
-        .catch(({ response }) => alert(response.data));
+      axiosBuilderWithJwt()
+          .get(`/user/api/${sessionStorage.getItem("userId")}`)
+          .then(({data}) => {
+            this.modifyForm.userEmail = data.data.userEmail;
+            this.modifyForm.userDomain = data.data.userDomain;
+            this.modifyForm.userName = data.data.userName;
+          })
+          .catch(({response}) => alert(response.data));
     },
   },
 };
